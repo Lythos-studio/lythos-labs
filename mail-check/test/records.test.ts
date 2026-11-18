@@ -83,6 +83,9 @@ test("DKIM: a key is proof, a revoked key is a problem, finding nothing is only 
   assert.equal(judgeDkim([{ selector: "s1", records: ["k=rsa; p=ABC"] }]).level, "ok");
   assert.equal(judgeDkim([{ selector: "s1", records: ["v=DKIM1; p="] }]).code, "dkim-revoked");
   assert.equal(judgeDkim([{ selector: "s1", records: ["v=DKIM1; p="] }, { selector: "s2", records: [key] }]).code, "dkim-ok");
+  const empty = ["a", "b", "c"].map((selector) => ({ selector, records: ["v=DKIM1; p="] }));
+  assert.deepEqual(judgeDkim(empty), { level: "info", code: "dkim-none-signed" });
+  assert.equal(judgeDkim([...empty, { selector: "d", records: [] }]).code, "dkim-revoked");
   assert.equal(judgeDkim([{ selector: "s1", records: ["v=spf1 -all", "v=DKIM2; p=ABC"] }]).code, "dkim-none-found");
   assert.equal(judgeDkim([]).level, "warn");
 });

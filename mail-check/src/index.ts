@@ -7,3 +7,6 @@ export { makeLookup, readAnswer, txtValue, type Lookup, type RecordType } from "
 export { runChecks, type Check, type CheckId } from "./checks";
 export * from "./records";
 export type { Finding, Level } from "./types";
+export { MailCheck } from "./mail-check";
+export { mailCheckCopy, type Locale } from "./copy";
+export { fixFor, type Fix } from "./fixes";

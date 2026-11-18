@@ -81,7 +81,10 @@ export function judgeDkim(found: { selector: string; records: string[] }[]): Fin
     }
   }
   if (valid.length) return { level: "ok", code: "dkim-ok", detail: [...new Set(valid)].join(", ") };
-  if (revoked.length) return { level: "fail", code: "dkim-revoked", detail: [...new Set(revoked)].join(", ") };
+  const withdrawn = [...new Set(revoked)];
+  // Every tried selector is empty, as a wildcard does: the domain says it signs no mail at all.
+  if (withdrawn.length >= 3 && withdrawn.length === found.length) return { level: "info", code: "dkim-none-signed" };
+  if (withdrawn.length) return { level: "fail", code: "dkim-revoked", detail: withdrawn.join(", ") };
   return { level: "warn", code: "dkim-none-found" };
 }
 

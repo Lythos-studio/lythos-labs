@@ -12,8 +12,13 @@
     "test": "tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
   "devDependencies": {
     "@types/node": "^22.20.2",
+    "@types/react": "^19.3.0",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }

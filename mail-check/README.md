@@ -1,8 +1,8 @@
 # Mail check
 
-The logic of a mail check for a domain: it reads MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI records through DNS-over-HTTPS and returns a verdict per check. There is no page yet; this package is the part that can be tested without a browser.
+Check how a domain is set up for email. It reads MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI records through DNS-over-HTTPS and gives a verdict per check, with a record to copy where that helps.
 
-Status: in development. A live page at labs.lythos.nl comes later.
+Try it at [labs.lythos.nl/mail-check](https://labs.lythos.nl/mail-check) (Dutch: [/nl/mailcheck](https://labs.lythos.nl/nl/mailcheck)). Status: prototype.
 
 - **Runs in the browser.** DNS questions go from the visitor's browser to Cloudflare's DNS-over-HTTPS service (`cloudflare-dns.com`), not to a Lythos server.
 - **Verdicts, not scores.** Each check is `ok`, `warn`, `fail`, `info` or `unknown`, with a language-independent code. A failed lookup is `unknown`, never a green tick.
@@ -25,6 +25,8 @@ if (domain) {
 ```
 
 The pure judges (`judgeSpf`, `judgeDmarc`, `judgeDkim`, `judgeMx`, `judgeOptional`) take record text and return a finding; they need no network.
+
+`MailCheck` is a React 19 client component with English and Dutch copy (`<MailCheck locale="en" />`). Its styles are a CSS module, so use a bundler that supports CSS modules. The page that hosts it must allow `https://cloudflare-dns.com` in `connect-src`. It reads `--max`, `--gutter` and `--font-mono` from its surroundings and is designed for a dark page.
 
 ## Develop
 

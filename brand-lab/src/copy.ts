@@ -11,7 +11,7 @@ export const brandLabCopy = {
     title: "Brand lab",
     description:
       "Turn one colour or your logo into a complete, accessible design system with light and dark palettes, live screens and export to CSS, Tailwind or JSON.",
-    eyebrow: "L-001 · Works",
+    eyebrow: "Works",
     heading: "One colour. A whole design system.",
     intro:
       "Pick a colour or drop in your logo. Brand lab builds palettes in light and dark, checks every text colour against WCAG and shows it on real screens. Nothing leaves your browser.",
@@ -89,7 +89,7 @@ export const brandLabCopy = {
     title: "Merklab",
     description:
       "Maak van één kleur of je logo een compleet, toegankelijk ontwerpsysteem met paletten in licht en donker, live schermen en export naar CSS, Tailwind of JSON.",
-    eyebrow: "L-001 · Werkt",
+    eyebrow: "Werkt",
     heading: "Eén kleur. Een heel ontwerpsysteem.",
     intro:
       "Kies een kleur of sleep je logo erin. Merklab maakt paletten in licht en donker, controleert elke tekstkleur op WCAG en laat het zien op echte schermen. Er verlaat niets je browser.",
