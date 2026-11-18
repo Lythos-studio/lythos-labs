@@ -1,0 +1,26 @@
+{
+  "name": "@lythos-labs/brand-lab",
+  "version": "0.1.0",
+  "description": "Turn one brand colour or a logo into an accessible design system: OKLCH palettes, WCAG-checked light and dark roles, and CSS, Tailwind or design-token JSON export.",
+  "license": "MPL-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens.ts"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "@types/react": "^19.3.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
