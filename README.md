@@ -5,6 +5,7 @@ Small, working experiments by [Lythos](https://lythos.nl), an independent Dutch 
 | Experiment | What it does | Status |
 | --- | --- | --- |
 | [Brand lab](brand-lab) | One brand colour or a logo becomes an accessible design system with OKLCH palettes, WCAG-checked light and dark roles, and CSS, Tailwind or JSON export. | Works |
+| [Mail check](mail-check) | The logic that reads a domain's MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI records over DNS-over-HTTPS and explains what is missing. No page yet. | In development |
 
 Every experiment is a self-contained package with its own README, tests and license. To work on one:
 

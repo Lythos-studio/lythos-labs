@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        experiment: [brand-lab]
+        experiment: [brand-lab, mail-check]
     defaults:
       run:
         working-directory: ${{ matrix.experiment }}

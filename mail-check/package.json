@@ -1,0 +1,20 @@
+{
+  "name": "@lythos-labs/mail-check",
+  "version": "0.1.0",
+  "description": "Check how a domain is set up for email: MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI, read through DNS-over-HTTPS in the browser.",
+  "license": "MPL-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
