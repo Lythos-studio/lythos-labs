@@ -19,7 +19,7 @@ test("every verdict code has words in English and Dutch", () => {
     for (const code of codes) {
       const text = t.messages[code]?.("x");
       assert.ok(text && text.length > 10, `${locale}: ${code}`);
-      assert.ok(!/—|[\u{1F300}-\u{1FAFF}☀-➿]/u.test(text), `${locale}: ${code} has an em dash or emoji`);
+      assert.ok(!new RegExp(`${String.fromCodePoint(0x2014)}|[${String.fromCodePoint(0x1f300)}-${String.fromCodePoint(0x1faff)}${String.fromCodePoint(0x2600)}-${String.fromCodePoint(0x27bf)}]`, "u").test(text), `${locale}: ${code} has an em dash or emoji`);
     }
     assert.deepEqual(Object.keys(t.names).sort(), ["bimi", "dkim", "dmarc", "mta-sts", "mx", "spf", "tls-rpt"]);
     assert.deepEqual(Object.keys(t.levels).sort(), ["fail", "info", "ok", "unknown", "warn"]);

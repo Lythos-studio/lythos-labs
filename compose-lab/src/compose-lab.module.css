@@ -1,0 +1,443 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+/* Compose lab sits inside the dark Labs page and reads --max, --gutter and --font-mono from its surroundings. */
+.lab {
+  max-width: var(--max, 1200px);
+  margin: 0 auto;
+  padding: 24px var(--gutter, 24px) 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  color: #e9edff;
+}
+
+.intro {
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: clamp(16px, 4vw, 40px);
+}
+
+.intro h1 {
+  margin: 0;
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-weight: 550;
+  font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.intro p {
+  margin: 0;
+  color: #c3cbe6;
+  max-width: 42rem;
+}
+
+.intro .eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #5fd3a0;
+}
+
+.input {
+  display: grid;
+  gap: 16px;
+  max-width: 900px;
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px dashed #3a4677;
+  border-radius: 12px;
+  background: #0f1530;
+}
+
+.drop label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.dragging {
+  border-color: #8fa2ff;
+  background: #131c40;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 220px;
+  padding: 12px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+  color: #e9edff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  resize: vertical;
+  tab-size: 2;
+}
+
+.small {
+  margin: 0;
+  color: #9aa3c4;
+  font-size: 0.8125rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ghost {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: transparent;
+  color: #e9edff;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  border-color: #8fa2ff;
+}
+
+.textarea:focus-visible,
+.ghost:focus-visible,
+.check input:focus-visible,
+.rule summary:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.error {
+  margin: 0;
+  color: #ffb3b3;
+  font-size: 0.875rem;
+}
+
+.error:empty {
+  display: none;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.block h2,
+.notes h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.blockHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.onlyNarrow {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .onlyWide {
+    display: none;
+  }
+
+  .onlyNarrow {
+    display: block;
+  }
+}
+
+.diagram {
+  overflow: auto;
+  max-height: 80vh;
+  border: 1px solid #222a4a;
+  border-radius: 12px;
+  background: #0b1022;
+}
+
+.diagram svg {
+  display: block;
+}
+
+.card {
+  cursor: grab;
+  touch-action: none;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.card:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.card:hover rect:first-of-type {
+  stroke: #8fa2ff;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow {
+    animation: flow 1.4s linear infinite;
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+.summary {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: #fff;
+}
+
+.filter {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  color: #c3cbe6;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.group h3 {
+  margin: 0;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #9aa3c4;
+}
+
+.rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+}
+
+.rule {
+  --tone: #9aa3c4;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid #222a4a;
+  border-left: 4px solid var(--tone);
+  border-radius: 12px;
+  background: #0f1530;
+}
+
+.fail {
+  --tone: #ff8f8f;
+}
+
+.warn {
+  --tone: #f5b94a;
+}
+
+.info {
+  --tone: #9aa3c4;
+}
+
+.ruleHead {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ruleHead h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+/* The level is shown by text and a shape as well as colour. */
+.badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--tone);
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--tone);
+}
+
+.fail .badge::before {
+  transform: rotate(45deg) scale(0.85);
+}
+
+.warn .badge::before {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.info .badge::before {
+  background: transparent;
+  border: 2px solid var(--tone);
+  border-radius: 50%;
+}
+
+.occurrences {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.rule p {
+  margin: 0;
+  color: #c3cbe6;
+  font-size: 0.9375rem;
+}
+
+.rule details {
+  color: #c3cbe6;
+  font-size: 0.875rem;
+}
+
+.rule summary {
+  cursor: pointer;
+  color: #9aa3c4;
+}
+
+.rule details p {
+  margin-top: 10px;
+  font-size: 0.875rem;
+}
+
+.fix {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.record {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #0b1022;
+}
+
+.record pre {
+  margin: 0;
+  overflow-x: auto;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  color: #e9edff;
+}
+
+.check {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: #c3cbe6;
+  font-size: 0.875rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid #222a4a;
+  border-radius: 12px;
+}
+
+.tableWrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.tableWrap th,
+.tableWrap td {
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid #222a4a;
+}
+
+.tableWrap thead th {
+  color: #9aa3c4;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tableWrap tbody th {
+  color: #fff;
+  font-weight: 600;
+}
+
+.tableWrap td {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono, monospace);
+}
+
+.activeRow {
+  background: #131c40;
+}
+
+.notes {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  max-width: 960px;
+}
+
+.notes h2 {
+  margin-bottom: 12px;
+  font-size: 1.125rem;
+}
+
+.notes ul {
+  margin: 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 10px;
+  color: #c3cbe6;
+  font-size: 0.9375rem;
+}
