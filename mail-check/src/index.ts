@@ -15,3 +15,4 @@ export { parseDomains, MAX_DOMAINS } from "./domain";
 export { PROVIDERS, detectProvider, mxHosts, type ProviderId } from "./provider";
 export { fixesFor, dkimHosts, type FixContext } from "./fixes";
 export { toStored, diffChecks, loadRuns, saveRun, forgetRuns, type StoredRun, type Change, type StorageLike } from "./compare";
+export { reportMarkdown, type ReportInput, type ReportRow } from "./report";
