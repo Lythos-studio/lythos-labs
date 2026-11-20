@@ -46,3 +46,24 @@ test("the summary counts what needs work", () => {
   assert.equal(summary(2, 1, 0), "2 to fix, 1 to improve.");
   assert.equal(mailCheckCopy.nl.summary(0, 3, 1), "3 te verbeteren, 1 niet te controleren.");
 });
+
+const shape = (value: unknown): unknown =>
+  typeof value === "function" ? "fn" : Array.isArray(value) ? value.map(shape) : value && typeof value === "object" ? Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)).map(([k, v]) => [k, shape(v)])) : typeof value;
+
+const texts = (value: unknown): string[] =>
+  typeof value === "function" ? [String((value as (...a: unknown[]) => unknown)("x", "y", "z"))] : typeof value === "string" ? [value] : value && typeof value === "object" ? Object.values(value).flatMap(texts) : [];
+
+test("English and Dutch have the same keys all the way down, including the new report, roll-out and compare texts", () => {
+  assert.deepEqual(shape(mailCheckCopy.nl), shape(mailCheckCopy.en));
+  for (const key of ["providerDetected", "providerUnknown", "dkimEnable", "rolloutTitle", "rolloutSteps", "youAreHere", "rememberLabel", "compareTitle", "copyReport", "print", "tooMany", "invalidSome", "fileLabel", "reportFooter"])
+    assert.ok(key in mailCheckCopy.en, key);
+});
+
+test("no em dash and no emoji anywhere in the copy, in either language", () => {
+  const bad = new RegExp(`${String.fromCodePoint(0x2014)}|[${String.fromCodePoint(0x1f300)}-${String.fromCodePoint(0x1faff)}${String.fromCodePoint(0x2600)}-${String.fromCodePoint(0x27bf)}]`, "u");
+  for (const locale of ["en", "nl"] as const) for (const text of texts(mailCheckCopy[locale])) assert.ok(!bad.test(text), `${locale}: ${text.slice(0, 60)}`);
+});
+
+test("the SPF note no longer tells every domain to block all senders", () => {
+  for (const locale of ["en", "nl"] as const) assert.ok(!/If this domain sends no mail, add this TXT record\./.test(mailCheckCopy[locale].notes["spf-missing"]));
+});
