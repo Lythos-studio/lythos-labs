@@ -2,7 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { parseDocument } from "yaml";
+import { parseAllDocuments } from "yaml";
+import { mergeObjects } from "./merge";
 import { LIMITS, type Compose, type EnvVar, type Mount, type ParseResult, type Port, type Service } from "./model";
 
 type Obj = Record<string, unknown>;
@@ -78,6 +79,23 @@ function image(raw: string | undefined): Service["image"] {
   return { raw, name: hasTag ? withTag.slice(0, colon) : withTag, tag: hasTag ? withTag.slice(colon + 1) : undefined, digest };
 }
 
+function labels(x: unknown): Record<string, string> {
+  const out: Record<string, string> = {};
+  const put = (k: string, v: string) => {
+    if (Object.keys(out).length < 200 && k && !["__proto__", "constructor", "prototype"].includes(k)) out[k] = v.slice(0, 300);
+  };
+  if (Array.isArray(x))
+    for (const line of x) {
+      const text = str(line);
+      if (!text) continue;
+      const i = text.indexOf("=");
+      if (i < 0) put(text, "");
+      else put(text.slice(0, i), text.slice(i + 1));
+    }
+  else for (const [k, v] of Object.entries(obj(x))) put(k, str(v) ?? "");
+  return out;
+}
+
 function service(name: string, raw: unknown): Service {
   const s = obj(raw);
   const depends = s.depends_on;
@@ -107,6 +125,12 @@ function service(name: string, raw: unknown): Service {
     containerName: str(s.container_name),
     hasMemoryLimit: s.mem_limit !== undefined || limits.memory !== undefined,
     hasLogLimits: logging.driver === "none" || logging.driver === "local" || loggingOptions["max-size"] !== undefined,
+    profiles: arr(s.profiles).map(str).filter((p): p is string => !!p),
+    labels: labels(s.labels),
+    securityOpt: arr(s.security_opt).map(str).filter((o): o is string => !!o),
+    capDrop: arr(s.cap_drop).map(str).filter((c): c is string => !!c),
+    readOnly: s.read_only === true,
+    envFile: s.env_file !== undefined && s.env_file !== null,
   };
 }
 
@@ -120,19 +144,30 @@ export function parseCompose(text: string): ParseResult {
   if (!text.trim()) return { ok: false, error: { code: "empty" } };
   if (text.length > LIMITS.chars) return { ok: false, error: { code: "too-large" } };
   try {
-    const doc = parseDocument(text, { merge: true, uniqueKeys: true, customTags: [] });
-    const first = doc.errors[0];
-    if (first) return { ok: false, error: { code: "yaml-error", line: first.linePos?.[0].line, detail: first.code } };
-    const root = doc.toJS({ maxAliasCount: LIMITS.aliases });
+    const docs = Array.from(parseAllDocuments(text, { merge: true, uniqueKeys: true, customTags: [] }));
+    for (const doc of docs) {
+      const first = doc.errors[0];
+      if (first) return { ok: false, error: { code: "yaml-error", line: first.linePos?.[0].line, detail: first.code } };
+    }
+    // Documents separated by --- are a base file followed by overrides. Empty documents (a leading or trailing ---) are skipped.
+    const parts = docs.map((doc) => doc.toJS({ maxAliasCount: LIMITS.aliases })).filter((part) => part !== null && part !== undefined);
+    if (parts.length > LIMITS.files) return { ok: false, error: { code: "too-many-files" } };
+    let root: unknown;
+    for (const part of parts) {
+      if (!isObj(part)) return { ok: false, error: { code: "not-a-mapping" } };
+      root = root === undefined ? part : mergeObjects(root, part);
+    }
     if (!isObj(root)) return { ok: false, error: { code: "not-a-mapping" } };
     const entries = Object.entries(obj(root.services));
     if (!entries.length) return { ok: false, error: { code: "no-services" } };
     if (entries.length > LIMITS.services) return { ok: false, error: { code: "too-many-services" } };
+    const services = entries.map(([name, value]) => service(name, value));
     const compose: Compose = {
-      services: entries.map(([name, value]) => service(name, value)),
+      services,
       networks: declared(root.networks),
       volumes: declared(root.volumes),
       hasVersion: root.version !== undefined,
+      partial: services.some((s) => !s.image && !s.hasBuild),
     };
     return { ok: true, compose };
   } catch (e) {

@@ -174,7 +174,8 @@ test("broken or unsuitable input gives an error value, with a line for YAML erro
   const bad = refused("services:\n  a:\n    image: x\n   bad: 1\n");
   assert.equal(bad.code, "yaml-error");
   assert.equal(typeof bad.line, "number");
-  assert.equal(refused("services:\n  a: {}\n---\nservices:\n  b: {}\n").code, "yaml-error");
+  // Documents separated by --- are merged as a base and its overrides (see merge.test.ts), no longer an error.
+  assert.ok(parseCompose("services:\n  a: {}\n---\nservices:\n  b: {}\n").ok);
   assert.equal(refused("services:\n  a: 1\n  a: 2\n").code, "yaml-error");
   assert.equal(refused("services:\n\ta: 1\n").code, "yaml-error");
 });

@@ -32,6 +32,15 @@ export type Service = {
   containerName?: string;
   hasMemoryLimit: boolean;
   hasLogLimits: boolean;
+  /** Compose profiles: a service with profiles only runs when asked for, so it is treated like a one-off job. */
+  profiles: string[];
+  /** Labels as text. Values are cut at 300 characters. */
+  labels: Record<string, string>;
+  securityOpt: string[];
+  capDrop: string[];
+  readOnly: boolean;
+  /** True when `env_file` is used. The files are not read, so their values are unknown. */
+  envFile: boolean;
 };
 
 export type Compose = {
@@ -40,12 +49,14 @@ export type Compose = {
   networks: { name: string; external: boolean }[];
   volumes: { name: string; external: boolean }[];
   hasVersion: boolean;
+  /** True when a service has neither `image` nor `build`: the file looks like an override of another file. */
+  partial: boolean;
 };
 
-export const LIMITS = { chars: 256 * 1024, services: 200, aliases: 100 } as const;
+export const LIMITS = { chars: 256 * 1024, services: 200, aliases: 100, files: 10 } as const;
 
 export type ParseError = {
-  code: "empty" | "too-large" | "too-many-services" | "yaml-error" | "alias-limit" | "not-a-mapping" | "no-services" | "parse-failed";
+  code: "empty" | "too-large" | "too-many-services" | "too-many-files" | "yaml-error" | "alias-limit" | "not-a-mapping" | "no-services" | "parse-failed";
   /** 1-based line of a YAML error. */
   line?: number;
   /** The YAML library's own error code, such as BAD_INDENT. Never text from the input. */
