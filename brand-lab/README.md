@@ -8,6 +8,11 @@ Try it at [labs.lythos.nl/brand-lab](https://labs.lythos.nl/brand-lab) (Dutch: [
 - **Contrast you can rely on.** Text, muted text, links, status colours and button text are chosen by measuring WCAG 2.x contrast (4.5:1, AA), in light and dark. A brand colour that cannot carry readable text is never used for text.
 - **Logo colour.** The main colour is read from an image in the browser. Nothing is uploaded.
 - **Export.** CSS custom properties (with a dark mode media query), a Tailwind v4 `@theme` block, or JSON in the [Design Tokens Community Group format](https://tr.designtokens.org/format/).
+- **Contrast matrix and APCA.** Every text colour on every background with its WCAG class; APCA (Lc) as an additional, non-normative measure.
+- **Colour vision simulation.** Protanopia, deuteranopia, tritanopia and no colour, as an approximation (Machado et al. 2009).
+- **Type and spacing tokens.** A modular type scale per typography style and a 4px spacing scale, in all exports.
+- **Accent colour.** Optional, with analogous, complementary and triad suggestions.
+- **Check an existing brand.** Paste CSS variables, a Tailwind v4 theme block or design token JSON, see failing contrast pairs and get a corrected colour (lightness only).
 - **Shareable.** Settings live in the URL hash, so a link restores a result without a server.
 
 ## Use the colour engine
@@ -21,6 +26,14 @@ const p = palette("#2449df");
 const light = roles(p, "light"); // { background, text, primary, onPrimary, link, ... }
 checks(light).every((c) => c.ratio >= c.min); // true
 exportCss({ color: "#2449df", radius: "soft", type: "editorial" });
+
+import { apca, matrix, simulate, typeScale, parseImport, mapRoles, auditRoles } from "@lythos-labs/brand-lab";
+
+apca("#111111", "#ffffff"); // Lc, positive for dark on light
+simulate("#e4572e", "deuteranopia"); // hex as seen with deuteranopia (approximation)
+typeScale("modern").lg; // { size: "1.2rem", line: 1.4 }
+const imported = parseImport(":root { --background: #fff; --muted: #aaa; }");
+if (imported.ok) auditRoles(mapRoles(imported.colors)); // rows with a proposed fix where contrast fails
 ```
 
 ## Use the component

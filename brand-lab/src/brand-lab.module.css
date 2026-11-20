@@ -339,14 +339,14 @@
   font-weight: 600;
   padding: 3px 10px;
   border-radius: 999px;
-  background: var(--tint);
-  color: var(--link);
+  background: var(--accent-tint, var(--tint));
+  color: var(--accent, var(--link));
 }
 
 .mockHeading {
   margin: 0;
   font-family: var(--heading);
-  font-size: clamp(1.75rem, 3.6vw, 2.6rem);
+  font-size: var(--fs-hero, clamp(1.75rem, 3.6vw, 2.6rem));
   line-height: 1.08;
   letter-spacing: -0.02em;
   font-weight: 600;
@@ -356,6 +356,7 @@
 
 .mockBody {
   margin: 0;
+  font-size: var(--fs-body, 1rem);
   max-width: 46ch;
   color: var(--muted);
 }
@@ -412,7 +413,7 @@
 .mockSubheading {
   margin: 0;
   font-family: var(--heading);
-  font-size: 1.125rem;
+  font-size: var(--fs-sub, 1.125rem);
   font-weight: 600;
   color: var(--text);
 }
@@ -826,4 +827,177 @@
   .drop {
     transition: none !important;
   }
+}
+
+/* Matrix, scales, accent and import */
+.checkRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: #c3cbe6;
+  font-size: 0.9375rem;
+}
+
+.checkRow input {
+  width: 20px;
+  height: 20px;
+  accent-color: #2449df;
+}
+
+.checkRow input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible,
+.tableWrap:focus-visible,
+.mapping select:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+  border: 1px solid #222a4a;
+  border-radius: 10px;
+}
+
+.matrix {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  color: #c3cbe6;
+}
+
+.matrix th,
+.matrix td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #222a4a;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 500;
+}
+
+.matrix thead th {
+  color: #fff;
+  font-weight: 600;
+}
+
+.matrix td {
+  display: table-cell;
+}
+
+.matrix td > * {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.cellSample {
+  width: 44px;
+  padding: 4px 0;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.select,
+.textarea,
+.mapping select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+  color: #fff;
+  font: inherit;
+}
+
+.textarea {
+  padding: 12px;
+  min-height: 160px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  resize: vertical;
+}
+
+.suggestRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mapping {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mapping legend {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.mapping label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.875rem;
+  color: #c3cbe6;
+}
+
+.scaleRow {
+  grid-template-columns: 56px minmax(0, 1fr) auto !important;
+}
+
+.spaceBar {
+  display: block;
+  height: 12px;
+  max-width: 100%;
+  border-radius: 3px;
+  background: #5b74ff;
+}
+
+.accentField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.accentField legend {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.accentSuggest {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.accentSuggest button {
+  font-size: 0.875rem;
+  padding: 0 8px;
+  min-width: 0;
+}
+
+.accentSuggest button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controls {
+  min-width: 0;
 }

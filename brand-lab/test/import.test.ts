@@ -81,3 +81,8 @@ test("detectMode reads the background", () => {
   assert.equal(detectMode({ background: "#ffffff" }), "light");
   assert.equal(detectMode({}), "light");
 });
+
+test("mapRoleNames returns the token name even when two tokens share a colour", async () => {
+  const { mapRoleNames } = await import("../src/import");
+  assert.deepEqual(mapRoleNames({ bg: "#ffffff", surface: "#ffffff", text: "#111111" }), { background: "bg", surface: "surface", text: "text" });
+});

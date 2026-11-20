@@ -140,18 +140,23 @@ const ALIASES: Record<RoleKey, string[]> = {
 };
 
 /** Matches token names to roles by exact name (after removing a leading `color-`). Anything else can be assigned by hand. */
-export function mapRoles(colors: Record<string, string>): Partial<Record<RoleKey, string>> {
+export function mapRoleNames(colors: Record<string, string>): Partial<Record<RoleKey, string>> {
   const out: Partial<Record<RoleKey, string>> = {};
   const names = Object.keys(colors).map((n) => [n, n.replace(/^(colors?|clr)-/, "")] as const);
   for (const role of ROLE_KEYS)
     for (const alias of ALIASES[role]) {
       const hit = names.find(([, short]) => short === alias);
       if (hit) {
-        out[role] = colors[hit[0]];
+        out[role] = hit[0];
         break;
       }
     }
   return out;
+}
+
+/** The same matching, as colours. */
+export function mapRoles(colors: Record<string, string>): Partial<Record<RoleKey, string>> {
+  return Object.fromEntries(Object.entries(mapRoleNames(colors)).map(([role, name]) => [role, colors[name!]]));
 }
 
 /** An imported set describes one mode: dark when its background is dark. */

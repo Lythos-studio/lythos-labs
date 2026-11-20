@@ -21,16 +21,25 @@ import {
   roles,
   type Mode,
   type Radius,
+  type Scale,
   type Settings,
   type TypeStyle,
 } from "./tokens";
 import { logoColor } from "./logo-color";
+import { typeScale } from "./scales";
+import { AccentField } from "./accent-field";
+import { CvdFilters } from "./cvd-filters";
+import { CVD_KINDS, type Cvd } from "./cvd";
+import { ImportSection } from "./import-section";
+import { MatrixSection } from "./matrix-section";
+import { ScalesSection } from "./scales-section";
 import { brandLabCopy, type Locale } from "./copy";
 import styles from "./brand-lab.module.css";
 
 const DEFAULTS: Settings = { color: "#2449df", radius: "soft", type: "editorial" };
 const EXAMPLES = ["#2449df", "#e4572e", "#0f9d74", "#8b5cf6", "#ffcc00", "#111827"];
 const SCALES = ["primary", "neutral", "success", "warning", "danger"] as const;
+const cvdOptionKeys = CVD_KINDS;
 const FORMATS = [
   { id: "css", label: "CSS", file: "brand-tokens.css", type: "text/css", make: exportCss },
   { id: "tailwind", label: "Tailwind", file: "brand-theme.css", type: "text/css", make: exportTailwind },
@@ -74,6 +83,7 @@ export function BrandLab({ locale }: { locale: Locale }) {
   const [settings, setSettings] = useState<Settings>(DEFAULTS);
   const [hexText, setHexText] = useState(DEFAULTS.color);
   const [mode, setMode] = useState<Mode>("light");
+  const [cvd, setCvd] = useState<Cvd>("none");
   const [format, setFormat] = useState<(typeof FORMATS)[number]["id"]>("css");
   const [logoState, setLogoState] = useState<{ kind: "idle" | "busy" | "ok" | "error"; text: string }>({ kind: "idle", text: "" });
   const [flash, setFlash] = useState<string | null>(null);
@@ -94,7 +104,7 @@ export function BrandLab({ locale }: { locale: Locale }) {
     return () => clearTimeout(id);
   }, [settings]);
 
-  const p = useMemo(() => palette(settings.color), [settings.color]);
+  const p = useMemo(() => palette(settings.color, settings.accent), [settings.color, settings.accent]);
   const r = useMemo(() => roles(p, mode), [p, mode]);
   const results = useMemo(() => checks(r), [r]);
   const current = FORMATS.find((f) => f.id === format)!;
@@ -160,6 +170,10 @@ export function BrandLab({ locale }: { locale: Locale }) {
     track(`brand-lab-download-${current.id}`);
   };
 
+  const tint = mode === "light" ? p.primary[100] : p.primary[900];
+  const visionFilter = cvd === "none" ? undefined : `url(#cvd-${cvd})`;
+  const scaleNames = p.accent ? ([...SCALES, "accent"] as const) : SCALES;
+
   const themed = {
     "--bg": r.background,
     "--surface": r.surface,
@@ -172,17 +186,24 @@ export function BrandLab({ locale }: { locale: Locale }) {
     "--success": r.success,
     "--warning": r.warning,
     "--danger": r.danger,
-    "--tint": mode === "light" ? p.primary[100] : p.primary[900],
+    "--tint": tint,
+    "--accent": r.accent ?? r.link,
+    "--accent-tint": r.accent ? (mode === "light" ? p.accent![100] : p.accent![900]) : tint,
     "--track": mode === "light" ? p.neutral[200] : p.neutral[800],
     "--radius": `${RADIUS[settings.radius]}px`,
     "--heading": TYPE[settings.type].heading,
     "--body": TYPE[settings.type].body,
+    "--fs-hero": typeScale(settings.type)["3xl"].size,
+    "--fs-sub": typeScale(settings.type).lg.size,
+    "--fs-body": typeScale(settings.type).base.size,
+    filter: visionFilter,
   } as CSSProperties;
 
   const s = t.sample;
 
   return (
     <div className={styles.lab}>
+      <CvdFilters />
       <section className={styles.intro} aria-labelledby="brand-lab-title">
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1 id="brand-lab-title">{t.heading}</h1>
@@ -281,6 +302,23 @@ export function BrandLab({ locale }: { locale: Locale }) {
             onChange={(type) => setSettings((x) => ({ ...x, type }))}
           />
           <Segmented<Mode> legend={t.mode} name="mode" value={mode} options={t.modeOptions} onChange={setMode} />
+          <AccentField
+            value={settings.accent}
+            brand={settings.color}
+            locale={locale}
+            onChange={(accent) => setSettings((x) => ({ ...x, accent }))}
+          />
+          <div className={styles.field}>
+            <label htmlFor="cvd-select">{t.cvdLegend}</label>
+            <select id="cvd-select" className={styles.select} value={cvd} onChange={(e) => setCvd(e.target.value as Cvd)}>
+              {cvdOptionKeys.map((kind) => (
+                <option key={kind} value={kind}>
+                  {t.cvdOptions[kind]}
+                </option>
+              ))}
+            </select>
+            {cvd !== "none" ? <span className={styles.small}>{t.cvdNote}</span> : null}
+          </div>
 
           <button
             type="button"
@@ -374,13 +412,13 @@ export function BrandLab({ locale }: { locale: Locale }) {
 
       <section className={styles.block} aria-labelledby="palettes-title">
         <h2 id="palettes-title">{t.paletteTitle}</h2>
-        <div className={styles.scales}>
-          {SCALES.map((name) => (
+        <div className={styles.scales} style={{ filter: visionFilter }}>
+          {scaleNames.map((name) => (
             <div key={name} className={styles.scale}>
               <h3>{t.scaleNames[name]}</h3>
               <ol>
                 {STEPS.map((step, i) => {
-                  const hex = p[name][step];
+                  const hex = (p[name] as Scale)[step];
                   const ink = contrast(hex, "#ffffff") >= contrast(hex, "#0b1022") ? "#ffffff" : "#0b1022";
                   return (
                     <li key={step} style={{ background: hex, color: ink, transitionDelay: `${i * 25}ms` }}>
@@ -440,6 +478,10 @@ export function BrandLab({ locale }: { locale: Locale }) {
           </pre>
         </section>
       </div>
+
+      <MatrixSection roles={r} tint={tint} locale={locale} />
+      <ScalesSection style={settings.type} locale={locale} />
+      <ImportSection locale={locale} onUseBrand={setColor} />
 
       <section className={`${styles.block} ${styles.how}`} aria-labelledby="how-title">
         <h2 id="how-title">{t.how}</h2>
