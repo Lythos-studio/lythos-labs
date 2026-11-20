@@ -160,6 +160,7 @@
   padding: 0;
   display: grid;
   gap: 12px;
+  align-items: start;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
 }
 
@@ -338,5 +339,135 @@
   from {
     opacity: 0;
     transform: translateY(4px);
+  }
+}
+
+/* Provider advice, roll-out, compare and report */
+.fixItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.record pre {
+  margin: 0;
+  max-height: 200px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+}
+
+.hostList {
+  margin: 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 6px;
+  color: #c3cbe6;
+  font-size: 0.875rem;
+}
+
+.hostList code {
+  font-family: var(--font-mono, monospace);
+  overflow-wrap: anywhere;
+}
+
+.rolloutTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #fff;
+}
+
+.rollout {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.rollout li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #222a4a;
+  border-radius: 8px;
+  color: #c3cbe6;
+  font-size: 0.875rem;
+}
+
+.rollout li.current {
+  border-color: #8fa2ff;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.checkRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: #e9edff;
+  font-size: 0.9375rem;
+}
+
+.checkRow input {
+  width: 20px;
+  height: 20px;
+  accent-color: #2449df;
+}
+
+.checkRow input:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+@media print {
+  .lab {
+    background: #fff;
+    color: #000;
+  }
+
+  .noPrint {
+    display: none !important;
+  }
+
+  .report h2,
+  .card h3,
+  .summary h3,
+  .rolloutTitle {
+    color: #000;
+  }
+
+  .card,
+  .summary,
+  .rollout li {
+    break-inside: avoid;
+    background: #fff;
+    border-color: #999;
+  }
+
+  .card p,
+  .card .small,
+  .summary p,
+  .rollout li,
+  .hostList {
+    color: #000;
+  }
+
+  .record {
+    background: #f2f2f2;
+    color: #000;
+  }
+
+  .badge {
+    color: #000;
+    border-color: #000;
   }
 }
