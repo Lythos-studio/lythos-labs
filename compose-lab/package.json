@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "tsx --test test/*.test.ts",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "cli": "tsx bin/compose-lab.ts"
   },
   "peerDependencies": {
     "react": "^19.3.0",
@@ -24,5 +25,8 @@
     "@types/react": "^19.3.0",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
+  },
+  "bin": {
+    "compose-lab": "./bin/compose-lab.ts"
   }
 }
