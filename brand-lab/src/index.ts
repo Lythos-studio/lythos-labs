@@ -11,3 +11,5 @@ export * from "./cvd";
 export * from "./matrix";
 export * from "./scales";
 export * from "./harmony";
+export * from "./import";
+export * from "./repair";
