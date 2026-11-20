@@ -10,3 +10,7 @@ export type { Finding, Level } from "./types";
 export { MailCheck } from "./mail-check";
 export { mailCheckCopy, type Locale } from "./copy";
 export { fixFor, type Fix } from "./fixes";
+export { dmarcRollout, type RolloutStep } from "./rollout";
+export { parseDomains, MAX_DOMAINS } from "./domain";
+export { PROVIDERS, detectProvider, mxHosts, type ProviderId } from "./provider";
+export { fixesFor, dkimHosts, type FixContext } from "./fixes";

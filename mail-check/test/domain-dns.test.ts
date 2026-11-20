@@ -4,7 +4,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isDnsName, parseDomain } from "../src/domain";
+import { isDnsName, parseDomain, parseDomains } from "../src/domain";
 import { makeLookup, readAnswer, txtValue } from "../src/dns";
 
 test("a typed domain is normalised, and an international name becomes punycode", () => {
@@ -118,4 +118,13 @@ test("an unreadable answer from the first service falls through to the second", 
   let n = 0;
   const lookup = makeLookup({ fetch: async () => new Response(n++ === 0 ? "not json" : JSON.stringify({ Status: 0, Answer: [{ type: 16, data: '"b"' }] })) });
   assert.deepEqual(await lookup("a.nl", "TXT"), ["b"]);
+});
+
+test("several domains can be entered at once: split, cleaned, deduplicated and capped at five", () => {
+  assert.deepEqual(parseDomains("a.nl, b.nl\nc.nl  a.nl"), { domains: ["a.nl", "b.nl", "c.nl"], invalid: [], tooMany: false });
+  assert.deepEqual(parseDomains("a.nl nope b.nl http://x.nl"), { domains: ["a.nl", "b.nl"], invalid: ["nope", "http://x.nl"], tooMany: false });
+  const six = parseDomains("a.nl b.nl c.nl d.nl e.nl f.nl");
+  assert.deepEqual(six.domains, ["a.nl", "b.nl", "c.nl", "d.nl", "e.nl"]);
+  assert.equal(six.tooMany, true);
+  assert.deepEqual(parseDomains("   "), { domains: [], invalid: [], tooMany: false });
 });

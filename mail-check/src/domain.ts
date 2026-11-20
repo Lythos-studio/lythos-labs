@@ -30,3 +30,21 @@ export function isDnsName(name: string): boolean {
   const n = name.toLowerCase().replace(/\.$/, "");
   return n.length > 0 && n.length <= 253 && n.split(".").every((l) => DNS_LABEL.test(l));
 }
+
+export const MAX_DOMAINS = 5;
+
+/** Several domains typed at once: split on spaces, commas and new lines, cleaned, deduplicated and capped at five. */
+export function parseDomains(input: string): { domains: string[]; invalid: string[]; tooMany: boolean } {
+  const domains: string[] = [];
+  const invalid: string[] = [];
+  let tooMany = false;
+  for (const part of input.split(/[\s,;]+/).filter(Boolean)) {
+    const name = parseDomain(part);
+    if (!name) invalid.push(part);
+    else if (!domains.includes(name)) {
+      if (domains.length >= MAX_DOMAINS) tooMany = true;
+      else domains.push(name);
+    }
+  }
+  return { domains, invalid, tooMany };
+}
