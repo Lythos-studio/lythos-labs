@@ -8,3 +8,4 @@ export * from "./tokens";
 export { logoColor, MAX_LOGO_BYTES } from "./logo-color";
 export * from "./apca";
 export * from "./cvd";
+export * from "./matrix";
