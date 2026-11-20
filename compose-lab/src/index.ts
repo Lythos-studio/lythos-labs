@@ -10,3 +10,5 @@ export { fixFor } from "./fixes";
 export { layout } from "./layout";
 export { EXAMPLES } from "./examples";
 export { LIMITS, type Compose, type ParseError, type ParseResult, type Service } from "./model";
+export { improve, diffLines, IMPROVE_DEFAULT_ON, type ImproveId, type ImproveChange, type ImproveResult, type DiffLine } from "./improve";
+export { encodeDisabled, decodeDisabled } from "./config";

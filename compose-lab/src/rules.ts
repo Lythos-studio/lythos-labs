@@ -76,7 +76,7 @@ const levels: Record<Level, number> = { fail: 0, warn: 1, info: 2 };
 const groups: Record<Group, number> = { security: 0, reliability: 1, structure: 2 };
 
 /** Every rule is a fact about the file, not a verdict on the people who wrote it. */
-export function evaluate(compose: Compose): Finding[] {
+export function evaluate(compose: Compose, options: { disabled?: readonly RuleId[] } = {}): Finding[] {
   const found: Finding[] = [];
   const add = (id: RuleId, level: Level, services: string[], detail?: string) =>
     found.push({ id, level, group: RULES[id], services, detail });
@@ -159,7 +159,8 @@ export function evaluate(compose: Compose): Finding[] {
   for (const [id, list] of [["runs-as-root", aggregate.runsAsRoot], ["no-memory-limit", aggregate.memory], ["unbounded-logs", aggregate.logs], ["container-name-set", aggregate.containerName], ["no-new-privileges", aggregate.noNewPrivileges], ["env-file-unread", aggregate.envFile]] as const)
     if (list.length) add(id, "info", list);
 
-  return found.sort(
+  const off = options.disabled ?? [];
+  return found.filter((f) => !off.includes(f.id)).sort(
     (a, b) =>
       levels[a.level] - levels[b.level] ||
       groups[a.group] - groups[b.group] ||
