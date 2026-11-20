@@ -20,6 +20,7 @@ export const EXAMPLES = [
         condition: service_healthy
     mem_limit: 256m
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     networks: [edge]
 
   web:
@@ -37,6 +38,7 @@ export const EXAMPLES = [
       DATABASE_PASSWORD: \${DATABASE_PASSWORD}
     mem_limit: 512m
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     networks: [edge, internal]
 
   worker:
@@ -49,6 +51,7 @@ export const EXAMPLES = [
         condition: service_healthy
     mem_limit: 512m
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     networks: [internal]
 
   db:
@@ -60,6 +63,7 @@ export const EXAMPLES = [
       - dbdata:/var/lib/postgresql/data
     mem_limit: 1g
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     networks: [internal]
 
   cache:
@@ -69,6 +73,7 @@ export const EXAMPLES = [
       test: ["CMD", "redis-cli", "ping"]
     mem_limit: 256m
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     networks: [internal]
 
 networks:

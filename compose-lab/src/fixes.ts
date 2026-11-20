@@ -65,6 +65,20 @@ export function fixFor(finding: Finding, compose: Compose): string | null {
       return `services:\n  <service>:\n    mem_limit: 512m  # a value that fits the service`;
     case "unbounded-logs":
       return `services:\n  <service>:\n    logging:\n      driver: json-file\n      options:\n        max-size: "10m"\n        max-file: "3"`;
+    case "no-new-privileges":
+      return `services:\n  <service>:\n    security_opt:\n      - no-new-privileges:true  # the process cannot gain more rights than it started with`;
+    case "traefik-router-no-entrypoint":
+      return finding.detail && SAFE.test(finding.detail) ? wrap(`labels:\n  - "traefik.http.routers.${finding.detail}.entrypoints=websecure"  # the entrypoint that should serve this router`) : null;
+    case "traefik-enable-missing":
+      return wrap(`labels:\n  - "traefik.enable=true"`);
+    case "traefik-and-public-port":
+      return wrap(`# remove the "ports:" section: the proxy reaches the service over the network\n# (keep it only if the service must also be reachable directly, then bind it to 127.0.0.1)`);
+    case "proxy-reaches-database": {
+      const [proxy, db] = finding.services;
+      return proxy && db && SAFE.test(proxy) && SAFE.test(db)
+        ? `services:\n  ${proxy}:\n    networks: [frontend]\n  ${db}:\n    networks: [backend]  # also add frontend only to services that need to be reached from outside\nnetworks:\n  frontend: {}\n  backend:\n    internal: true  # no route to the outside`
+        : null;
+    }
     case "network-undeclared":
       return finding.detail && SAFE.test(finding.detail) ? `networks:\n  ${finding.detail}: {}` : null;
     default:

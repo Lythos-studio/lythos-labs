@@ -206,6 +206,48 @@ const en = {
       why: "Whatever the base file defines (healthchecks, restart policy, networks, the services it depends on) is not visible here, so those checks are skipped to avoid false alarms.",
       fine: "Overrides are normal. To check the whole stack, paste the base file first, then a line with ---, then the override.",
     },
+    "no-new-privileges": {
+      title: "Processes can gain extra privileges",
+      what: (c) => `${c.services} does not set no-new-privileges.`,
+      why: "With this option a process in the container cannot gain more rights than it started with, for example through a setuid program. It limits the damage of a break-in at almost no cost. Dropping capabilities (cap_drop: ALL) and a read-only file system go further when the service allows it.",
+      fine: "Images that need setuid helpers to work, which is rare. Test the service after switching it on.",
+    },
+    "sensitive-bind-mount": {
+      title: "A sensitive host folder is mounted",
+      what: (c) => `${c.services} mounts the host folder ${c.detail}.`,
+      why: "Mounting the whole host, or folders such as /etc and /root with write access, lets a compromised container change the host. Mount only the folder the service needs, read-only where possible.",
+      fine: "Tools that really manage the host (backup, monitoring). Then mount read-only and as narrowly as you can.",
+    },
+    "proxy-reaches-database": {
+      title: "A proxy shares a network with a database",
+      what: (c) => `${c.services} are on the same network (${c.detail}), so the proxy can reach the database directly.`,
+      why: "A proxy faces the internet. If it is compromised, a shared network gives the attacker a straight line to the database. Put the database on a network the proxy is not on.",
+      fine: "A throwaway local setup. In production, use separate networks and attach only the services that must talk to each other to both.",
+    },
+    "traefik-router-no-entrypoint": {
+      title: "A Traefik router has no entrypoint",
+      what: (c) => `The Traefik router ${c.detail} on ${c.services} has no entrypoints label.`,
+      why: "A router without entrypoints listens on every entrypoint, including plain HTTP, so the service can be reached without TLS.",
+      fine: "When Traefik has only one entrypoint, or the default entrypoints are set to what you want.",
+    },
+    "traefik-and-public-port": {
+      title: "A service behind Traefik also publishes a port",
+      what: (c) => `${c.services} has Traefik labels and also publishes ${c.detail} on all interfaces.`,
+      why: "The extra port bypasses the proxy, its TLS, its middleware and your host firewall rules. Traefik reaches the service over the Docker network and needs no published port.",
+      fine: "A port that is meant to be reachable directly, for example for health checks. Bind it to 127.0.0.1 then.",
+    },
+    "traefik-enable-missing": {
+      title: "Traefik labels without traefik.enable",
+      what: (c) => `${c.services} has Traefik labels but not traefik.enable=true.`,
+      why: "When Traefik runs with exposedByDefault=false, a service without this label is ignored and the router never appears. It also states the intention.",
+      fine: "When Traefik exposes containers by default, which is its default setting.",
+    },
+    "env-file-unread": {
+      title: "Values in an env file are not read",
+      what: (c) => `${c.services} uses env_file. The files are not read here.`,
+      why: "Secrets in an env file cannot be checked, and an env file that is committed to the repository is a common leak.",
+      fine: "An env file that is kept out of version control and has strict file permissions.",
+    },
   } as Record<RuleId, RuleText>,
 };
 
@@ -405,6 +447,48 @@ const nl: ComposeLabCopy = {
       what: (c) => `${c.services} heeft geen image of build, dus dit bestand vult waarschijnlijk een ander compose-bestand aan.`,
       why: "Wat het basisbestand bepaalt (healthchecks, restart-beleid, netwerken, de services waarvan deze afhangt) is hier niet te zien, dus die controles worden overgeslagen om valse meldingen te voorkomen.",
       fine: "Overrides zijn normaal. Wil je de hele stack controleren, plak dan eerst het basisbestand, dan een regel met ---, en dan de override.",
+    },
+    "no-new-privileges": {
+      title: "Processen kunnen extra rechten krijgen",
+      what: (c) => `${c.services} zet no-new-privileges niet aan.`,
+      why: "Met deze optie kan een proces in de container niet meer rechten krijgen dan het had, bijvoorbeeld via een setuid-programma. Het beperkt de schade van een inbraak tegen vrijwel geen kosten. Capabilities weglaten (cap_drop: ALL) en een alleen-lezen bestandssysteem gaan verder als de service dat toelaat.",
+      fine: "Images die setuid-hulpprogramma's nodig hebben, wat zeldzaam is. Test de service na het aanzetten.",
+    },
+    "sensitive-bind-mount": {
+      title: "Een gevoelige hostmap is gekoppeld",
+      what: (c) => `${c.services} koppelt de hostmap ${c.detail}.`,
+      why: "De hele host, of mappen zoals /etc en /root met schrijfrechten, koppelen laat een gehackte container de host aanpassen. Koppel alleen de map die de service nodig heeft, waar mogelijk alleen-lezen.",
+      fine: "Hulpmiddelen die de host echt beheren (back-up, monitoring). Koppel dan alleen-lezen en zo smal mogelijk.",
+    },
+    "proxy-reaches-database": {
+      title: "Een proxy deelt een netwerk met een database",
+      what: (c) => `${c.services} zitten op hetzelfde netwerk (${c.detail}), dus de proxy kan de database rechtstreeks bereiken.`,
+      why: "Een proxy kijkt naar het internet. Wordt die gehackt, dan geeft een gedeeld netwerk de aanvaller een directe lijn naar de database. Zet de database op een netwerk waar de proxy niet op zit.",
+      fine: "Een wegwerp-opstelling op je eigen machine. Gebruik in productie aparte netwerken en koppel alleen de services die met elkaar moeten praten aan beide.",
+    },
+    "traefik-router-no-entrypoint": {
+      title: "Een Traefik-router heeft geen entrypoint",
+      what: (c) => `De Traefik-router ${c.detail} op ${c.services} heeft geen entrypoints-label.`,
+      why: "Een router zonder entrypoints luistert op elk entrypoint, ook gewoon HTTP, waardoor de service zonder TLS bereikbaar kan zijn.",
+      fine: "Als Traefik maar één entrypoint heeft, of de standaard-entrypoints zijn ingesteld zoals je wilt.",
+    },
+    "traefik-and-public-port": {
+      title: "Een service achter Traefik publiceert ook een poort",
+      what: (c) => `${c.services} heeft Traefik-labels en publiceert ook ${c.detail} op alle interfaces.`,
+      why: "De extra poort omzeilt de proxy, zijn TLS, zijn middleware en de firewallregels van je host. Traefik bereikt de service via het Docker-netwerk en heeft geen gepubliceerde poort nodig.",
+      fine: "Een poort die bewust rechtstreeks bereikbaar moet zijn, bijvoorbeeld voor healthchecks. Bind hem dan aan 127.0.0.1.",
+    },
+    "traefik-enable-missing": {
+      title: "Traefik-labels zonder traefik.enable",
+      what: (c) => `${c.services} heeft Traefik-labels maar niet traefik.enable=true.`,
+      why: "Draait Traefik met exposedByDefault=false, dan wordt een service zonder dit label genegeerd en verschijnt de router nooit. Het legt ook de bedoeling vast.",
+      fine: "Als Traefik containers standaard toont, wat zijn standaardinstelling is.",
+    },
+    "env-file-unread": {
+      title: "Waarden in een env-bestand worden niet gelezen",
+      what: (c) => `${c.services} gebruikt env_file. De bestanden worden hier niet gelezen.`,
+      why: "Geheimen in een env-bestand kunnen niet worden gecontroleerd, en een env-bestand dat in de repository staat is een veelvoorkomend lek.",
+      fine: "Een env-bestand dat buiten versiebeheer blijft en strenge bestandsrechten heeft.",
     },
   },
 };

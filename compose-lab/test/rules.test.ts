@@ -18,7 +18,7 @@ const run = (yaml: string) => evaluate(load(yaml));
 const ids = (yaml: string) => run(yaml).map((f) => f.id);
 const has = (yaml: string, id: RuleId, service?: string) => run(yaml).some((f) => f.id === id && (!service || f.services.includes(service)));
 /** A small, healthy service that triggers none of the rules, to build cases from. */
-const ok = (extra = "") => `    image: app:1.0\n    restart: unless-stopped\n    mem_limit: 256m\n    user: "1000"\n    logging: { driver: local }\n${extra}`;
+const ok = (extra = "") => `    image: app:1.0\n    restart: unless-stopped\n    mem_limit: 256m\n    user: "1000"\n    logging: { driver: local }\n    security_opt: ["no-new-privileges:true"]\n${extra}`;
 
 test("a tidy stack has no findings", () => {
   assert.deepEqual(
@@ -31,6 +31,7 @@ ${ok(`    ports: ["127.0.0.1:8080:8080"]\n    healthcheck: { test: ["CMD", "true
     restart: unless-stopped
     mem_limit: 512m
     logging: { driver: local }
+    security_opt: ["no-new-privileges:true"]
     healthcheck: { test: ["CMD-SHELL", "pg_isready"] }
     volumes: [data:/var/lib/postgresql/data]
 volumes: { data: {} }
