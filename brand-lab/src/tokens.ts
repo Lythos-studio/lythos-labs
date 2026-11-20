@@ -196,6 +196,8 @@ export function checks(r: Roles): Check[] {
   return pairs.map(([label, fg, bg, min]) => ({ label, fg, bg, min, ratio: contrast(fg, bg) }));
 }
 
+import { SPACE_STEPS, TEXT_STEPS, WEIGHTS, spacing, typeScale } from "./scales";
+
 export const RADIUS: Record<Radius, number> = { sharp: 2, soft: 8, round: 16 };
 
 export const TYPE: Record<TypeStyle, { heading: string; body: string }> = {
@@ -216,6 +218,10 @@ export function exportCss(s: Settings): string {
   const lines: string[] = [":root {"];
   for (const name of SCALES) for (const step of STEPS) lines.push(`  --${name}-${step}: ${p[name][step]};`);
   lines.push(`  --radius: ${RADIUS[s.radius]}px;`, `  --font-heading: ${TYPE[s.type].heading};`, `  --font-body: ${TYPE[s.type].body};`);
+  lines.push(`  --font-weight-heading: ${WEIGHTS[s.type].heading};`, `  --font-weight-body: ${WEIGHTS[s.type].body};`);
+  const scale = typeScale(s.type);
+  for (const step of TEXT_STEPS) lines.push(`  --text-${step}: ${scale[step].size};`, `  --text-${step}-line: ${scale[step].line};`);
+  for (const step of SPACE_STEPS) lines.push(`  --space-${step}: ${spacing()[step]};`);
   const roleLines = (mode: Mode, indent: string) =>
     Object.entries(roles(p, mode)).map(([k, v]) => `${indent}--color-${kebab(k)}: ${v};`);
   lines.push(...roleLines("light", "  "), "}", "", "@media (prefers-color-scheme: dark) {", "  :root {");
@@ -227,7 +233,11 @@ export function exportTailwind(s: Settings): string {
   const p = palette(s.color);
   const lines: string[] = ['@import "tailwindcss";', "", "@theme {"];
   for (const name of SCALES) for (const step of STEPS) lines.push(`  --color-${name}-${step}: ${p[name][step]};`);
-  lines.push(`  --radius-brand: ${RADIUS[s.radius]}px;`, `  --font-heading: ${TYPE[s.type].heading};`, `  --font-body: ${TYPE[s.type].body};`, "}");
+  lines.push(`  --radius-brand: ${RADIUS[s.radius]}px;`, `  --font-heading: ${TYPE[s.type].heading};`, `  --font-body: ${TYPE[s.type].body};`);
+  lines.push(`  --font-weight-heading: ${WEIGHTS[s.type].heading};`, `  --font-weight-body: ${WEIGHTS[s.type].body};`, "  --spacing: 4px;");
+  const scale = typeScale(s.type);
+  for (const step of TEXT_STEPS) lines.push(`  --text-${step}: ${scale[step].size};`, `  --text-${step}--line-height: ${scale[step].line};`);
+  lines.push("}");
   return lines.join("\n") + "\n";
 }
 
@@ -249,6 +259,15 @@ export function exportJson(s: Settings): string {
           heading: { $type: "fontFamily", $value: TYPE[s.type].heading },
           body: { $type: "fontFamily", $value: TYPE[s.type].body },
         },
+        typography: {
+          size: Object.fromEntries(TEXT_STEPS.map((step) => [step, { $type: "dimension", $value: typeScale(s.type)[step].size }])),
+          lineHeight: Object.fromEntries(TEXT_STEPS.map((step) => [step, { $type: "number", $value: typeScale(s.type)[step].line }])),
+          weight: {
+            heading: { $type: "fontWeight", $value: WEIGHTS[s.type].heading },
+            body: { $type: "fontWeight", $value: WEIGHTS[s.type].body },
+          },
+        },
+        spacing: Object.fromEntries(SPACE_STEPS.map((step) => [String(step), { $type: "dimension", $value: spacing()[step] }])),
       },
       null,
       2,
