@@ -10,3 +10,4 @@ export * from "./apca";
 export * from "./cvd";
 export * from "./matrix";
 export * from "./scales";
+export * from "./harmony";

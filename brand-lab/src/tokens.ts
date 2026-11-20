@@ -115,13 +115,18 @@ export type Palette = {
   success: Scale;
   warning: Scale;
   danger: Scale;
+  /** Only present when an accent colour was chosen. */
+  accentBrand?: string;
+  accent?: Scale;
 };
 
-export function palette(brandHex: string): Palette {
+export function palette(brandHex: string, accentHex?: string): Palette {
   const brand = parseHex(brandHex) ?? "#2449df";
   const { c, h } = rgbToOklch(hexToRgb(brand));
   // Near-grey brands keep a little chroma so the scale still reads as a colour.
   const chroma = Math.max(c, 0.02);
+  const accentBrand = accentHex ? parseHex(accentHex) : null;
+  const accentLch = accentBrand ? rgbToOklch(hexToRgb(accentBrand)) : null;
   return {
     brand,
     primary: scale(h, chroma),
@@ -129,6 +134,7 @@ export function palette(brandHex: string): Palette {
     success: scale(150, 0.15),
     warning: scale(75, 0.15),
     danger: scale(27, 0.19),
+    ...(accentBrand && accentLch ? { accentBrand, accent: scale(accentLch.h, Math.max(accentLch.c, 0.02)) } : {}),
   };
 }
 
@@ -144,6 +150,9 @@ export type Roles = {
   success: string;
   warning: string;
   danger: string;
+  /** Only present when the palette has an accent. */
+  accent?: string;
+  onAccent?: string;
 };
 
 const order = (mode: Mode): Step[] => (mode === "light" ? [...STEPS] : [...STEPS].reverse());
@@ -161,10 +170,13 @@ export function roles(p: Palette, mode: Mode): Roles {
   const surface = light ? p.neutral[50] : p.neutral[900];
   const text = light ? p.neutral[950] : p.neutral[50];
   // Buttons use the brand colour itself where it can carry readable text; otherwise the nearest step that can.
-  const candidates = [p.brand, ...order(light ? "light" : "dark").map((s) => p.primary[s])];
   const fill = (c: string) => Math.max(contrast(c, "#ffffff"), contrast(c, p.neutral[950]));
-  const primary = candidates.find((c) => fill(c) >= 4.5 && (light || luminance(c) > 0.08)) ?? p.primary[600];
-  const onPrimary = contrast(primary, "#ffffff") >= contrast(primary, p.neutral[950]) ? "#ffffff" : p.neutral[950];
+  const pickFill = (brand: string, s: Scale) =>
+    [brand, ...order(light ? "light" : "dark").map((step) => s[step])].find((c) => fill(c) >= 4.5 && (light || luminance(c) > 0.08)) ?? s[600];
+  const onFill = (c: string) => (contrast(c, "#ffffff") >= contrast(c, p.neutral[950]) ? "#ffffff" : p.neutral[950]);
+  const primary = pickFill(p.brand, p.primary);
+  const onPrimary = onFill(primary);
+  const accent = p.accent && p.accentBrand ? pickFill(p.accentBrand, p.accent) : undefined;
   return {
     background,
     surface,
@@ -177,6 +189,7 @@ export function roles(p: Palette, mode: Mode): Roles {
     success: firstPassing(p.success, background, 4.5, mode, light ? 600 : 400),
     warning: firstPassing(p.warning, background, 4.5, mode, light ? 700 : 300),
     danger: firstPassing(p.danger, background, 4.5, mode, light ? 600 : 400),
+    ...(accent ? { accent, onAccent: onFill(accent) } : {}),
   };
 }
 
@@ -209,14 +222,15 @@ export const TYPE: Record<TypeStyle, { heading: string; body: string }> = {
   },
 };
 
-export type Settings = { color: string; radius: Radius; type: TypeStyle };
+export type Settings = { color: string; radius: Radius; type: TypeStyle; accent?: string };
 
 const SCALES = ["primary", "neutral", "success", "warning", "danger"] as const;
+const scalesOf = (p: Palette): (typeof SCALES[number] | "accent")[] => (p.accent ? [...SCALES, "accent"] : [...SCALES]);
 
 export function exportCss(s: Settings): string {
-  const p = palette(s.color);
+  const p = palette(s.color, s.accent);
   const lines: string[] = [":root {"];
-  for (const name of SCALES) for (const step of STEPS) lines.push(`  --${name}-${step}: ${p[name][step]};`);
+  for (const name of scalesOf(p)) for (const step of STEPS) lines.push(`  --${name}-${step}: ${(p[name] as Scale)[step]};`);
   lines.push(`  --radius: ${RADIUS[s.radius]}px;`, `  --font-heading: ${TYPE[s.type].heading};`, `  --font-body: ${TYPE[s.type].body};`);
   lines.push(`  --font-weight-heading: ${WEIGHTS[s.type].heading};`, `  --font-weight-body: ${WEIGHTS[s.type].body};`);
   const scale = typeScale(s.type);
@@ -230,9 +244,9 @@ export function exportCss(s: Settings): string {
 }
 
 export function exportTailwind(s: Settings): string {
-  const p = palette(s.color);
+  const p = palette(s.color, s.accent);
   const lines: string[] = ['@import "tailwindcss";', "", "@theme {"];
-  for (const name of SCALES) for (const step of STEPS) lines.push(`  --color-${name}-${step}: ${p[name][step]};`);
+  for (const name of scalesOf(p)) for (const step of STEPS) lines.push(`  --color-${name}-${step}: ${(p[name] as Scale)[step]};`);
   lines.push(`  --radius-brand: ${RADIUS[s.radius]}px;`, `  --font-heading: ${TYPE[s.type].heading};`, `  --font-body: ${TYPE[s.type].body};`);
   lines.push(`  --font-weight-heading: ${WEIGHTS[s.type].heading};`, `  --font-weight-body: ${WEIGHTS[s.type].body};`, "  --spacing: 4px;");
   const scale = typeScale(s.type);
@@ -243,10 +257,10 @@ export function exportTailwind(s: Settings): string {
 
 /** Design Tokens Community Group format (https://tr.designtokens.org/format/). */
 export function exportJson(s: Settings): string {
-  const p = palette(s.color);
+  const p = palette(s.color, s.accent);
   const color: Record<string, unknown> = {};
-  for (const name of SCALES)
-    color[name] = Object.fromEntries(STEPS.map((step) => [step, { $type: "color", $value: p[name][step] }]));
+  for (const name of scalesOf(p))
+    color[name] = Object.fromEntries(STEPS.map((step) => [step, { $type: "color", $value: (p[name] as Scale)[step] }]));
   const role = (mode: Mode) =>
     Object.fromEntries(Object.entries(roles(p, mode)).map(([k, v]) => [kebab(k), { $type: "color", $value: v }]));
   return (
@@ -281,7 +295,7 @@ function kebab(s: string) {
 
 /** Settings in the URL hash, so a result can be shared without anything reaching a server. */
 export function encodeSettings(s: Settings): string {
-  return `c=${s.color.slice(1)}&r=${s.radius}&t=${s.type}`;
+  return `c=${s.color.slice(1)}&r=${s.radius}&t=${s.type}${s.accent ? `&a=${s.accent.slice(1)}` : ""}`;
 }
 
 export function decodeSettings(hash: string, fallback: Settings): Settings {
@@ -289,5 +303,6 @@ export function decodeSettings(hash: string, fallback: Settings): Settings {
   const color = parseHex(q.get("c") || "") ?? fallback.color;
   const radius = (["sharp", "soft", "round"] as const).find((x) => x === q.get("r")) ?? fallback.radius;
   const type = (["editorial", "modern", "technical"] as const).find((x) => x === q.get("t")) ?? fallback.type;
-  return { color, radius, type };
+  const accent = parseHex(q.get("a") || "") ?? undefined;
+  return { color, radius, type, ...(accent ? { accent } : {}) };
 }
