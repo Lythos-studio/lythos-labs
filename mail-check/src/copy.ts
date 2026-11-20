@@ -87,7 +87,9 @@ const en = {
     "lookup-failed": (d) => `The lookup failed (${d}). That says nothing about your domain. Try again.`,
   } as Messages,
   notes: {
-    "spf-missing": "If this domain sends no mail, add this TXT record. Otherwise use the record your mail provider gives you.",
+    "spf-missing": "A safe starting point, not a final answer: it allows the servers behind your mail provider and ends softly. Add an include: for every other service that sends mail for you. A domain that sends no mail at all uses v=spf1 -all.",
+    "spf-no-all": "Add this ending to your SPF record, as the last part:",
+    "mta-sts-missing": "Optional. Add this TXT record, then publish the policy file below at that address (it needs a web server for mta-sts.<your domain> with a valid certificate). It starts in testing mode, so nothing is refused yet.",
     "spf-open-all": "Replace the ending of your SPF record with:",
     "dmarc-missing": "Add this TXT record. Use a mailbox you read instead of dmarc@. Start with p=none and move to quarantine once the reports look right.",
     "dmarc-monitoring-only": "When the reports show that only your own mail passes, change p=none into:",
@@ -188,7 +190,9 @@ const nl: MailCheckCopy = {
     "lookup-failed": (d) => `De opzoeking mislukte (${d}). Dat zegt niets over je domein. Probeer het opnieuw.`,
   },
   notes: {
-    "spf-missing": "Verstuurt dit domein geen mail, voeg dan dit TXT-record toe. Anders gebruik je het record van je mailprovider.",
+    "spf-missing": "Een veilig beginpunt, geen eindoplossing: het staat de servers achter je mailprovider toe en eindigt zacht. Voeg een include: toe voor elke andere dienst die mail voor je verstuurt. Een domein dat helemaal geen mail verstuurt gebruikt v=spf1 -all.",
+    "spf-no-all": "Voeg deze afsluiting toe aan je SPF-record, als laatste onderdeel:",
+    "mta-sts-missing": "Optioneel. Voeg dit TXT-record toe en publiceer daarna het beleidsbestand hieronder op dat adres (daarvoor is een webserver voor mta-sts.<je domein> met een geldig certificaat nodig). Het begint in testmodus, dus er wordt nog niets geweigerd.",
     "spf-open-all": "Vervang het einde van je SPF-record door:",
     "dmarc-missing": "Voeg dit TXT-record toe. Gebruik een mailbox die je leest in plaats van dmarc@. Begin met p=none en zet het op quarantine als de rapporten er goed uitzien.",
     "dmarc-monitoring-only": "Als de rapporten laten zien dat alleen je eigen mail slaagt, verander p=none in:",
