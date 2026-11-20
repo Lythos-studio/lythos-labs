@@ -13,10 +13,12 @@ import {
   judgeSpf,
   spfRecords,
 } from "./records";
+import { detectProvider, mxHosts, PROVIDERS } from "./provider";
 import type { Finding } from "./types";
 
 export type CheckId = "mx" | "spf" | "dmarc" | "dkim" | "mta-sts" | "tls-rpt" | "bimi";
-export type Check = { id: CheckId; finding: Finding };
+/** `data.mx` (on the MX check only) holds the valid MX host names, for advice that needs them. */
+export type Check = { id: CheckId; finding: Finding; data?: { mx?: string[] } };
 
 /** A failed lookup is "unknown", never a green tick. */
 async function guard(id: CheckId, run: () => Promise<Finding>): Promise<Check> {
@@ -36,11 +38,12 @@ export async function runChecks(
   lookup: Lookup,
   options: { selectors?: string[]; onCheck?: (check: Check) => void } = {},
 ): Promise<Check[]> {
-  const selectors = options.selectors ?? DKIM_SELECTORS;
+  let mxRecords: string[] = [];
   const txt = (name: string) => lookup(name, "TXT");
   const steps: [CheckId, () => Promise<Finding>][] = [
     ["mx", async () => {
       const mx = await lookup(domain, "MX");
+      mxRecords = mx;
       const address = mx.length ? false : (await lookup(domain, "A")).length > 0 || (await lookup(domain, "AAAA")).length > 0;
       return judgeMx(mx, address);
     }],
@@ -52,6 +55,8 @@ export async function runChecks(
     ["dmarc", async () => judgeDmarc(await txt(`_dmarc.${domain}`))],
     ["dkim", async () => {
       const found = [];
+      const provider = detectProvider(mxRecords);
+      const selectors = [...new Set([...(provider ? PROVIDERS[provider].dkim : []), ...(options.selectors ?? DKIM_SELECTORS)])];
       for (const selector of selectors) found.push({ selector, records: await txt(`${selector}._domainkey.${domain}`) });
       return judgeDkim(found);
     }],
@@ -62,6 +67,7 @@ export async function runChecks(
   const checks: Check[] = [];
   for (const [id, run] of steps) {
     const check = await guard(id, run);
+    if (id === "mx") check.data = { mx: mxHosts(mxRecords) };
     checks.push(check);
     options.onCheck?.(check);
   }

@@ -63,3 +63,31 @@ test("a run stays within the default request budget, even with many selectors an
   assert.equal(spf?.finding.code, "spf-too-many-lookups");
   assert.ok(calls.length <= 40, `${calls.length} requests`);
 });
+
+test("the MX check hands over the valid MX hosts, so later advice can use them", async () => {
+  const mx = (await runChecks("example.nl", fake())).find((c) => c.id === "mx");
+  assert.deepEqual(mx?.data?.mx, ["route1.mx.example.net", "route2.mx.example.net"]);
+});
+
+test("DKIM tries the selectors of the recognised provider first, without repeating any", async () => {
+  const calls: string[] = [];
+  const lookup: Lookup = async (name, type) => {
+    calls.push(`${type} ${name}`);
+    return name === "example.nl" && type === "MX" ? ["10 mail.protonmail.ch."] : [];
+  };
+  await runChecks("example.nl", lookup);
+  const dkim = calls.filter((c) => c.includes("._domainkey."));
+  assert.deepEqual(dkim.slice(0, 3), ["TXT protonmail._domainkey.example.nl", "TXT protonmail2._domainkey.example.nl", "TXT protonmail3._domainkey.example.nl"]);
+  assert.equal(new Set(dkim).size, dkim.length);
+});
+
+test("a recognised provider that is already in the common list is not asked twice, and the request budget holds", async () => {
+  const calls: string[] = [];
+  const lookup: Lookup = async (name, type) => {
+    calls.push(`${type} ${name}`);
+    return name === "example.nl" && type === "MX" ? ["1 aspmx.l.google.com."] : [];
+  };
+  await runChecks("example.nl", lookup);
+  assert.equal(calls.filter((c) => c === "TXT google._domainkey.example.nl").length, 1);
+  assert.ok(calls.length <= 40, String(calls.length));
+});
