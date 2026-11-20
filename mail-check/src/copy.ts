@@ -14,7 +14,7 @@ const en = {
   title: "Mail check",
   description:
     "Type a domain and see how its email is set up: MX, SPF, DMARC, DKIM and more, with fixes in plain language. Runs in your browser.",
-  eyebrow: "Prototype",
+  eyebrow: "Works",
   heading: "Is your domain's email set up right?",
   intro:
     "Type a domain. Mail check reads its public DNS records and tells you what is fine, what could be better and what to add. Your browser asks a public DNS service directly; nothing goes to Lythos.",
@@ -143,7 +143,7 @@ const nl: MailCheckCopy = {
   title: "Mail-check",
   description:
     "Typ een domein en zie hoe de mail is ingericht: MX, SPF, DMARC, DKIM en meer, met herstelstappen in gewone taal. Draait in je browser.",
-  eyebrow: "Prototype",
+  eyebrow: "Werkt",
   heading: "Staat de mail van je domein goed ingesteld?",
   intro:
     "Typ een domein. Mail-check leest de openbare DNS-records en vertelt wat goed is, wat beter kan en wat je moet toevoegen. Je browser vraagt het rechtstreeks aan een openbare DNS-dienst; er gaat niets naar Lythos.",

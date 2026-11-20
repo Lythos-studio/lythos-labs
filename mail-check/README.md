@@ -2,7 +2,7 @@
 
 Check how a domain is set up for email. It reads MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI records through DNS-over-HTTPS and gives a verdict per check, with a record to copy where that helps.
 
-Try it at [labs.lythos.nl/mail-check](https://labs.lythos.nl/mail-check) (Dutch: [/nl/mailcheck](https://labs.lythos.nl/nl/mailcheck)). Status: prototype.
+Try it at [labs.lythos.nl/mail-check](https://labs.lythos.nl/mail-check) (Dutch: [/nl/mailcheck](https://labs.lythos.nl/nl/mailcheck)). Status: works.
 
 - **Runs in the browser.** DNS questions go from the visitor's browser to Cloudflare's DNS-over-HTTPS service (`cloudflare-dns.com`), with Google's (`dns.google`) as the reserve, not to a Lythos server.
 - **Provider aware.** The mail provider is recognised from the MX records (`detectProvider`); SPF includes, DKIM selectors and DKIM hosts follow from it. A missing SPF record never gets `-all` unless the domain has a null MX.
