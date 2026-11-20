@@ -16,7 +16,7 @@ const en = {
   title: "Compose lab",
   description:
     "Paste a docker-compose.yml and see the stack as a living diagram, with explained rules for security, reliability and structure. Runs in your browser.",
-  eyebrow: "Prototype",
+  eyebrow: "Works",
   heading: "Paste a compose file. See the stack.",
   intro:
     "Paste a docker-compose.yml, or drop the file. Compose lab draws the services and what they depend on, shows what is open to the outside, and explains what a careful reviewer would raise. Nothing is sent anywhere: the file is read in your browser and forgotten when you close the page.",
@@ -283,7 +283,7 @@ const nl: ComposeLabCopy = {
   title: "Compose-lab",
   description:
     "Plak een docker-compose.yml en zie de stack als levend diagram, met uitgelegde regels voor beveiliging, betrouwbaarheid en opzet. Draait in je browser.",
-  eyebrow: "Prototype",
+  eyebrow: "Werkt",
   heading: "Plak een compose-bestand. Zie de stack.",
   intro:
     "Plak een docker-compose.yml of sleep het bestand erin. Compose-lab tekent de services en waar ze van afhangen, laat zien wat openstaat naar buiten en legt uit wat een zorgvuldige reviewer zou aanstippen. Er wordt niets verstuurd: het bestand wordt in je browser gelezen en vergeten zodra je de pagina sluit.",
