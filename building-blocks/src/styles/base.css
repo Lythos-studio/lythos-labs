@@ -1,0 +1,114 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+/* Defaults for every --lb-* variable (the Lythos blue, light). A theme from Merklab overrides them on .lb-root. */
+.lb-root {
+  --lb-bg: #ffffff;
+  --lb-surface: #f6f7fb;
+  --lb-text: #121a2e;
+  --lb-muted: #50607c;
+  --lb-border: #c9d1e4;
+  --lb-primary: #2449df;
+  --lb-on-primary: #ffffff;
+  --lb-link: #2449df;
+  --lb-focus: #2449df;
+  --lb-accent: #2449df;
+  --lb-on-accent: #ffffff;
+  --lb-tint: #e6ebff;
+  --lb-success-bg: #e8f7ef;
+  --lb-success-text: #14633f;
+  --lb-warning-bg: #fff4dc;
+  --lb-warning-text: #7a4a00;
+  --lb-danger-bg: #fdeaea;
+  --lb-danger-text: #a02323;
+  --lb-info-bg: #e6ebff;
+  --lb-info-text: #1d3bb0;
+  --lb-radius: 8px;
+  --lb-font-heading: "Inter Variable", Inter, system-ui, sans-serif;
+  --lb-font-body: "Inter Variable", Inter, system-ui, sans-serif;
+  --lb-weight-heading: 600;
+  --lb-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 8px 24px rgb(0 0 0 / 0.08);
+  --lb-scrim: rgb(15 20 40 / 0.45);
+  --lb-text-xs: 0.64rem;
+  --lb-text-sm: 0.8rem;
+  --lb-text-base: 1rem;
+  --lb-text-lg: 1.2rem;
+  --lb-text-xl: 1.44rem;
+  --lb-space-1: 4px;
+  --lb-space-2: 8px;
+  --lb-space-3: 12px;
+  --lb-space-4: 16px;
+  --lb-space-5: 20px;
+  --lb-space-6: 24px;
+  --lb-space-8: 32px;
+  --lb-space-10: 40px;
+  --lb-space-12: 48px;
+  --lb-density: 1;
+  font-family: var(--lb-font-body);
+  font-size: var(--lb-text-base);
+  line-height: 1.5;
+  color: var(--lb-text);
+  background: var(--lb-bg);
+  color-scheme: light dark;
+}
+
+.lb-root *,
+.lb-root *::before,
+.lb-root *::after {
+  box-sizing: border-box;
+}
+
+.lb-root :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--lb-font-heading);
+  font-weight: var(--lb-weight-heading);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.lb-root :where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+}
+
+/* One focus ring for everything, visible on any background. */
+.lb-root :focus-visible {
+  outline: 2px solid var(--lb-focus);
+  outline-offset: 2px;
+}
+
+.lb-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-root *,
+  .lb-root *::before,
+  .lb-root *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-lb-motion="off"] *,
+[data-lb-motion="off"] *::before,
+[data-lb-motion="off"] *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
+
+@media (forced-colors: active) {
+  .lb-root :focus-visible {
+    outline-color: Highlight;
+  }
+}

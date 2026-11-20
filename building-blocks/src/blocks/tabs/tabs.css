@@ -1,0 +1,78 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-3);
+}
+
+.lb-tabs[data-orientation="vertical"] {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.lb-tabs__list {
+  display: flex;
+  gap: var(--lb-space-1);
+  border-bottom: 1px solid var(--lb-border);
+  overflow-x: auto;
+}
+
+.lb-tabs[data-orientation="vertical"] .lb-tabs__list {
+  flex-direction: column;
+  border-bottom: 0;
+  border-inline-end: 1px solid var(--lb-border);
+  overflow: visible;
+  min-width: 10rem;
+}
+
+.lb-tabs__tab {
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--lb-muted);
+  font-weight: 600;
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.lb-tabs[data-orientation="vertical"] .lb-tabs__tab {
+  border-bottom: 0;
+  border-inline-end: 2px solid transparent;
+  margin-inline-end: -1px;
+}
+
+.lb-tabs__tab:hover:not(:disabled) {
+  color: var(--lb-text);
+  background: var(--lb-tint);
+}
+
+.lb-tabs__tab[aria-selected="true"] {
+  color: var(--lb-text);
+  border-color: var(--lb-primary);
+}
+
+.lb-tabs__tab:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lb-tabs__panel {
+  padding: var(--lb-space-3) 0;
+  border-radius: var(--lb-radius);
+}
+
+.lb-tabs__panel[hidden] {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .lb-tabs__tab[aria-selected="true"] {
+    border-color: Highlight;
+  }
+}

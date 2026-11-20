@@ -1,0 +1,98 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lb-space-2);
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 120ms, border-color 120ms;
+}
+
+.lb-button[data-lb-size="sm"] {
+  min-height: 32px;
+  padding: 0 var(--lb-space-3);
+  font-size: var(--lb-text-sm);
+}
+
+.lb-button[data-lb-size="lg"] {
+  min-height: 48px;
+  padding: 0 var(--lb-space-6);
+  font-size: var(--lb-text-lg);
+}
+
+.lb-button:hover {
+  background: var(--lb-tint);
+}
+
+.lb-button[data-lb-variant="primary"] {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+  color: var(--lb-on-primary);
+}
+
+.lb-button[data-lb-variant="primary"]:hover {
+  background: color-mix(in oklab, var(--lb-primary) 88%, black);
+}
+
+.lb-button[data-lb-variant="ghost"] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--lb-link);
+}
+
+.lb-button[data-lb-variant="danger"] {
+  background: var(--lb-danger-bg);
+  border-color: var(--lb-danger-text);
+  color: var(--lb-danger-text);
+}
+
+.lb-button:disabled,
+.lb-button[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lb-button--icon {
+  width: 40px;
+  padding: 0;
+}
+
+.lb-button--icon[data-lb-size="sm"] {
+  width: 32px;
+}
+
+.lb-button__icon {
+  display: inline-flex;
+}
+
+.lb-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: lb-spin 700ms linear infinite;
+}
+
+@keyframes lb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (forced-colors: active) {
+  .lb-button {
+    border-color: ButtonText;
+  }
+}
