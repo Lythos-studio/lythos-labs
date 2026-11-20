@@ -162,7 +162,7 @@ const en = {
       title: "Depends on a service that does not exist",
       what: (c) => `${c.services} depends on ${c.detail}, which is not defined in this file.`,
       why: "Compose refuses to start. It is often a typo or a service that was renamed.",
-      fine: "Never. If the service is defined in another file, this tool cannot see it (see the limits).",
+      fine: "When the service is defined in another file that you start together with this one (docker compose -f a.yml -f b.yml). Paste the files in that order with a line containing --- between them, and the check sees them as one stack.",
     },
     "duplicate-host-port": {
       title: "The same host port is used twice",
@@ -174,7 +174,7 @@ const en = {
       title: "Uses a network that is not declared",
       what: (c) => `${c.services} uses the network ${c.detail}, which is not declared under networks:.`,
       why: "Compose refuses to start with an undefined network.",
-      fine: "Never.",
+      fine: "When the network is declared in another file that you start together with this one. Paste the files with a line containing --- between them.",
     },
     "network-unused": {
       title: "A declared network is not used",
@@ -199,6 +199,12 @@ const en = {
       what: () => "The file starts with version:.",
       why: "The current Compose specification ignores it, and newer Compose versions warn about it.",
       fine: "A file that must still work with the old docker-compose 1.x.",
+    },
+    "partial-file": {
+      title: "This looks like an override file",
+      what: (c) => `${c.services} has no image or build, so this file probably adds to another compose file.`,
+      why: "Whatever the base file defines (healthchecks, restart policy, networks, the services it depends on) is not visible here, so those checks are skipped to avoid false alarms.",
+      fine: "Overrides are normal. To check the whole stack, paste the base file first, then a line with ---, then the override.",
     },
   } as Record<RuleId, RuleText>,
 };
@@ -356,7 +362,7 @@ const nl: ComposeLabCopy = {
       title: "Hangt af van een service die niet bestaat",
       what: (c) => `${c.services} hangt af van ${c.detail}, dat niet in dit bestand staat.`,
       why: "Compose weigert te starten. Vaak een typefout of een service die is hernoemd.",
-      fine: "Nooit. Staat de service in een ander bestand, dan kan deze tool dat niet zien (zie de beperkingen).",
+      fine: "Als de service in een ander bestand staat dat je samen met dit bestand start (docker compose -f a.yml -f b.yml). Plak de bestanden in die volgorde met een regel met --- ertussen, dan ziet de controle ze als één stack.",
     },
     "duplicate-host-port": {
       title: "Dezelfde hostpoort wordt twee keer gebruikt",
@@ -368,7 +374,7 @@ const nl: ComposeLabCopy = {
       title: "Gebruikt een netwerk dat niet is gedeclareerd",
       what: (c) => `${c.services} gebruikt het netwerk ${c.detail}, dat niet onder networks: staat.`,
       why: "Compose weigert te starten met een niet-gedefinieerd netwerk.",
-      fine: "Nooit.",
+      fine: "Als het netwerk in een ander bestand staat dat je samen met dit bestand start. Plak de bestanden met een regel met --- ertussen.",
     },
     "network-unused": {
       title: "Een gedeclareerd netwerk wordt niet gebruikt",
@@ -393,6 +399,12 @@ const nl: ComposeLabCopy = {
       what: () => "Het bestand begint met version:.",
       why: "De huidige Compose-specificatie negeert het, en nieuwere Compose-versies waarschuwen ervoor.",
       fine: "Een bestand dat nog met het oude docker-compose 1.x moet werken.",
+    },
+    "partial-file": {
+      title: "Dit lijkt een override-bestand",
+      what: (c) => `${c.services} heeft geen image of build, dus dit bestand vult waarschijnlijk een ander compose-bestand aan.`,
+      why: "Wat het basisbestand bepaalt (healthchecks, restart-beleid, netwerken, de services waarvan deze afhangt) is hier niet te zien, dus die controles worden overgeslagen om valse meldingen te voorkomen.",
+      fine: "Overrides zijn normaal. Wil je de hele stack controleren, plak dan eerst het basisbestand, dan een regel met ---, en dan de override.",
     },
   },
 };

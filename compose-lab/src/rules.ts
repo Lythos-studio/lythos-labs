@@ -28,6 +28,7 @@ export const RULES = {
   "volume-unused": "structure",
   "container-name-set": "structure",
   "version-obsolete": "structure",
+  "partial-file": "structure",
 } as const satisfies Record<string, Group>;
 
 export type RuleId = keyof typeof RULES;
@@ -47,7 +48,10 @@ const imageBase = (s: Service) => s.image?.name.split("/").pop()?.toLowerCase() 
 const allInterfaces = (p: Port) => !p.hostIp || p.hostIp === "0.0.0.0" || p.hostIp === "::";
 const portText = (p: Port) => (p.published ? `${p.published}:${p.target}` : p.target);
 /** A job runs once and stops (migrations, seeds), so health, restart and limit rules do not apply. */
-const isJob = (s: Service) => /^(no|false)$/i.test(s.restart ?? "") || /(migrat|init|seed|setup)/i.test(s.name);
+const isJob = (s: Service) =>
+  /^(no|false)$/i.test(s.restart ?? "") || s.profiles.length > 0 || /(migrat|init|seed|setup|restore|backup|verify|scan|test|check|job|task|cron|e2e|lint)/i.test(s.name);
+/** A service with neither image nor build is an override of a service defined in another file: what is missing may be defined there. */
+const isOverride = (s: Service) => !s.image && !s.hasBuild;
 
 const levels: Record<Level, number> = { fail: 0, warn: 1, info: 2 };
 const groups: Record<Group, number> = { security: 0, reliability: 1, structure: 2 };
@@ -79,17 +83,17 @@ export function evaluate(compose: Compose): Finding[] {
     if (s.image && !s.image.digest && (!s.image.tag || s.image.tag === "latest")) add("latest-tag", "warn", [s.name]);
     if ((s.image || s.hasBuild) && !s.user && s.ports.length) aggregate.runsAsRoot.push(s.name);
 
-    if (!isJob(s) && s.healthcheck === "none" && (s.ports.length || dependedOn.has(s.name))) add("no-healthcheck", "warn", [s.name]);
+    if (!isJob(s) && !isOverride(s) && s.healthcheck === "none" && (s.ports.length || dependedOn.has(s.name))) add("no-healthcheck", "warn", [s.name]);
     for (const d of s.dependsOn) {
       const target = byName.get(d.name);
-      if (!target) add("depends-on-missing", "fail", [s.name], d.name);
-      else if (!d.condition && target.healthcheck === "set") add("depends-without-condition", "warn", [s.name], d.name);
+      if (!target && !compose.partial) add("depends-on-missing", "fail", [s.name], d.name);
+      else if (target && !d.condition && target.healthcheck === "set") add("depends-without-condition", "warn", [s.name], d.name);
     }
-    if (!isJob(s) && !s.restart) add("no-restart-policy", "warn", [s.name]);
-    if (!isJob(s) && !s.hasMemoryLimit) aggregate.memory.push(s.name);
-    if (!isJob(s) && !s.hasLogLimits) aggregate.logs.push(s.name);
+    if (!isJob(s) && !isOverride(s) && !s.restart) add("no-restart-policy", "warn", [s.name]);
+    if (!isJob(s) && !isOverride(s) && !s.hasMemoryLimit) aggregate.memory.push(s.name);
+    if (!isJob(s) && !isOverride(s) && !s.hasLogLimits) aggregate.logs.push(s.name);
 
-    for (const n of s.networks) if (n !== "default" && !compose.networks.some((c) => c.name === n)) add("network-undeclared", "fail", [s.name], n);
+    for (const n of s.networks) if (!compose.partial && n !== "default" && !compose.networks.some((c) => c.name === n)) add("network-undeclared", "fail", [s.name], n);
     if (s.containerName) aggregate.containerName.push(s.name);
   }
 
@@ -105,8 +109,9 @@ export function evaluate(compose: Compose): Finding[] {
     if (clash) add("duplicate-host-port", "fail", [...new Set(users.map((u) => u.service))], key.split("/")[0]);
   }
 
-  for (const n of compose.networks) if (!n.external && !usedNetworks.has(n.name)) add("network-unused", "info", [], n.name);
-  for (const v of compose.volumes) if (!v.external && !usedVolumes.has(v.name)) add("volume-unused", "info", [], v.name);
+  if (compose.partial) add("partial-file", "info", compose.services.filter(isOverride).map((s) => s.name));
+  for (const n of compose.networks) if (!compose.partial && !n.external && !usedNetworks.has(n.name)) add("network-unused", "info", [], n.name);
+  for (const v of compose.volumes) if (!compose.partial && !v.external && !usedVolumes.has(v.name)) add("volume-unused", "info", [], v.name);
   if (compose.hasVersion) add("version-obsolete", "info", []);
   for (const [id, list] of [["runs-as-root", aggregate.runsAsRoot], ["no-memory-limit", aggregate.memory], ["unbounded-logs", aggregate.logs], ["container-name-set", aggregate.containerName]] as const)
     if (list.length) add(id, "info", list);
