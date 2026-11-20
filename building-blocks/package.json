@@ -1,0 +1,39 @@
+{
+  "name": "@lythos-labs/building-blocks",
+  "version": "0.1.0",
+  "description": "Accessible, dependency-free React building blocks with a keyboard contract you can run in your browser, a brand wall, recipes and a starter kit download.",
+  "license": "MPL-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./theme": "./src/theme/index.ts",
+    "./harness": "./src/harness/index.ts",
+    "./registry": "./src/registry.ts",
+    "./lab": "./src/lab/index.ts",
+    "./styles.css": "./src/styles/lab.css",
+    "./base.css": "./src/styles/base.css"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "gen": "tsx scripts/gen.ts",
+    "e2e": "playwright test -c e2e/playwright.config.ts"
+  },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "dependencies": {
+    "@lythos-labs/brand-lab": "file:../brand-lab"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "^22.20.2",
+    "@types/react": "^19.3.0",
+    "axe-core": "4.14.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
