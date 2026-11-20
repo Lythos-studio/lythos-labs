@@ -3,6 +3,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import type { ParseError } from "./model";
+import type { ImproveId } from "./improve";
 import type { Group, Level, RuleId } from "./rules";
 
 /** Languages Compose lab ships with. */
@@ -25,6 +26,31 @@ const en = {
   examples: { tidy: "A tidy stack", messy: "A messy stack" } as Record<string, string>,
   clear: "Clear",
   dropHint: "Or drop a file here",
+  multiHint: "Several files? Paste them one after another with a line containing --- between them. The first is the base, the rest are overrides.",
+  rulesTitle: "Rules",
+  rulesIntro: "Switch off a rule that does not fit your stack. Your choice goes into the link. The file never does.",
+  rulesOff: (n: number) => (n ? `${n} switched off` : "All rules are on"),
+  rulesAllOn: "Switch all rules on",
+  shareRules: "Copy link with this rule choice",
+  improveTitle: "Improved file",
+  improveIntro: "Safe, mechanical changes made to your text. Comments, quotes and layout stay as they are, and nothing changes until you choose it.",
+  improveMultiple: "Several files are checked together, so an improved file is not offered. Paste a single file to use this.",
+  improveNone: "Nothing to change automatically. The findings that are left need your decision.",
+  improveOffByDefault: "Off by default",
+  improveIn: (names: string) => `in ${names}`,
+  improveChanges: {
+    "remove-version": { title: "Remove the obsolete version field", detail: "Compose ignores it." },
+    "add-restart": { title: "Restart on failure", detail: "Adds restart: unless-stopped to long-running services (not to jobs)." },
+    "add-log-limits": { title: "Limit log size", detail: "Adds a json-file log limit of 10m and 3 files where no logging is set." },
+    "bind-db-localhost": { title: "Keep database ports on this machine", detail: "Binds published database ports to 127.0.0.1 (short syntax)." },
+    "add-no-new-privileges": { title: "No new privileges", detail: "Adds security_opt no-new-privileges. Test the service after switching it on, a few images need setuid helpers." },
+  } as Record<ImproveId, { title: string; detail: string }>,
+  diffTitle: "What would change",
+  diffNone: "No changes selected.",
+  diffAdded: "added",
+  diffRemoved: "removed",
+  improveCopy: "Copy improved file",
+  improveDownload: "Download improved file",
   errors: {
     empty: () => "",
     "too-large": () => "This file is larger than 256 kB. Paste only the services you want to look at.",
@@ -68,15 +94,15 @@ const en = {
   keysOnly: "Only the names of the variables are shown.",
   howTitle: "How it works",
   how: [
-    "The file is read in your browser with a standard YAML parser. Nothing is uploaded, stored or put in the address bar, so there is no share link: a link with a compose file in it could share secrets.",
+    "The file is read in your browser with a standard YAML parser. Nothing is uploaded or stored. The address bar only ever carries your choice of rules, never the file, because a link with a compose file in it could share secrets.",
     "Each rule is a fixed check on the parsed file. A rule says what it found, why it can matter and when it is fine. It is an opinion with reasons, not a verdict.",
     "The diagram puts what nobody depends on on the left and its dependencies to the right. Exports and the diagram never contain environment values.",
   ],
   limitsTitle: "Limits",
   limits: [
     "Nothing is run and no image is inspected, so we cannot know whether a container runs as root or what a healthcheck really tests.",
-    "Variables such as ${VAR} are not filled in, and .env files, include, extends and several -f files are not merged.",
-    "Profiles are shown together. Services that only exist behind a profile appear as normal services.",
+    "Variables such as ${VAR} are not filled in, and .env files, include and extends are not followed. Several files separated by --- are merged as a base and overrides: mappings merge, lists are appended and other values are replaced, without !reset or !override.",
+    "Services with a profile, a one-off name such as migrate or backup, or restart: no are treated as jobs and skipped by the health, restart and limit rules.",
     "This is not a security audit. Use an image scanner and a review next to it.",
   ],
   rules: {
@@ -267,6 +293,31 @@ const nl: ComposeLabCopy = {
   examples: { tidy: "Een nette stack", messy: "Een rommelige stack" },
   clear: "Wissen",
   dropHint: "Of sleep hier een bestand heen",
+  multiHint: "Meerdere bestanden? Plak ze achter elkaar met een regel met --- ertussen. Het eerste is de basis, de rest zijn overrides.",
+  rulesTitle: "Regels",
+  rulesIntro: "Zet een regel uit die niet bij jouw stack past. Je keuze komt in de link. Het bestand nooit.",
+  rulesOff: (n) => (n ? `${n} uitgezet` : "Alle regels staan aan"),
+  rulesAllOn: "Zet alle regels aan",
+  shareRules: "Kopieer link met deze regelkeuze",
+  improveTitle: "Verbeterd bestand",
+  improveIntro: "Veilige, mechanische wijzigingen in je tekst. Commentaar, aanhalingstekens en opmaak blijven zoals ze zijn en er verandert niets tot jij het kiest.",
+  improveMultiple: "Meerdere bestanden worden samen gecontroleerd, dus er is geen verbeterd bestand. Plak één bestand om dit te gebruiken.",
+  improveNone: "Niets dat automatisch kan. De meldingen die overblijven vragen om jouw keuze.",
+  improveOffByDefault: "Standaard uit",
+  improveIn: (names) => `bij ${names}`,
+  improveChanges: {
+    "remove-version": { title: "Het verouderde versieveld weghalen", detail: "Compose negeert het." },
+    "add-restart": { title: "Herstarten bij falen", detail: "Voegt restart: unless-stopped toe aan langlopende services (niet aan taken)." },
+    "add-log-limits": { title: "Logomvang begrenzen", detail: "Voegt een json-file-loglimiet van 10m en 3 bestanden toe waar geen logging is ingesteld." },
+    "bind-db-localhost": { title: "Databasepoorten alleen op deze machine", detail: "Bindt gepubliceerde databasepoorten aan 127.0.0.1 (korte notatie)." },
+    "add-no-new-privileges": { title: "Geen nieuwe rechten", detail: "Voegt security_opt no-new-privileges toe. Test de service na het aanzetten, een paar images hebben setuid-hulpprogramma's nodig." },
+  },
+  diffTitle: "Wat er zou veranderen",
+  diffNone: "Geen wijzigingen gekozen.",
+  diffAdded: "toegevoegd",
+  diffRemoved: "verwijderd",
+  improveCopy: "Kopieer verbeterd bestand",
+  improveDownload: "Download verbeterd bestand",
   errors: {
     empty: () => "",
     "too-large": () => "Dit bestand is groter dan 256 kB. Plak alleen de services die je wilt bekijken.",
@@ -310,15 +361,15 @@ const nl: ComposeLabCopy = {
   keysOnly: "Alleen de namen van de variabelen worden getoond.",
   howTitle: "Hoe het werkt",
   how: [
-    "Het bestand wordt in je browser gelezen met een standaard YAML-parser. Er wordt niets geüpload, opgeslagen of in de adresbalk gezet, dus er is geen deelbare link: een link met een compose-bestand erin kan geheimen delen.",
+    "Het bestand wordt in je browser gelezen met een standaard YAML-parser. Er wordt niets geüpload of opgeslagen. In de adresbalk staat alleen je keuze van regels, nooit het bestand, want een link met een compose-bestand erin kan geheimen delen.",
     "Elke regel is een vaste controle op het gelezen bestand. Een regel zegt wat hij vond, waarom het ertoe kan doen en wanneer het prima is. Het is een mening met redenen, geen oordeel.",
     "In het diagram staat links wat niemand nodig heeft en rechts waar het van afhangt. Het diagram en de exports bevatten nooit omgevingswaarden.",
   ],
   limitsTitle: "Beperkingen",
   limits: [
     "Er wordt niets uitgevoerd en geen image bekeken, dus we weten niet of een container als root draait of wat een healthcheck echt test.",
-    "Variabelen zoals ${VAR} worden niet ingevuld, en .env-bestanden, include, extends en meerdere -f-bestanden worden niet samengevoegd.",
-    "Profielen worden samen getoond. Services die alleen achter een profiel bestaan, staan er als gewone services bij.",
+    "Variabelen zoals ${VAR} worden niet ingevuld, en .env-bestanden, include en extends worden niet gevolgd. Meerdere bestanden gescheiden door --- worden samengevoegd als basis en overrides: mappen worden samengevoegd, lijsten aangevuld en andere waarden vervangen, zonder !reset of !override.",
+    "Services met een profiel, een taaknaam zoals migrate of backup, of restart: no worden als taak behandeld en overgeslagen door de health-, restart- en limietregels.",
     "Dit is geen beveiligingsaudit. Gebruik daarnaast een image-scanner en een review.",
   ],
   rules: {
