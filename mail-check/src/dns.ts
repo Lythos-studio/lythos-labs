@@ -9,7 +9,8 @@ export type RecordType = keyof typeof TYPE;
 /** Returns the record values for a name. Throws when the answer cannot be trusted or the budget is spent. */
 export type Lookup = (name: string, type: RecordType) => Promise<string[]>;
 
-const DOH = "https://cloudflare-dns.com/dns-query";
+/** Cloudflare first, Google as the reserve. Both answer the same JSON format. */
+export const DOH_ENDPOINTS = ["https://cloudflare-dns.com/dns-query", "https://dns.google/resolve"];
 const MAX_CHARS = 64 * 1024;
 
 /** Joins the quoted strings of a TXT value: `"part1" "part2"` becomes `part1part2`. */
@@ -34,20 +35,31 @@ export function readAnswer(json: unknown, type: RecordType): string[] {
 }
 
 /** DNS-over-HTTPS lookup with a request budget (shared by one check run) and a time-out per request. */
-export function makeLookup(options: { fetch?: typeof fetch; budget?: number; timeoutMs?: number } = {}): Lookup {
+export function makeLookup(options: { fetch?: typeof fetch; budget?: number; timeoutMs?: number; endpoints?: string[] } = {}): Lookup {
   const doFetch: typeof fetch = options.fetch ?? ((input, init) => fetch(input, init));
+  const endpoints = options.endpoints ?? DOH_ENDPOINTS;
   let left = options.budget ?? 40;
   return async (name, type) => {
     if (!isDnsName(name)) throw new Error("bad-name");
-    if (left-- <= 0) throw new Error("budget");
-    const url = `${DOH}?${new URLSearchParams({ name, type })}`;
-    const res = await doFetch(url, {
-      headers: { accept: "application/dns-json" },
-      signal: AbortSignal.timeout(options.timeoutMs ?? 5000),
-    });
-    if (!res.ok) throw new Error(`http-${res.status}`);
-    const text = await res.text();
-    if (text.length > MAX_CHARS) throw new Error("too-large");
-    return readAnswer(JSON.parse(text), type);
+    let failure: unknown = new Error("no-endpoint");
+    // A failed service (network, time-out, HTTP error, oversized or unreadable answer) hands over to the next one.
+    // "No such name" is a real answer and is final. Every attempt counts against the budget.
+    for (const endpoint of endpoints) {
+      if (left-- <= 0) throw new Error("budget");
+      try {
+        const url = `${endpoint}?${new URLSearchParams({ name, type })}`;
+        const res = await doFetch(url, {
+          headers: { accept: "application/dns-json" },
+          signal: AbortSignal.timeout(options.timeoutMs ?? 5000),
+        });
+        if (!res.ok) throw new Error(`http-${res.status}`);
+        const text = await res.text();
+        if (text.length > MAX_CHARS) throw new Error("too-large");
+        return readAnswer(JSON.parse(text), type);
+      } catch (e) {
+        failure = e;
+      }
+    }
+    throw failure;
   };
 }

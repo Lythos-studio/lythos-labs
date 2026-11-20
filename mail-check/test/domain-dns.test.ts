@@ -85,3 +85,37 @@ test("the budget, HTTP errors, huge answers and broken JSON all end in an error,
   await assert.rejects(makeLookup({ fetch: reply("{not json") })("a.nl", "TXT"));
   await assert.rejects(makeLookup({ fetch: async () => { throw new Error("offline"); } })("a.nl", "TXT"), /offline/);
 });
+
+test("when the first DNS service fails, the next one answers; an unknown name is final and not retried", async () => {
+  const seen: string[] = [];
+  const lookup = makeLookup({
+    fetch: async (url) => {
+      seen.push(String(url));
+      if (String(url).startsWith("https://cloudflare-dns.com")) throw new TypeError("network");
+      return new Response(JSON.stringify({ Status: 0, Answer: [{ type: 16, data: '"ok"' }] }));
+    },
+  });
+  assert.deepEqual(await lookup("example.nl", "TXT"), ["ok"]);
+  assert.deepEqual(seen, ["https://cloudflare-dns.com/dns-query?name=example.nl&type=TXT", "https://dns.google/resolve?name=example.nl&type=TXT"]);
+
+  const unknown: string[] = [];
+  const nx = makeLookup({ fetch: async (url) => (unknown.push(String(url)), new Response(JSON.stringify({ Status: 3 }))) });
+  assert.deepEqual(await nx("nope.nl", "TXT"), []);
+  assert.equal(unknown.length, 1);
+});
+
+test("with both DNS services down the lookup fails, and every attempt counts against the budget", async () => {
+  let calls = 0;
+  const lookup = makeLookup({ budget: 3, fetch: async () => (calls++, new Response("x", { status: 503 })) });
+  await assert.rejects(lookup("a.nl", "TXT"), /http-503/);
+  await assert.rejects(lookup("b.nl", "TXT"), /http-503|budget/);
+  assert.equal(calls, 3);
+  await assert.rejects(lookup("c.nl", "TXT"), /budget/);
+  assert.equal(calls, 3);
+});
+
+test("an unreadable answer from the first service falls through to the second", async () => {
+  let n = 0;
+  const lookup = makeLookup({ fetch: async () => new Response(n++ === 0 ? "not json" : JSON.stringify({ Status: 0, Answer: [{ type: 16, data: '"b"' }] })) });
+  assert.deepEqual(await lookup("a.nl", "TXT"), ["b"]);
+});
