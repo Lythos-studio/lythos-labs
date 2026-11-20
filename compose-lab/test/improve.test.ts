@@ -122,3 +122,12 @@ test("diffLines marks removed and added lines and keeps unchanged ones", () => {
   const big = Array.from({ length: 6000 }, (_, i) => `l${i}`).join("\n");
   assert.ok(diffLines(big, big + "\nx").length > 0, "large input still returns quickly");
 });
+
+test("secret-looking values are masked in anything shown (diff context, CLI), and only those", async () => {
+  const { maskSecretLine } = await import("../src/improve");
+  assert.equal(maskSecretLine("      POSTGRES_PASSWORD: hunter2"), "      POSTGRES_PASSWORD: ********");
+  assert.equal(maskSecretLine("      - API_KEY=abc123"), "      - API_KEY=********");
+  assert.equal(maskSecretLine('    SESSION_SECRET: "x y z"'), "    SESSION_SECRET: ********");
+  for (const keep of ["      A: 1", "      DB_PASSWORD: ${DB_PASSWORD}", "      DB_PASSWORD_FILE: /run/secrets/db", "    restart: unless-stopped", "      - ./data:/data", "      TOKEN:"])
+    assert.equal(maskSecretLine(keep), keep, keep);
+});

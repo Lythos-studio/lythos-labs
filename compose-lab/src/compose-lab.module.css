@@ -441,3 +441,93 @@
   color: #c3cbe6;
   font-size: 0.9375rem;
 }
+
+/* Improved file and rule choice */
+.changeList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.diff {
+  margin: 0;
+  max-height: 420px;
+  overflow: auto;
+  padding: 12px 0;
+  border: 1px solid #222a4a;
+  border-radius: 10px;
+  background: #070a17;
+  color: #c9d3ff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.diff > span {
+  display: block;
+  padding: 0 14px;
+  white-space: pre;
+}
+
+.diff .added {
+  background: rgba(95, 211, 160, 0.14);
+  color: #b9f5da;
+}
+
+.diff .removed {
+  background: rgba(255, 143, 143, 0.14);
+  color: #ffc9c9;
+}
+
+.diff:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.ruleGroup {
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ruleGroup legend {
+  font-weight: 600;
+  color: #fff;
+  padding: 0;
+  margin-bottom: 6px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Long snippets scroll inside their own box instead of widening the page. */
+.rule,
+.occurrences > li,
+.record {
+  min-width: 0;
+}
+
+.record pre {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.block > h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}

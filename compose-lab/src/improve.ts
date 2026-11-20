@@ -166,3 +166,12 @@ export function diffLines(before: string, after: string): DiffLine[] {
   out.push(...a.slice(a.length - tail).map((text): DiffLine => ({ kind: "same", text })));
   return out;
 }
+
+const SECRET_KEY = /(PASSWORD|PASSWD|SECRET|TOKEN|API_?KEY|PRIVATE_?KEY|ACCESS_?KEY|CREDENTIAL)/i;
+
+/** Hides the value of an environment line whose key looks like a secret, for anything shown on screen or printed. Variables (`${X}`) and `_FILE` keys are not secrets. */
+export function maskSecretLine(line: string): string {
+  const m = /^(\s*(?:-\s*)?)([A-Za-z_][A-Za-z0-9_]*)(\s*[:=]\s*)(\S.*)$/.exec(line);
+  if (!m || !SECRET_KEY.test(m[2]) || /_FILE$/i.test(m[2]) || m[4].trimStart().startsWith("$")) return line;
+  return `${m[1]}${m[2]}${m[3]}********`;
+}

@@ -4,49 +4,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-import { useDeferredValue, useMemo, useRef, useState, type DragEvent } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { decodeDisabled, encodeDisabled } from "./config";
 import { composeLabCopy, type Locale } from "./copy";
 import { Diagram, type Positions } from "./diagram";
 import { EXAMPLES } from "./examples";
 import { fixFor } from "./fixes";
+import { ImproveSection } from "./improve-section";
 import { layout as makeLayout } from "./layout";
 import { LIMITS, type Compose, type Port } from "./model";
 import { parseCompose } from "./parse";
 import { evaluate, RULES, type Finding, type Group, type RuleId } from "./rules";
+import { RulesSection } from "./rules-section";
+import { CopyButton, download } from "./ui";
 import styles from "./compose-lab.module.css";
 
 const GROUPS: Group[] = ["security", "reliability", "structure"];
 const portText = (p: Port) => `${p.hostIp ? `${p.hostIp}:` : ""}${p.published ? `${p.published}:` : ""}${p.target}${p.protocol === "tcp" ? "" : `/${p.protocol}`}`;
-
-function CopyButton({ value, label, done }: { value: string; label: string; done: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      className={styles.ghost}
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(value);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 2000);
-        } catch {
-          // Clipboard blocked: the text stays selectable on the page.
-        }
-      }}
-    >
-      {copied ? done : label}
-    </button>
-  );
-}
-
-function download(name: string, blob: Blob) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export function ComposeLab({ locale }: { locale: Locale }) {
   const t = composeLabCopy[locale];
@@ -54,13 +28,28 @@ export function ComposeLab({ locale }: { locale: Locale }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [showValues, setShowValues] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [disabled, setDisabled] = useState<RuleId[]>([]);
   const [moved, setMoved] = useState<{ for: Compose | null; pos: Positions }>({ for: null, pos: {} });
   const svgRef = useRef<SVGSVGElement>(null);
 
   const deferred = useDeferredValue(text);
   const parsed = useMemo(() => parseCompose(deferred), [deferred]);
   const compose = parsed.ok ? parsed.compose : null;
-  const findings = useMemo(() => (compose ? evaluate(compose) : []), [compose]);
+  const findings = useMemo(() => (compose ? evaluate(compose, { disabled }) : []), [compose, disabled]);
+
+  // The address only ever carries the choice of rules, never the file.
+  useEffect(() => {
+    setDisabled(decodeDisabled(window.location.hash));
+  }, []);
+  function changeDisabled(next: RuleId[]) {
+    setDisabled(next);
+    try {
+      const fragment = encodeDisabled(next);
+      history.replaceState(null, "", fragment ? `#${fragment}` : window.location.pathname + window.location.search);
+    } catch {
+      // The address bar is only a convenience.
+    }
+  }
   const base = useMemo(() => (compose ? makeLayout(compose) : null), [compose]);
   const positions: Positions = useMemo(() => {
     const start = Object.fromEntries((base?.nodes ?? []).map((n) => [n.name, { x: n.x, y: n.y }]));
@@ -148,7 +137,7 @@ export function ComposeLab({ locale }: { locale: Locale }) {
             aria-describedby="cl-hint"
           />
           <p id="cl-hint" className={styles.small}>
-            {t.dropHint}
+            {t.dropHint}. {t.multiHint}
           </p>
         </div>
         <div className={styles.actions}>
@@ -282,6 +271,9 @@ export function ComposeLab({ locale }: { locale: Locale }) {
               );
             })}
           </section>
+
+          <ImproveSection locale={locale} text={deferred} />
+          <RulesSection locale={locale} disabled={disabled} onChange={changeDisabled} />
 
           <section className={styles.block} aria-labelledby="cl-list">
             <div className={styles.blockHead}>
