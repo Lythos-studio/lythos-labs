@@ -56,10 +56,10 @@ const imageBase = (s: Service) => s.image?.name.split("/").pop()?.toLowerCase() 
 const allInterfaces = (p: Port) => !p.hostIp || p.hostIp === "0.0.0.0" || p.hostIp === "::";
 const portText = (p: Port) => (p.published ? `${p.published}:${p.target}` : p.target);
 /** A job runs once and stops (migrations, seeds), so health, restart and limit rules do not apply. */
-const isJob = (s: Service) =>
+export const isJob = (s: Service) =>
   /^(no|false)$/i.test(s.restart ?? "") || s.profiles.length > 0 || /(migrat|init|seed|setup|restore|backup|verify|scan|test|check|job|task|cron|e2e|lint)/i.test(s.name);
 /** A service with neither image nor build is an override of a service defined in another file: what is missing may be defined there. */
-const isDatabase = (s: Service) => DB_IMAGES.has(imageBase(s)) || s.ports.some((p) => DB_PORTS.has(p.target));
+export const isDatabase = (s: Service) => DB_IMAGES.has(imageBase(s)) || s.ports.some((p) => DB_PORTS.has(p.target));
 const networksOf = (s: Service) => (s.networks.length ? s.networks : ["default"]);
 const NO_NEW_PRIVILEGES = /^no-new-privileges(?:[:=]true)?$/i;
 const traefikRouters = (s: Service) => {
@@ -70,7 +70,7 @@ const traefikRouters = (s: Service) => {
   }
   return routers;
 };
-const isOverride = (s: Service) => !s.image && !s.hasBuild;
+export const isOverride = (s: Service) => !s.image && !s.hasBuild;
 
 const levels: Record<Level, number> = { fail: 0, warn: 1, info: 2 };
 const groups: Record<Group, number> = { security: 0, reliability: 1, structure: 2 };
