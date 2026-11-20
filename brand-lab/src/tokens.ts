@@ -39,11 +39,11 @@ export function rgbToHex({ r, g, b }: Rgb): string {
   return `#${part(r)}${part(g)}${part(b)}`;
 }
 
-const toLinear = (v: number) => {
+export const toLinear = (v: number) => {
   const c = v / 255;
   return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 };
-const fromLinear = (v: number) => 255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055);
+export const fromLinear = (v: number) => 255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - 0.055);
 
 export function rgbToOklch({ r, g, b }: Rgb): Oklch {
   const [lr, lg, lb] = [toLinear(r), toLinear(g), toLinear(b)];
