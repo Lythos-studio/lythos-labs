@@ -1,0 +1,87 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-combobox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-1);
+}
+
+.lb-combobox__label {
+  font-weight: 600;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-combobox__input {
+  min-height: 40px;
+  padding: var(--lb-space-2) var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+}
+
+.lb-combobox__hint {
+  margin: 0;
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-combobox__popup {
+  position: absolute;
+  z-index: 20;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  margin-top: var(--lb-space-1);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  box-shadow: var(--lb-shadow);
+  max-height: 16rem;
+  overflow: auto;
+}
+
+.lb-combobox__list {
+  margin: 0;
+  padding: var(--lb-space-1);
+  list-style: none;
+}
+
+.lb-combobox__option {
+  padding: var(--lb-space-2) var(--lb-space-3);
+  border-radius: calc(var(--lb-radius) * 0.75);
+  cursor: pointer;
+}
+
+.lb-combobox__option[aria-selected="true"] {
+  font-weight: 700;
+}
+
+.lb-combobox__option[aria-selected="true"]::after {
+  content: "\2713";
+  margin-inline-start: var(--lb-space-2);
+}
+
+.lb-combobox__option[data-lb-active="true"],
+.lb-combobox__option:hover {
+  background: var(--lb-tint);
+}
+
+.lb-combobox__option[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lb-combobox__status {
+  margin: 0;
+  padding: var(--lb-space-3);
+  color: var(--lb-muted);
+}
+
+@media (forced-colors: active) {
+  .lb-combobox__option[data-lb-active="true"] {
+    outline: 2px solid Highlight;
+  }
+}

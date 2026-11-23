@@ -10,7 +10,7 @@
    "inPagePassed": 8,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:46:59.398Z"
+   "verifiedAt": "2026-11-23T10:56:32.927Z"
   },
   "field": {
    "sourceHash": "e5074dff02fa73ba",
@@ -20,7 +20,7 @@
    "inPagePassed": 8,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:19.519Z"
+   "verifiedAt": "2026-11-23T10:56:53.728Z"
   },
   "choice": {
    "sourceHash": "10dda75fc78ed971",
@@ -30,7 +30,7 @@
    "inPagePassed": 9,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:44.973Z"
+   "verifiedAt": "2026-11-23T10:57:18.752Z"
   },
   "tabs": {
    "sourceHash": "43882c8daa936c6c",
@@ -40,7 +40,7 @@
    "inPagePassed": 11,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:07.016Z"
+   "verifiedAt": "2026-11-23T10:57:46.881Z"
   },
   "accordion": {
    "sourceHash": "3b23924f2fce6429",
@@ -50,7 +50,7 @@
    "inPagePassed": 9,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:28.729Z"
+   "verifiedAt": "2026-11-23T10:56:41.014Z"
   },
   "dialog": {
    "sourceHash": "982d59e3ff5b335b",
@@ -60,7 +60,7 @@
    "inPagePassed": 9,
    "axeStates": 10,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:47.917Z"
+   "verifiedAt": "2026-11-23T10:57:10.017Z"
   },
   "popover": {
    "sourceHash": "c6d1dc3034c8d029",
@@ -70,7 +70,7 @@
    "inPagePassed": 5,
    "axeStates": 6,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:11.369Z"
+   "verifiedAt": "2026-11-23T10:57:31.919Z"
   },
   "tooltip": {
    "sourceHash": "3a087f4ea5675a09",
@@ -80,7 +80,7 @@
    "inPagePassed": 6,
    "axeStates": 6,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:27.324Z"
+   "verifiedAt": "2026-11-23T10:57:47.462Z"
   },
   "menu": {
    "sourceHash": "9c521ab99c6dd011",
@@ -90,7 +90,7 @@
    "inPagePassed": 12,
    "axeStates": 6,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:51.228Z"
+   "verifiedAt": "2026-11-23T10:57:55.671Z"
   },
   "toast": {
    "sourceHash": "2ead3fa06d1c9058",
@@ -100,7 +100,7 @@
    "inPagePassed": 9,
    "axeStates": 6,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:27.500Z"
+   "verifiedAt": "2026-11-23T10:57:14.062Z"
   },
   "feedback": {
    "sourceHash": "d2f8e0349d77446f",
@@ -110,7 +110,7 @@
    "inPagePassed": 8,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:46.602Z"
+   "verifiedAt": "2026-11-23T10:57:34.994Z"
   },
   "card": {
    "sourceHash": "9d7d4667dae22b97",
@@ -120,7 +120,57 @@
    "inPagePassed": 6,
    "axeStates": 4,
    "axeViolations": 0,
-   "verifiedAt": "2026-11-23T10:47:54.210Z"
+   "verifiedAt": "2026-11-23T10:57:50.176Z"
+  },
+  "combobox": {
+   "sourceHash": "180587994644dfd5",
+   "behaviours": 10,
+   "native": 0,
+   "realKeyboardPassed": 10,
+   "inPagePassed": 10,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:57:59.545Z"
+  },
+  "command-palette": {
+   "sourceHash": "7001b5b7eb45595f",
+   "behaviours": 9,
+   "native": 1,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 8,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:56:49.610Z"
+  },
+  "breadcrumb": {
+   "sourceHash": "3f86c69df4e2b687",
+   "behaviours": 8,
+   "native": 1,
+   "realKeyboardPassed": 8,
+   "inPagePassed": 7,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:57:09.826Z"
+  },
+  "slider": {
+   "sourceHash": "7ac80ceb4ca1365e",
+   "behaviours": 8,
+   "native": 3,
+   "realKeyboardPassed": 8,
+   "inPagePassed": 5,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:57:30.979Z"
+  },
+  "toggle-group": {
+   "sourceHash": "b159a125afd06a17",
+   "behaviours": 9,
+   "native": 1,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 8,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:57:51.775Z"
   }
  }
 }

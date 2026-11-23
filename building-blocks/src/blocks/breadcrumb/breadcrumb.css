@@ -1,0 +1,46 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lb-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lb-breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lb-space-1);
+  min-height: 32px;
+}
+
+.lb-breadcrumb__item + .lb-breadcrumb__item::before {
+  content: "/";
+  color: var(--lb-muted);
+  margin-inline-end: var(--lb-space-1);
+}
+
+.lb-root .lb-breadcrumb__link {
+  color: var(--lb-link);
+  text-underline-offset: 3px;
+}
+
+.lb-breadcrumb__current {
+  color: var(--lb-text);
+  font-weight: 600;
+}
+
+.lb-breadcrumb__more {
+  min-width: 32px;
+  min-height: 32px;
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  cursor: pointer;
+}

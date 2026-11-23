@@ -1,0 +1,54 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-toggles {
+  display: inline-flex;
+  flex-wrap: wrap;
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  overflow: hidden;
+  background: var(--lb-surface);
+}
+
+.lb-toggles__button {
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 0;
+  border-inline-end: 1px solid var(--lb-border);
+  background: transparent;
+  color: var(--lb-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lb-toggles__button:last-child {
+  border-inline-end: 0;
+}
+
+.lb-toggles__button:hover:not(:disabled) {
+  background: var(--lb-tint);
+}
+
+.lb-toggles__button[aria-checked="true"],
+.lb-toggles__button[aria-pressed="true"] {
+  background: var(--lb-primary);
+  color: var(--lb-on-primary);
+}
+
+.lb-toggles__button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lb-toggles__button:focus-visible {
+  outline-offset: -3px;
+}
+
+@media (forced-colors: active) {
+  .lb-toggles__button[aria-checked="true"],
+  .lb-toggles__button[aria-pressed="true"] {
+    background: Highlight;
+    color: HighlightText;
+  }
+}

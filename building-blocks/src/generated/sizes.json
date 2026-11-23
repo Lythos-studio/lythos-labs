@@ -58,5 +58,30 @@
   "tsx": 3501,
   "css": 1967,
   "gzip": 1867
+ },
+ "combobox": {
+  "tsx": 6740,
+  "css": 1842,
+  "gzip": 2813
+ },
+ "command-palette": {
+  "tsx": 6569,
+  "css": 1743,
+  "gzip": 2766
+ },
+ "breadcrumb": {
+  "tsx": 2856,
+  "css": 1001,
+  "gzip": 1455
+ },
+ "slider": {
+  "tsx": 2149,
+  "css": 1719,
+  "gzip": 1437
+ },
+ "toggle-group": {
+  "tsx": 3034,
+  "css": 1229,
+  "gzip": 1650
  }
 }

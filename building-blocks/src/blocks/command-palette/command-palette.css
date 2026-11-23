@@ -1,0 +1,78 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-palette {
+  width: min(36rem, calc(100vw - 2 * var(--lb-space-4)));
+  margin-block: 12vh auto;
+  padding: 0;
+  border: 1px solid var(--lb-border);
+  border-radius: calc(var(--lb-radius) * 1.5);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  box-shadow: var(--lb-shadow);
+  overflow: hidden;
+}
+
+.lb-palette::backdrop {
+  background: var(--lb-scrim);
+}
+
+.lb-palette__box {
+  display: flex;
+  flex-direction: column;
+}
+
+.lb-palette__input {
+  min-height: 52px;
+  padding: 0 var(--lb-space-4);
+  border: 0;
+  border-bottom: 1px solid var(--lb-border);
+  background: transparent;
+  color: var(--lb-text);
+  font-size: var(--lb-text-lg);
+}
+
+.lb-palette__input:focus-visible {
+  outline-offset: -3px;
+}
+
+.lb-palette__list {
+  max-height: 20rem;
+  overflow: auto;
+  padding: var(--lb-space-2);
+}
+
+.lb-palette__group-name {
+  padding: var(--lb-space-2) var(--lb-space-3) var(--lb-space-1);
+  font-size: var(--lb-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lb-muted);
+}
+
+.lb-palette__option {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-2) var(--lb-space-3);
+  border-radius: calc(var(--lb-radius) * 0.75);
+  cursor: pointer;
+}
+
+.lb-palette__option[aria-selected="true"] {
+  background: var(--lb-tint);
+}
+
+.lb-palette__hint {
+  color: var(--lb-muted);
+  font-size: var(--lb-text-sm);
+}
+
+.lb-palette__empty {
+  margin: 0;
+  padding: var(--lb-space-6) var(--lb-space-4);
+  text-align: center;
+  color: var(--lb-muted);
+}

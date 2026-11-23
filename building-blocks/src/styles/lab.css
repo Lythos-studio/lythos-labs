@@ -16,4 +16,9 @@
 @import "../blocks/toast/toast.css";
 @import "../blocks/feedback/feedback.css";
 @import "../blocks/card/card.css";
+@import "../blocks/combobox/combobox.css";
+@import "../blocks/command-palette/command-palette.css";
+@import "../blocks/breadcrumb/breadcrumb.css";
+@import "../blocks/slider/slider.css";
+@import "../blocks/toggle-group/toggle-group.css";
 @import "./demo.css";
