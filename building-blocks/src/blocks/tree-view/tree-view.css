@@ -1,0 +1,52 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-tree,
+.lb-tree__group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lb-tree__group {
+  padding-inline-start: var(--lb-space-5);
+}
+
+.lb-tree__item {
+  border-radius: var(--lb-radius);
+  cursor: pointer;
+}
+
+.lb-tree__label {
+  display: flex;
+  align-items: center;
+  gap: var(--lb-space-2);
+  min-height: 36px;
+  padding: 0 var(--lb-space-2);
+  border-radius: var(--lb-radius);
+}
+
+.lb-tree__item:focus-visible {
+  outline: none;
+}
+
+.lb-tree__item:focus-visible > .lb-tree__label {
+  outline: 3px solid var(--lb-focus, var(--lb-primary));
+  outline-offset: -2px;
+}
+
+.lb-tree__item[aria-selected="true"] > .lb-tree__label {
+  background: var(--lb-tint);
+  font-weight: 700;
+}
+
+.lb-tree__item[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lb-tree__twisty {
+  width: 1em;
+  color: var(--lb-muted);
+}

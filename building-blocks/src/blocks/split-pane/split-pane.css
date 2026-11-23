@@ -1,0 +1,38 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-split {
+  display: grid;
+  min-height: 12rem;
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  overflow: hidden;
+}
+
+.lb-split__pane {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lb-space-3);
+}
+
+.lb-split__bar {
+  background: var(--lb-border);
+  touch-action: none;
+}
+
+.lb-split[data-orientation="horizontal"] > .lb-split__bar {
+  width: 10px;
+  cursor: col-resize;
+}
+
+.lb-split[data-orientation="vertical"] > .lb-split__bar {
+  height: 10px;
+  cursor: row-resize;
+}
+
+.lb-split__bar:hover,
+.lb-split__bar:focus-visible {
+  background: var(--lb-primary);
+}

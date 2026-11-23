@@ -103,5 +103,35 @@
   "tsx": 5829,
   "css": 2011,
   "gzip": 2762
+ },
+ "sortable-list": {
+  "tsx": 6641,
+  "css": 1243,
+  "gzip": 2528
+ },
+ "split-pane": {
+  "tsx": 3651,
+  "css": 816,
+  "gzip": 1677
+ },
+ "tree-view": {
+  "tsx": 5307,
+  "css": 1033,
+  "gzip": 2215
+ },
+ "form-kit": {
+  "tsx": 3351,
+  "css": 724,
+  "gzip": 1613
+ },
+ "inline-edit": {
+  "tsx": 4197,
+  "css": 1211,
+  "gzip": 1830
+ },
+ "timeline": {
+  "tsx": 3143,
+  "css": 1927,
+  "gzip": 1860
  }
 }

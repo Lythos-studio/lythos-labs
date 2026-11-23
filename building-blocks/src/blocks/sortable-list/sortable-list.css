@@ -1,0 +1,55 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-sortable__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-2);
+}
+
+.lb-sortable__item {
+  display: flex;
+  align-items: center;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-2) var(--lb-space-3);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+}
+
+.lb-sortable__item[data-lb-grabbed] {
+  border-color: var(--lb-primary);
+  background: var(--lb-tint);
+  box-shadow: var(--lb-shadow);
+}
+
+.lb-sortable__handle {
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: var(--lb-radius);
+  background: none;
+  color: var(--lb-muted);
+  cursor: grab;
+  touch-action: none;
+  letter-spacing: -0.2em;
+}
+
+.lb-sortable__handle[aria-pressed="true"] {
+  color: var(--lb-text);
+  cursor: grabbing;
+}
+
+.lb-sortable__content {
+  flex: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lb-sortable__item {
+    transition: box-shadow 120ms ease, background-color 120ms ease;
+  }
+}

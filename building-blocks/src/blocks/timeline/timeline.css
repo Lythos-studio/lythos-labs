@@ -1,0 +1,89 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-timeline__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-inline-start: 2px solid var(--lb-border);
+}
+
+.lb-timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(6rem, 9rem) 1fr;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-2) 0 var(--lb-space-4) var(--lb-space-4);
+}
+
+.lb-timeline__item::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: -7px;
+  top: 0.9rem;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--lb-muted);
+  border-radius: 999px;
+  background: var(--lb-bg);
+}
+
+.lb-timeline__item[data-status="done"]::before {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+}
+
+.lb-timeline__item[data-status="current"]::before {
+  border-color: var(--lb-primary);
+  box-shadow: 0 0 0 3px var(--lb-tint);
+}
+
+.lb-timeline__item[data-status="failed"]::before {
+  border-color: var(--lb-danger-text);
+  background: var(--lb-danger-bg);
+}
+
+.lb-timeline__time {
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-timeline__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lb-timeline__title {
+  font-weight: 700;
+}
+
+.lb-timeline__status {
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-timeline__item[data-status="failed"] .lb-timeline__status {
+  color: var(--lb-danger-text);
+  font-weight: 600;
+}
+
+.lb-timeline__more {
+  margin-top: var(--lb-space-2);
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 30rem) {
+  .lb-timeline__item {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

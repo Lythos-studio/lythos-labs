@@ -27,4 +27,10 @@ export const fixtures: Record<string, () => Promise<FixtureModule>> = {
   "slider": () => import("../blocks/slider/fixture"),
   "toggle-group": () => import("../blocks/toggle-group/fixture"),
   "file-drop": () => import("../blocks/file-drop/fixture"),
+  "sortable-list": () => import("../blocks/sortable-list/fixture"),
+  "split-pane": () => import("../blocks/split-pane/fixture"),
+  "tree-view": () => import("../blocks/tree-view/fixture"),
+  "form-kit": () => import("../blocks/form-kit/fixture"),
+  "inline-edit": () => import("../blocks/inline-edit/fixture"),
+  "timeline": () => import("../blocks/timeline/fixture"),
 };

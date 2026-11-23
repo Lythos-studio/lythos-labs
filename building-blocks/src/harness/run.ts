@@ -59,7 +59,7 @@ function perform(root: ParentNode, step: Step): Promise<void> | void {
   } else if ("type" in step) {
     const el = (root as Element).ownerDocument.activeElement as HTMLInputElement | null;
     for (const ch of step.type) {
-      if (el && "value" in el && el.tagName !== "BUTTON") {
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA")) {
         keyEvent("keydown", ch, el);
         setValue(el, el.value + ch);
         keyEvent("keyup", ch, el);

@@ -1,0 +1,55 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lb-space-2);
+}
+
+.lb-inline__value[data-empty] {
+  color: var(--lb-muted);
+  font-style: italic;
+}
+
+.lb-inline__edit,
+.lb-inline__btn {
+  min-height: 36px;
+  padding: 0 var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lb-inline__btn--primary {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+  color: var(--lb-on-primary);
+}
+
+.lb-inline__input {
+  min-height: 36px;
+  min-width: 12rem;
+  padding: 0 var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+}
+
+.lb-inline__input[aria-invalid="true"] {
+  border-color: var(--lb-danger-text);
+}
+
+.lb-inline__error {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--lb-text-sm);
+  color: var(--lb-danger-text);
+}
