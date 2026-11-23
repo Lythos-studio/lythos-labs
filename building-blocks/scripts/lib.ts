@@ -38,7 +38,8 @@ export function allCopyFiles(): string[] {
 }
 
 export function buildSources(): Record<string, string> {
-  return Object.fromEntries(allCopyFiles().map((f) => [f, read(f)]));
+  // base.css has the defaults for every --lb-* variable; the starter kit includes it.
+  return Object.fromEntries([...allCopyFiles(), "styles/base.css"].sort().map((f) => [f, read(f)]));
 }
 
 export function buildSizes(): Record<string, { tsx: number; css: number; gzip: number }> {

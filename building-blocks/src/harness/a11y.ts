@@ -142,21 +142,29 @@ export function a11yTree(roots: A11yNode[], byId: (id: string) => A11yNode | und
   return rows;
 }
 
+/** Optional bookkeeping while converting: which node came from which element, and the nodes by id (for aria-labelledby). */
+export type NodeIndex = { els: Map<A11yNode, Element>; ids: Map<string, A11yNode> };
+
 /** Adapter for real elements. */
-export function fromElement(el: Element): A11yNode {
+export function fromElement(el: Element, index?: NodeIndex): A11yNode {
   const attrs: Record<string, string> = {};
   for (const a of Array.from(el.attributes)) attrs[a.name] = a.value;
   const style = el instanceof HTMLElement ? getComputedStyle(el) : null;
   const hidden = el.hasAttribute("hidden") || el.hasAttribute("inert") || style?.display === "none" || style?.visibility === "hidden";
   const labels = (el as HTMLInputElement).labels;
-  return {
+  const node: A11yNode = {
     tag: el.tagName.toLowerCase(),
     attrs,
     hidden,
     labelText: labels ? Array.from(labels).map((l) => l.textContent ?? "").join(" ") : undefined,
     checked: (el as HTMLInputElement).checked === true,
     children: Array.from(el.childNodes).flatMap((c) =>
-      c.nodeType === 3 ? [{ tag: "#text", attrs: {}, text: c.textContent ?? "", children: [] }] : c.nodeType === 1 ? [fromElement(c as Element)] : [],
+      c.nodeType === 3 ? [{ tag: "#text", attrs: {}, text: c.textContent ?? "", children: [] }] : c.nodeType === 1 ? [fromElement(c as Element, index)] : [],
     ),
   };
+  if (index) {
+    index.els.set(node, el);
+    if (el.id) index.ids.set(el.id, node);
+  }
+  return node;
 }

@@ -5,4 +5,4 @@
 export type { Behaviour, BehaviourResult, Contract, Expect, Ref, Step } from "./types";
 export { checkExpect, parseRef, resolve } from "./check";
 export { pressKey, runBehaviour, runContract, type Mounted } from "./run";
-export { a11yTree, accessibleName, fromElement, roleOf, tabOrder, type A11yNode, type TreeRow } from "./a11y";
+export { a11yTree, accessibleName, fromElement, roleOf, tabOrder, type A11yNode, type NodeIndex, type TreeRow } from "./a11y";

@@ -5,4 +5,6 @@
 export { BlockPage } from "./BlockPage";
 export { Overview } from "./Overview";
 export { labCopy, type LabCopy, type LabLocale } from "./copy";
-export { blocksPaths, blockHref } from "./paths";
+export { KitBuilder } from "./KitBuilder";
+export { Principles } from "./Principles";
+export { blocksPaths, blockHref, kitPath, principlesPath } from "./paths";

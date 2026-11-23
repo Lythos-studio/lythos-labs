@@ -11,3 +11,7 @@ export const blocksPaths = {
 };
 
 export const blockHref = (locale: LabLocale, slug: string) => blocksPaths.block(slug)[locale];
+
+export const kitPath = { en: "/blocks/kit", nl: "/nl/bouwstenen/kit" };
+export const recipesPath = { en: "/blocks/recipes", nl: "/nl/bouwstenen/recepten" };
+export const principlesPath = { en: "/blocks/principles", nl: "/nl/bouwstenen/principes" };

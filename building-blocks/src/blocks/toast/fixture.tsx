@@ -52,7 +52,7 @@ export const playground: PlaygroundDef = {
     { name: "title", label: { en: "Title", nl: "Titel" }, kind: "text", default: "Saved" },
   ],
   render: (v) => (
-    <ToastProvider>
+    <ToastProvider label="Playground notifications">
       <Demo tone={v.tone as "info"} title={String(v.title)} />
     </ToastProvider>
   ),

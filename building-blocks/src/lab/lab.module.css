@@ -301,3 +301,331 @@
   margin-top: 8px;
   font-size: 1.125rem !important;
 }
+
+/* Lens, stress, theme bar, wall, code, evidence, kit */
+.stageWrap {
+  position: relative;
+}
+
+.lensLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.lensBox {
+  position: absolute;
+  outline: 2px dashed #ff8a3d;
+  outline-offset: 1px;
+  border-radius: 4px;
+}
+
+.lensBadge {
+  position: absolute;
+  inset-block-start: -10px;
+  inset-inline-start: -10px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff8a3d;
+  color: #1a0f00;
+  font: 700 12px/20px system-ui, sans-serif;
+  text-align: center;
+}
+
+.lensPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid #222a4a;
+  border-radius: 10px;
+  background: #0b1022;
+  min-width: 0;
+}
+
+.lensPanel h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+  max-height: 22rem;
+  overflow: auto;
+}
+
+.tree code {
+  color: #8fa2ff;
+}
+
+.tree q {
+  color: #fff;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: center;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #e9edff;
+  font-size: 0.9375rem;
+}
+
+.check input {
+  width: 20px;
+  height: 20px;
+  accent-color: #2449df;
+}
+
+.lensGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+}
+
+.stressGrid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.stressField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.stressField select,
+.themeBar select,
+.themeBar input[type="text"] {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+  color: #fff;
+  font: inherit;
+}
+
+.themeBar {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  padding: 18px 20px;
+  border: 1px solid #222a4a;
+  border-radius: 12px;
+  background: #0f1530;
+}
+
+.themeBar label,
+.themeBar fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.themeBar input[type="color"] {
+  width: 100%;
+  height: 40px;
+  padding: 2px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+}
+
+.themeActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: end;
+}
+
+.themeBar select:focus-visible,
+.themeBar input:focus-visible,
+.stressField select:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.error {
+  margin: 0;
+  color: #ffb3b3;
+  font-size: 0.8125rem;
+}
+
+.wall {
+  border: 1px solid #222a4a;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.code {
+  margin: 0;
+  max-height: 26rem;
+  overflow: auto;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #070a17;
+  border: 1px solid #222a4a;
+  color: #c9d3ff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.fileTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fileTabs button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: transparent;
+  color: #c3cbe6;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.fileTabs button[aria-pressed="true"] {
+  background: #2449df;
+  color: #fff;
+  border-color: #2449df;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 20px;
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #c3cbe6;
+}
+
+.facts dt {
+  color: #9aa3c4;
+}
+
+.facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.playground {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #222a4a;
+  border-radius: 10px;
+  background: #0f1530;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.controls input[type="text"],
+.controls select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+  color: #fff;
+  font: inherit;
+}
+
+.controls input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #2449df;
+}
+
+.kitList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+@media (max-width: 760px) {
+  .playground {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.themeDetails {
+  border: 1px solid #222a4a;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #0b1022;
+  color: #e9edff;
+}
+
+.themeDetails > summary {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.themeDetails[open] > summary {
+  margin-bottom: 12px;
+}
+
+.stageOuter {
+  background: #fff;
+}
+
+/* Links styled as buttons: the page's own link colour must not win. */
+.lab a.primary {
+  color: #0b1022;
+}
+
+.lab a.ghost {
+  color: #fff;
+}
