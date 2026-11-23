@@ -8,7 +8,8 @@ import { gzipSync } from "node:zlib";
 import { catalog } from "../src/catalog";
 
 export const SRC = new URL("../src/", import.meta.url);
-export const read = (path: string) => readFileSync(new URL(path, SRC), "utf8");
+// Generated sources, size budgets and evidence hashes use the same bytes on every checkout.
+export const read = (path: string) => readFileSync(new URL(path, SRC), "utf8").replaceAll("\r\n", "\n");
 
 export { importsOf } from "../src/lab/kit/resolve";
 import { importsOf } from "../src/lab/kit/resolve";

@@ -6,6 +6,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { createRequire } from "node:module";
+import { dirname, resolve } from "node:path";
 import { crc32 as nodeCrc32 } from "node:zlib";
 import { catalog } from "../src/catalog";
 import { sources } from "../src/generated/sources";
@@ -81,8 +83,11 @@ test("a kit of every block compiles on its own with strict TypeScript (React is 
     writeFileSync(url, f.content);
   }
   writeFileSync(new URL("tsconfig.json", dir), JSON.stringify({ compilerOptions: { target: "ES2022", lib: ["DOM", "DOM.Iterable", "ES2022"], module: "ESNext", moduleResolution: "Bundler", jsx: "react-jsx", strict: true, noEmit: true, skipLibCheck: true, types: [] }, include: ["**/*.ts", "**/*.tsx"] }));
-  const result = spawnSync("npx", ["tsc", "-p", "."], { cwd: dir.pathname, encoding: "utf8" });
+  const require = createRequire(import.meta.url);
+  const tsc = resolve(dirname(require.resolve("typescript/package.json")), require("typescript/package.json").bin.tsc);
+  const result = spawnSync(process.execPath, [tsc, "-p", "."], { cwd: dir, encoding: "utf8" });
   rmSync(dir, { recursive: true, force: true });
+  assert.ifError(result.error);
   assert.equal(result.status, 0, result.stdout + result.stderr);
   assert.ok(files.some((f) => f.path === "tokens.css" && f.content.includes("--lb-primary")));
   assert.ok(files.some((f) => f.path === "styles.css" && f.content.includes("@import")));
