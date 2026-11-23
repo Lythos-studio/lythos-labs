@@ -4,3 +4,4 @@
 
 export { catalog, bySlug } from "./catalog";
 export type { BlockEntry, BlockMeta, Localized, Tier } from "./catalog-types";
+export { buildLlmsTxt, buildRegistry } from "./registry-json";
