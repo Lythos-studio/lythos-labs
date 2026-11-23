@@ -18,8 +18,10 @@
   "scripts": {
     "test": "tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "register": "node scripts/register.mjs",
     "gen": "tsx scripts/gen.ts",
-    "e2e": "playwright test -c e2e/playwright.config.ts"
+    "e2e": "playwright test -c e2e/playwright.config.ts",
+    "evidence": "npm run e2e && npm run gen"
   },
   "peerDependencies": {
     "react": "^19.3.0",

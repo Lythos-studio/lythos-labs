@@ -1,0 +1,62 @@
+{
+ "button": {
+  "tsx": 2057,
+  "css": 2029,
+  "gzip": 1475
+ },
+ "field": {
+  "tsx": 5798,
+  "css": 1729,
+  "gzip": 2192
+ },
+ "choice": {
+  "tsx": 4684,
+  "css": 2168,
+  "gzip": 2068
+ },
+ "tabs": {
+  "tsx": 3227,
+  "css": 1619,
+  "gzip": 1770
+ },
+ "accordion": {
+  "tsx": 3611,
+  "css": 1475,
+  "gzip": 1855
+ },
+ "dialog": {
+  "tsx": 4835,
+  "css": 2265,
+  "gzip": 2458
+ },
+ "popover": {
+  "tsx": 2506,
+  "css": 968,
+  "gzip": 1426
+ },
+ "tooltip": {
+  "tsx": 2715,
+  "css": 638,
+  "gzip": 1454
+ },
+ "menu": {
+  "tsx": 4744,
+  "css": 1865,
+  "gzip": 2299
+ },
+ "toast": {
+  "tsx": 4277,
+  "css": 1982,
+  "gzip": 2328
+ },
+ "feedback": {
+  "tsx": 4778,
+  "css": 4173,
+  "gzip": 2748
+ },
+ "card": {
+  "tsx": 3501,
+  "css": 1967,
+  "gzip": 1867
+ }
+}

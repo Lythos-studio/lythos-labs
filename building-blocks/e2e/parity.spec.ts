@@ -27,15 +27,13 @@ for (const { meta, contract } of catalog) {
       await page.close();
     });
 
-    test.afterAll(() => {
-      writeFileSync(`${OUT}parity-${meta.slug}.json`, JSON.stringify({ slug: meta.slug, harness, real, at: new Date().toISOString() }, null, 2));
-    });
-
     for (const b of contract.behaviours) {
       test(`${b.id}: ${b.title}`, async ({ page }) => {
         await open(page, meta.slug);
         const reason = await realRun(page, b);
         real[b.id] = reason ? "fail" : "pass";
+        // One file per behaviour: workers run in parallel and must not overwrite each other.
+        writeFileSync(`${OUT}parity-${meta.slug}--${b.id}.json`, JSON.stringify({ slug: meta.slug, id: b.id, real: real[b.id], harness: harness[b.id], at: new Date().toISOString() }));
         expect(reason, `with the real keyboard: ${reason}`).toBeNull();
         if (b.kind === "native") expect(harness[b.id], "native behaviours are skipped in the page").toBe("skipped");
         else expect(harness[b.id], "the in-page check must agree with the real keyboard").toBe("pass");

@@ -1,0 +1,126 @@
+{
+ "generatedBy": "scripts/gen.ts",
+ "note": "Measured by the end-to-end tests (real Chromium, real keyboard, axe-core). Not a certification.",
+ "blocks": {
+  "button": {
+   "sourceHash": "8bdbf3a3bf6180c3",
+   "behaviours": 9,
+   "native": 1,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 8,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:19.791Z"
+  },
+  "field": {
+   "sourceHash": "e5074dff02fa73ba",
+   "behaviours": 9,
+   "native": 1,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 8,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:38.679Z"
+  },
+  "choice": {
+   "sourceHash": "10dda75fc78ed971",
+   "behaviours": 10,
+   "native": 1,
+   "realKeyboardPassed": 10,
+   "inPagePassed": 9,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:38:01.508Z"
+  },
+  "tabs": {
+   "sourceHash": "43882c8daa936c6c",
+   "behaviours": 12,
+   "native": 1,
+   "realKeyboardPassed": 12,
+   "inPagePassed": 11,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:28.798Z"
+  },
+  "accordion": {
+   "sourceHash": "569a0272e2d721f7",
+   "behaviours": 9,
+   "native": 0,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 9,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:47.551Z"
+  },
+  "dialog": {
+   "sourceHash": "982d59e3ff5b335b",
+   "behaviours": 12,
+   "native": 3,
+   "realKeyboardPassed": 12,
+   "inPagePassed": 9,
+   "axeStates": 10,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:38:04.557Z"
+  },
+  "popover": {
+   "sourceHash": "c6d1dc3034c8d029",
+   "behaviours": 7,
+   "native": 2,
+   "realKeyboardPassed": 7,
+   "inPagePassed": 5,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:32.720Z"
+  },
+  "tooltip": {
+   "sourceHash": "3a087f4ea5675a09",
+   "behaviours": 6,
+   "native": 0,
+   "realKeyboardPassed": 6,
+   "inPagePassed": 6,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:46.047Z"
+  },
+  "menu": {
+   "sourceHash": "9c521ab99c6dd011",
+   "behaviours": 14,
+   "native": 2,
+   "realKeyboardPassed": 14,
+   "inPagePassed": 12,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:38:06.455Z"
+  },
+  "toast": {
+   "sourceHash": "adee49a13052b04b",
+   "behaviours": 9,
+   "native": 0,
+   "realKeyboardPassed": 9,
+   "inPagePassed": 9,
+   "axeStates": 6,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:37:45.623Z"
+  },
+  "feedback": {
+   "sourceHash": "d2f8e0349d77446f",
+   "behaviours": 8,
+   "native": 0,
+   "realKeyboardPassed": 8,
+   "inPagePassed": 8,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:38:02.655Z"
+  },
+  "card": {
+   "sourceHash": "9d7d4667dae22b97",
+   "behaviours": 6,
+   "native": 0,
+   "realKeyboardPassed": 6,
+   "inPagePassed": 6,
+   "axeStates": 4,
+   "axeViolations": 0,
+   "verifiedAt": "2026-11-23T10:38:09.228Z"
+  }
+ }
+}
