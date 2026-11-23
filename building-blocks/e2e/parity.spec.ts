@@ -3,12 +3,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import { mkdirSync, writeFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { open, realRun } from "./helpers";
 import { catalog } from "../src/catalog";
 import type { Behaviour } from "../src/harness/types";
 
-const OUT = new URL("./out/", import.meta.url).pathname;
+const OUT = fileURLToPath(new URL("./out/", import.meta.url));
 mkdirSync(OUT, { recursive: true });
 
 for (const { meta, contract } of catalog) {

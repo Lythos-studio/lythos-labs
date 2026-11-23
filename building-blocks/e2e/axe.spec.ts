@@ -4,11 +4,12 @@
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 import { catalog } from "../src/catalog";
 import { open, runSteps } from "./helpers";
 
-const OUT = new URL("./out/", import.meta.url).pathname;
+const OUT = fileURLToPath(new URL("./out/", import.meta.url));
 mkdirSync(OUT, { recursive: true });
 const axePath = createRequire(import.meta.url).resolve("axe-core/axe.min.js");
 
