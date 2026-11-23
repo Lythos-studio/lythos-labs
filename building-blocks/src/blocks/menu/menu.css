@@ -1,0 +1,85 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.lb-menu__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lb-space-2);
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lb-menu__button[aria-expanded="true"] {
+  background: var(--lb-tint);
+}
+
+.lb-menu__chevron {
+  width: 8px;
+  height: 8px;
+  border-inline-end: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.lb-menu__list {
+  position: absolute;
+  z-index: 20;
+  inset-block-start: calc(100% + var(--lb-space-1));
+  inset-inline-start: 0;
+  min-width: 12rem;
+  padding: var(--lb-space-1);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  box-shadow: var(--lb-shadow);
+}
+
+.lb-menu[data-lb-align="end"] .lb-menu__list {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+
+.lb-menu__separator {
+  height: 1px;
+  margin: var(--lb-space-1) 0;
+  background: var(--lb-border);
+}
+
+.lb-menu__item {
+  display: block;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 var(--lb-space-3);
+  border: 0;
+  border-radius: calc(var(--lb-radius) * 0.75);
+  background: transparent;
+  color: var(--lb-text);
+  text-align: start;
+  cursor: pointer;
+}
+
+.lb-menu__item:hover:not(:disabled),
+.lb-menu__item:focus-visible {
+  background: var(--lb-tint);
+}
+
+.lb-menu__item[data-lb-danger="true"] {
+  color: var(--lb-danger-text);
+}
+
+.lb-menu__item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

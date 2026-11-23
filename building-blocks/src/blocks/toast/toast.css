@@ -1,0 +1,97 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-toasts {
+  position: fixed;
+  inset-block-end: var(--lb-space-4);
+  inset-inline-end: var(--lb-space-4);
+  z-index: 30;
+  width: min(24rem, calc(100vw - 2 * var(--lb-space-4)));
+  pointer-events: none;
+}
+
+.lb-toasts__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-2);
+}
+
+.lb-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-3) var(--lb-space-4);
+  border: 1px solid currentColor;
+  border-inline-start-width: 6px;
+  border-radius: var(--lb-radius);
+  background: var(--lb-info-bg);
+  color: var(--lb-info-text);
+  box-shadow: var(--lb-shadow);
+  pointer-events: auto;
+}
+
+.lb-toast[data-lb-tone="success"] {
+  background: var(--lb-success-bg);
+  color: var(--lb-success-text);
+}
+
+.lb-toast[data-lb-tone="warning"] {
+  background: var(--lb-warning-bg);
+  color: var(--lb-warning-text);
+}
+
+.lb-toast[data-lb-tone="danger"] {
+  background: var(--lb-danger-bg);
+  color: var(--lb-danger-text);
+}
+
+.lb-toast__text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.lb-toast__description {
+  font-size: var(--lb-text-sm);
+}
+
+.lb-toast__action,
+.lb-toast__dismiss {
+  flex: none;
+  min-height: 36px;
+  border: 1px solid currentColor;
+  border-radius: calc(var(--lb-radius) * 0.75);
+  background: transparent;
+  color: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lb-toast__action {
+  padding: 0 var(--lb-space-3);
+}
+
+.lb-toast__dismiss {
+  width: 36px;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lb-toast {
+    animation: lb-toast-in 180ms ease-out;
+  }
+}
+
+@keyframes lb-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

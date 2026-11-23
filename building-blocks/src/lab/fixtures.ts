@@ -14,4 +14,8 @@ export const fixtures: Record<string, () => Promise<FixtureModule>> = {
   "dialog": () => import("../blocks/dialog/fixture"),
   "popover": () => import("../blocks/popover/fixture"),
   "tooltip": () => import("../blocks/tooltip/fixture"),
+  "menu": () => import("../blocks/menu/fixture"),
+  "toast": () => import("../blocks/toast/fixture"),
+  "feedback": () => import("../blocks/feedback/fixture"),
+  "card": () => import("../blocks/card/fixture"),
 };

@@ -63,6 +63,7 @@
   font-family: var(--lb-font-heading);
   font-weight: var(--lb-weight-heading);
   line-height: 1.2;
+  color: inherit;
   margin: 0;
 }
 

@@ -1,0 +1,210 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-3) var(--lb-space-4);
+  border: 1px solid currentColor;
+  border-inline-start-width: 6px;
+  border-radius: var(--lb-radius);
+  background: var(--lb-info-bg);
+  color: var(--lb-info-text);
+}
+
+.lb-alert[data-lb-tone="success"] {
+  background: var(--lb-success-bg);
+  color: var(--lb-success-text);
+}
+
+.lb-alert[data-lb-tone="warning"] {
+  background: var(--lb-warning-bg);
+  color: var(--lb-warning-text);
+}
+
+.lb-alert[data-lb-tone="danger"] {
+  background: var(--lb-danger-bg);
+  color: var(--lb-danger-text);
+}
+
+.lb-alert__mark {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 0.4em;
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.lb-alert[data-lb-tone="warning"] .lb-alert__mark {
+  border-radius: 0;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.lb-alert[data-lb-tone="danger"] .lb-alert__mark {
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+
+.lb-alert__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: anywhere;
+}
+
+.lb-alert__dismiss {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid currentColor;
+  border-radius: calc(var(--lb-radius) * 0.75);
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb-callout {
+  padding: var(--lb-space-4);
+  border-inline-start: 4px solid var(--lb-primary);
+  border-radius: 0 var(--lb-radius) var(--lb-radius) 0;
+  background: var(--lb-surface);
+  color: var(--lb-text);
+}
+
+.lb-callout__title {
+  font-size: var(--lb-text-base);
+  margin-bottom: var(--lb-space-1);
+}
+
+.lb-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--lb-space-3);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-size: var(--lb-text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lb-badge[data-lb-tone="info"] {
+  background: var(--lb-info-bg);
+  color: var(--lb-info-text);
+}
+
+.lb-badge[data-lb-tone="success"] {
+  background: var(--lb-success-bg);
+  color: var(--lb-success-text);
+}
+
+.lb-badge[data-lb-tone="warning"] {
+  background: var(--lb-warning-bg);
+  color: var(--lb-warning-text);
+}
+
+.lb-badge[data-lb-tone="danger"] {
+  background: var(--lb-danger-bg);
+  color: var(--lb-danger-text);
+}
+
+.lb-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-1);
+}
+
+.lb-progress__head {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--lb-text-sm);
+  font-weight: 600;
+}
+
+.lb-progress__bar {
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--lb-border);
+  accent-color: var(--lb-primary);
+}
+
+.lb-progress__bar::-webkit-progress-bar {
+  background: var(--lb-border);
+}
+
+.lb-progress__bar::-webkit-progress-value {
+  background: var(--lb-primary);
+  border-radius: 999px;
+}
+
+.lb-progress__bar::-moz-progress-bar {
+  background: var(--lb-primary);
+  border-radius: 999px;
+}
+
+.lb-spinner {
+  display: inline-flex;
+  align-items: center;
+}
+
+.lb-spinner__circle {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 3px solid var(--lb-border);
+  border-top-color: var(--lb-primary);
+  border-radius: 50%;
+  animation: lb-spin 800ms linear infinite;
+}
+
+.lb-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-2);
+}
+
+.lb-skeleton {
+  display: block;
+  height: 1em;
+  border-radius: var(--lb-radius);
+  background: var(--lb-border);
+}
+
+.lb-skeleton--circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.lb-skeleton--block {
+  width: 100%;
+  height: 8rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lb-skeleton {
+    animation: lb-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes lb-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (forced-colors: active) {
+  .lb-progress__bar::-webkit-progress-value {
+    background: Highlight;
+  }
+}

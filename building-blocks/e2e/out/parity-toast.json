@@ -1,0 +1,26 @@
+{
+  "slug": "toast",
+  "harness": {
+    "region": "pass",
+    "shows": "pass",
+    "dismiss-button": "pass",
+    "auto-dismiss": "pass",
+    "pause-on-focus": "pass",
+    "pause-on-hover": "pass",
+    "action-stays": "pass",
+    "action-runs": "pass",
+    "stacking": "pass"
+  },
+  "real": {
+    "region": "pass",
+    "shows": "pass",
+    "dismiss-button": "pass",
+    "auto-dismiss": "pass",
+    "pause-on-focus": "pass",
+    "pause-on-hover": "pass",
+    "action-stays": "pass",
+    "action-runs": "pass",
+    "stacking": "pass"
+  },
+  "at": "2026-11-23T10:34:01.387Z"
+}

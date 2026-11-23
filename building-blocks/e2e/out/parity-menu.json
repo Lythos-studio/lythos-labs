@@ -1,0 +1,32 @@
+{
+  "slug": "menu",
+  "harness": {
+    "closed-state": "pass",
+    "click-opens": "pass",
+    "arrow-down-opens": "pass",
+    "arrow-up-opens-last": "pass",
+    "arrow-moves": "pass",
+    "skips-disabled": "pass",
+    "wraps": "pass",
+    "home-end": "pass",
+    "typeahead": "pass",
+    "escape-closes": "pass",
+    "enter-chooses": "pass",
+    "click-item": "pass",
+    "outside-click-closes": "skipped",
+    "tab-closes": "skipped"
+  },
+  "real": {
+    "closed-state": "pass",
+    "click-opens": "pass",
+    "arrow-down-opens": "pass",
+    "arrow-up-opens-last": "pass",
+    "arrow-moves": "pass",
+    "skips-disabled": "pass",
+    "wraps": "pass",
+    "home-end": "pass",
+    "typeahead": "pass",
+    "escape-closes": "pass"
+  },
+  "at": "2026-11-23T10:34:20.437Z"
+}

@@ -18,7 +18,9 @@
     "error-linked": "pass",
     "typing": "pass",
     "counter": "pass",
-    "reveal-toggles": "pass"
+    "reveal-toggles": "pass",
+    "reveal-twice": "pass",
+    "tab-to-reveal": "pass"
   },
-  "at": "2026-11-23T10:25:38.618Z"
+  "at": "2026-11-23T10:33:55.629Z"
 }

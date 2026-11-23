@@ -12,4 +12,8 @@
 @import "../blocks/dialog/dialog.css";
 @import "../blocks/popover/popover.css";
 @import "../blocks/tooltip/tooltip.css";
+@import "../blocks/menu/menu.css";
+@import "../blocks/toast/toast.css";
+@import "../blocks/feedback/feedback.css";
+@import "../blocks/card/card.css";
 @import "./demo.css";

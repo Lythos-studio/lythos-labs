@@ -10,7 +10,11 @@
   },
   "real": {
     "hidden-by-default": "pass",
-    "focus-shows": "pass"
+    "focus-shows": "pass",
+    "escape-hides": "pass",
+    "blur-hides": "pass",
+    "hover-shows-after-delay": "pass",
+    "no-description-when-closed": "pass"
   },
-  "at": "2026-11-23T10:28:42.810Z"
+  "at": "2026-11-23T10:33:59.564Z"
 }

@@ -11,7 +11,12 @@
   },
   "real": {
     "closed-state": "pass",
-    "click-opens": "pass"
+    "click-opens": "pass",
+    "enter-opens": "pass",
+    "focus-moves-in": "pass",
+    "toggle-closes": "pass",
+    "escape-closes": "pass",
+    "outside-click-closes": "pass"
   },
-  "at": "2026-11-23T10:28:42.516Z"
+  "at": "2026-11-23T10:33:47.033Z"
 }

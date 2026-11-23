@@ -1,0 +1,105 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lb-border);
+  border-radius: calc(var(--lb-radius) * 1.5);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.lb-card__media {
+  background: var(--lb-surface);
+}
+
+.lb-card__media > * {
+  display: block;
+  width: 100%;
+}
+
+.lb-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-2);
+  padding: var(--lb-space-4);
+  flex: 1;
+}
+
+.lb-card__title {
+  font-size: var(--lb-text-lg);
+  overflow-wrap: anywhere;
+}
+
+.lb-card__content {
+  color: var(--lb-muted);
+}
+
+.lb-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lb-space-2);
+  padding: var(--lb-space-3) var(--lb-space-4);
+  border-top: 1px solid var(--lb-border);
+}
+
+.lb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lb-space-2);
+  padding: var(--lb-space-8) var(--lb-space-4);
+  border: 1px dashed var(--lb-border);
+  border-radius: calc(var(--lb-radius) * 1.5);
+  text-align: center;
+}
+
+.lb-empty__title {
+  font-size: var(--lb-text-lg);
+}
+
+.lb-empty__text {
+  margin: 0;
+  max-width: 32rem;
+  color: var(--lb-muted);
+}
+
+.lb-empty__action {
+  margin-top: var(--lb-space-2);
+}
+
+.lb-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border-radius: 50%;
+  background: var(--lb-tint);
+  color: var(--lb-info-text);
+  font-weight: 700;
+  object-fit: cover;
+  border: 2px solid var(--lb-bg);
+}
+
+.lb-avatar--more {
+  width: 40px;
+  height: 40px;
+  font-size: 0.85rem;
+  background: var(--lb-surface);
+  color: var(--lb-text);
+}
+
+.lb-avatars {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lb-avatars > li + li {
+  margin-inline-start: -10px;
+}
