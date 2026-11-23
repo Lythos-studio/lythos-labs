@@ -1,0 +1,100 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-stepper__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lb-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lb-stepper__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lb-space-2);
+}
+
+.lb-stepper__marker {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  border: 2px solid var(--lb-muted);
+  border-radius: 999px;
+  font-size: var(--lb-text-sm);
+  font-weight: 700;
+}
+
+.lb-stepper__item[data-state="done"] .lb-stepper__marker {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+  color: var(--lb-on-primary);
+}
+
+.lb-stepper__item[data-state="current"] .lb-stepper__marker {
+  border-color: var(--lb-primary);
+  box-shadow: 0 0 0 3px var(--lb-tint);
+}
+
+.lb-stepper__item[data-state="current"] .lb-stepper__label {
+  font-weight: 700;
+}
+
+.lb-stepper__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.lb-stepper__description {
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-wizard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-4);
+}
+
+.lb-wizard__panel {
+  padding: var(--lb-space-4);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+}
+
+.lb-wizard__heading {
+  margin: 0 0 var(--lb-space-3);
+  font-size: var(--lb-text-lg);
+}
+
+.lb-wizard__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--lb-space-3);
+}
+
+.lb-wizard__btn {
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lb-wizard__btn--primary {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+  color: var(--lb-on-primary);
+}
+
+.lb-wizard__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

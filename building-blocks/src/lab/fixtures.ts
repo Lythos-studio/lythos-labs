@@ -20,7 +20,11 @@ export const fixtures: Record<string, () => Promise<FixtureModule>> = {
   "card": () => import("../blocks/card/fixture"),
   "combobox": () => import("../blocks/combobox/fixture"),
   "command-palette": () => import("../blocks/command-palette/fixture"),
+  "data-table": () => import("../blocks/data-table/fixture"),
   "breadcrumb": () => import("../blocks/breadcrumb/fixture"),
+  "stepper": () => import("../blocks/stepper/fixture"),
+  "date-picker": () => import("../blocks/date-picker/fixture"),
   "slider": () => import("../blocks/slider/fixture"),
   "toggle-group": () => import("../blocks/toggle-group/fixture"),
+  "file-drop": () => import("../blocks/file-drop/fixture"),
 };

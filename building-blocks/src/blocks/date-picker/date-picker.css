@@ -1,0 +1,144 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-calendar {
+  display: inline-block;
+  padding: var(--lb-space-3);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+}
+
+.lb-calendar__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lb-space-2);
+}
+
+.lb-calendar__title {
+  font-weight: 700;
+}
+
+.lb-calendar__nav {
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: var(--lb-radius);
+  background: none;
+  color: inherit;
+  font-size: var(--lb-text-xl);
+  cursor: pointer;
+}
+
+.lb-calendar__nav:hover {
+  background: var(--lb-tint);
+}
+
+.lb-calendar__grid {
+  border-collapse: collapse;
+}
+
+.lb-calendar__grid th {
+  padding: var(--lb-space-1);
+  font-size: var(--lb-text-xs);
+  font-weight: 600;
+  color: var(--lb-muted);
+}
+
+.lb-calendar__grid td {
+  padding: 1px;
+  text-align: center;
+}
+
+.lb-calendar__day {
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: var(--lb-radius);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.lb-calendar__day:hover {
+  background: var(--lb-tint);
+}
+
+.lb-calendar__day[data-lb-today] {
+  border-color: var(--lb-muted);
+}
+
+[aria-selected="true"] > .lb-calendar__day {
+  background: var(--lb-primary);
+  color: var(--lb-on-primary);
+  font-weight: 700;
+}
+
+.lb-calendar__day[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.lb-datepicker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-1);
+}
+
+.lb-datepicker__label {
+  font-weight: 600;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-datepicker__row {
+  display: flex;
+  gap: var(--lb-space-2);
+}
+
+.lb-datepicker__input {
+  flex: 1;
+  min-height: 40px;
+  padding: 0 var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+}
+
+.lb-datepicker__input[aria-invalid="true"] {
+  border-color: var(--lb-danger-text);
+}
+
+.lb-datepicker__button {
+  min-height: 40px;
+  padding: 0 var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lb-datepicker__hint,
+.lb-datepicker__error {
+  margin: 0;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-datepicker__hint {
+  color: var(--lb-muted);
+}
+
+.lb-datepicker__error {
+  color: var(--lb-danger-text);
+}
+
+.lb-datepicker__popup {
+  margin-top: var(--lb-space-1);
+}

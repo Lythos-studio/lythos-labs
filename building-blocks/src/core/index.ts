@@ -9,3 +9,4 @@ export { createAnnounceQueue, type Announcement, type Politeness } from "./annou
 export { announce, announcementLog, onAnnounce } from "./announcer";
 export { TABBABLE, cx, isVisible, tabbables } from "./dom";
 export { useControllable, useLatest, useReducedMotion } from "./use";
+export { addDays, addMonths, clamp, compare, daysInMonth, firstWeekday, fromIso, monthGrid, sameDay, toIso, type Ymd } from "./date";

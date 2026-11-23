@@ -69,10 +69,25 @@
   "css": 1743,
   "gzip": 2766
  },
+ "data-table": {
+  "tsx": 7603,
+  "css": 1826,
+  "gzip": 2911
+ },
  "breadcrumb": {
   "tsx": 2856,
   "css": 1001,
   "gzip": 1455
+ },
+ "stepper": {
+  "tsx": 4411,
+  "css": 2035,
+  "gzip": 2159
+ },
+ "date-picker": {
+  "tsx": 9768,
+  "css": 2723,
+  "gzip": 3659
  },
  "slider": {
   "tsx": 2149,
@@ -83,5 +98,10 @@
   "tsx": 3034,
   "css": 1229,
   "gzip": 1650
+ },
+ "file-drop": {
+  "tsx": 5829,
+  "css": 2011,
+  "gzip": 2762
  }
 }

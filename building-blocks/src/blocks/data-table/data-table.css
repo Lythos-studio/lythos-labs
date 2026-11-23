@@ -1,0 +1,95 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-table__caption {
+  padding: var(--lb-space-3) var(--lb-space-4);
+  text-align: start;
+  font-weight: 700;
+  font-size: var(--lb-text-base);
+}
+
+.lb-table th,
+.lb-table td {
+  padding: var(--lb-space-2) var(--lb-space-4);
+  text-align: start;
+  border-top: 1px solid var(--lb-border);
+}
+
+.lb-table th[data-align="end"],
+.lb-table td[data-align="end"] {
+  text-align: end;
+}
+
+.lb-table thead th {
+  background: var(--lb-tint);
+  font-weight: 700;
+}
+
+.lb-table tbody th {
+  font-weight: 600;
+}
+
+.lb-table tr[data-selected] {
+  background: var(--lb-tint);
+}
+
+.lb-table__check {
+  width: 2.5rem;
+}
+
+.lb-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lb-space-1);
+  min-height: 32px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.lb-table__status {
+  padding: var(--lb-space-6) var(--lb-space-4);
+  text-align: center !important;
+  color: var(--lb-muted);
+}
+
+.lb-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lb-space-3);
+  padding: var(--lb-space-3);
+}
+
+.lb-pagination__btn {
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.lb-pagination__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
