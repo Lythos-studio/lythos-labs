@@ -51,7 +51,7 @@ export const entry: BlockEntry = {
       { id: "manual-enter-selects", title: "With manual activation, Enter selects the focused tab", kind: "keyboard", steps: [{ focus: tab(manual, 0) }, { key: "ArrowRight" }, { key: "Enter" }], expect: [{ ref: tab(manual, 1), attr: { "aria-selected": "true" } }] },
       { id: "click-selects", title: "Clicking a tab selects it and shows its panel", kind: "pointer", steps: [{ click: tab(auto, 3) }], expect: [{ ref: tab(auto, 3), attr: { "aria-selected": "true" } }, { ref: `${auto} [role=tabpanel]:not([hidden])`, text: "Settings content" }] },
       { id: "vertical-arrows", title: "A vertical tab list moves with up and down, and ignores left and right", kind: "keyboard", steps: [{ focus: tab(vertical, 0) }, { key: "ArrowRight" }, { key: "ArrowDown" }], expect: [{ ref: tab(vertical, 1), focused: true }] },
-      { id: "panel-tab-stop", title: "Tab moves from the selected tab into its panel", kind: "native", note: "Tab order is browser behaviour; checked with the real keyboard." },
+      { id: "panel-tab-stop", title: "Tab moves from the selected tab into its panel", kind: "native", note: "Tab order is browser behaviour; checked with the real keyboard.", steps: [{ focus: tab(auto, 0) }, { key: "Tab" }], expect: [{ ref: `${auto} [role=tabpanel]:not([hidden])`, focused: true }] },
     ],
   },
 };

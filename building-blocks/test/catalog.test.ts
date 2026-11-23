@@ -34,7 +34,7 @@ test("every contract is well formed: unique ids, steps for what is driven, expec
     assert.ok(contract.pattern.length > 3);
     for (const b of contract.behaviours) {
       assert.ok(b.title.trim().length > 8, `${meta.slug}/${b.id} title`);
-      if (b.kind === "native") assert.ok(!b.steps && !b.expect && b.note, `${meta.slug}/${b.id}: native behaviours carry a note and nothing to simulate`);
+      if (b.kind === "native") assert.ok(b.note && (b.steps?.length ?? 0) > 0 && (b.expect?.length ?? 0) > 0, `${meta.slug}/${b.id}: native behaviours carry a note, and steps and expectations for the real keyboard`);
       else {
         assert.ok((b.expect?.length ?? 0) > 0, `${meta.slug}/${b.id}: expects something`);
         if (b.kind === "keyboard" || b.kind === "pointer") assert.ok((b.steps?.length ?? 0) > 0, `${meta.slug}/${b.id}: has steps`);

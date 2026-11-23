@@ -24,7 +24,7 @@ export type Expect =
 
 /**
  * static: roles, names and states; keyboard and pointer: behaviour the component implements itself.
- * native: what only the real browser does (Tab order, native dialog focus trap): proven with real input in the end-to-end tests, never simulated here.
+ * native: what only the real browser does (Tab order, native dialog focus trap). It has steps and expectations for the end-to-end tests, which use the real keyboard; the in-page checks skip it.
  */
 export type Behaviour = {
   id: string;

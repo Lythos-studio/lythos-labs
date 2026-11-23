@@ -1,0 +1,26 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+@import "./base.css";
+@import "../blocks/button/button.css";
+@import "../blocks/tabs/tabs.css";
+
+/* Layout helpers for the live examples only; not part of any block. */
+.lb-stage {
+  padding: var(--lb-space-6);
+  min-width: 0;
+}
+
+.lb-demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lb-space-3);
+  align-items: center;
+}
+
+.lb-demo-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-8);
+}

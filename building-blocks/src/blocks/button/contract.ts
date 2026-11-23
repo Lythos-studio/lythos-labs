@@ -38,8 +38,8 @@ export const entry: BlockEntry = {
       { id: "space-activates", title: "Space activates the focused button", kind: "keyboard", steps: [{ focus: `${demo} button@0` }, { key: " " }], expect: [{ ref: "#btn-count", text: "1" }] },
       { id: "click-activates", title: "A click activates the button", kind: "pointer", steps: [{ click: `${demo} button@0` }, { click: `${demo} button@0` }], expect: [{ ref: "#btn-count", text: "2" }] },
       { id: "loading-ignores-click", title: "A click on a loading button does nothing and keeps focus on it", kind: "pointer", steps: [{ focus: "#loading-btn" }, { click: "#loading-btn" }], expect: [{ ref: "#btn-count", text: "0" }, { ref: "#loading-btn", focused: true }] },
-      { id: "disabled-not-activated", title: "A disabled button cannot be activated", kind: "pointer", steps: [{ click: "#disabled-btn" }], expect: [{ ref: "#btn-count", text: "0" }, { ref: "#disabled-btn", attr: { disabled: "*" } }] },
-      { id: "tab-order", title: "Tab moves from button to button and skips the disabled one", kind: "native", note: "Tab order is browser behaviour; checked with the real keyboard." },
+      { id: "disabled-not-activated", title: "A disabled button cannot be activated", kind: "pointer", steps: [{ click: "#disabled-btn" }], expect: [{ ref: "#btn-count", text: "0" }, { ref: "#disabled-btn", attr: { disabled: "" } }] },
+      { id: "tab-order", title: "Tab moves from button to button and skips the disabled one", kind: "native", note: "Tab order is browser behaviour; checked with the real keyboard.", steps: [{ focus: `${demo} button@5` }, { key: "Tab" }], expect: [{ ref: "#loading-btn", focused: true }] },
     ],
   },
 };
