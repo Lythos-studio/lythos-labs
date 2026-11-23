@@ -21,6 +21,7 @@ export async function runSteps(page: Page, steps: Step[]) {
       const target = where(page, step.click);
       await target.click({ force: await target.isDisabled(), timeout: 5000 });
     } else if ("hover" in step) await where(page, step.hover).hover();
+    else if ("upload" in step) await where(page, step.upload).setInputFiles(step.files.map((f) => ({ name: f.name, mimeType: f.type, buffer: Buffer.alloc(f.size) })));
     else if ("type" in step) await page.keyboard.type(step.type);
     else await page.waitForTimeout(step.wait);
     await page.waitForTimeout(30);

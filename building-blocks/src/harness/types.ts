@@ -11,6 +11,8 @@ export type Step =
   | { click: Ref }
   | { hover: Ref }
   | { type: string }
+  /** Chooses files for a file input, with made-up content of the given size. */
+  | { upload: Ref; files: { name: string; type: string; size: number }[] }
   | { wait: number };
 
 export type Expect =

@@ -629,3 +629,17 @@
 .lab a.ghost {
   color: #fff;
 }
+
+.themeActions {
+  grid-column: 1 / -1;
+  flex-direction: row !important;
+  align-items: center;
+}
+
+.themeBar .themeActions label.ghost {
+  flex-direction: row;
+  border: 1px solid #3a4677;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 0.9375rem;
+}

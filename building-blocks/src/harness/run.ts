@@ -49,6 +49,13 @@ function perform(root: ParentNode, step: Step): Promise<void> | void {
     const el = resolve(root, step.hover);
     if (!el) throw new Error(`cannot hover ${JSON.stringify(step.hover)}: not found`);
     for (const type of ["pointerover", "mouseover", "pointerenter", "mouseenter"]) el.dispatchEvent(new MouseEvent(type, { bubbles: type.endsWith("over"), cancelable: true }));
+  } else if ("upload" in step) {
+    const el = resolve(root, step.upload) as HTMLInputElement | null;
+    if (!el) throw new Error(`cannot upload to ${JSON.stringify(step.upload)}: not found`);
+    const dt = new DataTransfer();
+    for (const f of step.files) dt.items.add(new File([new Uint8Array(f.size)], f.name, { type: f.type }));
+    el.files = dt.files;
+    el.dispatchEvent(new Event("change", { bubbles: true }));
   } else if ("type" in step) {
     const el = (root as Element).ownerDocument.activeElement as HTMLInputElement | null;
     for (const ch of step.type) {
