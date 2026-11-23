@@ -34,6 +34,13 @@ export function checkExpect(root: ParentNode, e: Expect): string | null {
     }
     return null;
   }
+  if ("prop" in e) {
+    for (const [name, want] of Object.entries(e.prop)) {
+      const got = (el as unknown as Record<string, unknown>)[name];
+      if (got !== want) return `${label(e.ref)} ${name} is ${JSON.stringify(got)}, expected ${JSON.stringify(want)}`;
+    }
+    return null;
+  }
   if ("focused" in e) {
     const active = el.ownerDocument.activeElement;
     const has = active === el || (el.contains(active) && el.getAttribute("role") === "dialog");

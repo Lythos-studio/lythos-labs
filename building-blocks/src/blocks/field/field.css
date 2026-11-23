@@ -1,0 +1,89 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-1);
+  min-width: 0;
+}
+
+.lb-field__label {
+  font-weight: 600;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-field__required {
+  color: var(--lb-danger-text);
+}
+
+.lb-field__row {
+  display: flex;
+  gap: var(--lb-space-2);
+}
+
+.lb-field__control {
+  flex: 1;
+  min-width: 0;
+  min-height: 40px;
+  padding: var(--lb-space-2) var(--lb-space-3);
+  border: 1px solid var(--lb-muted);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+}
+
+textarea.lb-field__control {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.lb-field__control::placeholder {
+  color: var(--lb-muted);
+}
+
+.lb-field[data-lb-invalid="true"] .lb-field__control {
+  border-color: var(--lb-danger-text);
+  box-shadow: inset 3px 0 0 var(--lb-danger-text);
+}
+
+.lb-field__hint,
+.lb-field__count {
+  margin: 0;
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-field__count {
+  text-align: end;
+}
+
+.lb-field__error {
+  margin: 0;
+  font-size: var(--lb-text-sm);
+  font-weight: 600;
+  color: var(--lb-danger-text);
+}
+
+.lb-field__reveal {
+  min-height: 40px;
+  padding: 0 var(--lb-space-3);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lb-field__reveal[aria-pressed="true"] {
+  background: var(--lb-tint);
+}
+
+@media (forced-colors: active) {
+  .lb-field__control,
+  .lb-field__reveal {
+    border-color: FieldText;
+  }
+}

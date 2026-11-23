@@ -15,6 +15,7 @@ export type Step =
 
 export type Expect =
   | { ref: Ref; attr: Record<string, string | null> }
+  | { ref: Ref; prop: Record<string, string | number | boolean> }
   | { ref: Ref; focused: boolean }
   | { ref: Ref; text: string }
   | { ref: Ref; value: string }

@@ -1,0 +1,105 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lb-space-3);
+  min-height: 32px;
+}
+
+.lb-choice__input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--lb-primary);
+  cursor: pointer;
+}
+
+.lb-choice__label {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.lb-choice__hint {
+  font-size: var(--lb-text-sm);
+  color: var(--lb-muted);
+}
+
+.lb-choice__input:disabled,
+.lb-choice__input:disabled + .lb-choice__label {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* The switch is the same native checkbox, drawn as a track and a thumb. */
+.lb-choice--switch .lb-choice__input {
+  appearance: none;
+  width: 44px;
+  height: 24px;
+  margin: 0;
+  border: 1px solid var(--lb-muted);
+  border-radius: 999px;
+  background: var(--lb-surface);
+  position: relative;
+  transition: background-color 120ms;
+}
+
+.lb-choice--switch .lb-choice__input::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  inset-inline-start: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--lb-muted);
+  transition: transform 120ms;
+}
+
+.lb-choice--switch .lb-choice__input:checked {
+  background: var(--lb-primary);
+  border-color: var(--lb-primary);
+}
+
+.lb-choice--switch .lb-choice__input:checked::after {
+  background: var(--lb-on-primary);
+  transform: translateX(20px);
+}
+
+.lb-choice--switch .lb-choice__input:checked:dir(rtl)::after {
+  transform: translateX(-20px);
+}
+
+.lb-radiogroup {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-2);
+  min-width: 0;
+}
+
+.lb-radiogroup__legend {
+  padding: 0;
+  margin-bottom: var(--lb-space-2);
+  font-weight: 600;
+  font-size: var(--lb-text-sm);
+}
+
+.lb-radiogroup__error {
+  margin: 0;
+  color: var(--lb-danger-text);
+  font-size: var(--lb-text-sm);
+  font-weight: 600;
+}
+
+@media (forced-colors: active) {
+  .lb-choice--switch .lb-choice__input:checked {
+    background: Highlight;
+  }
+}

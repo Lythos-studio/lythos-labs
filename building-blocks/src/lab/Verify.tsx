@@ -24,7 +24,8 @@ export async function mountFixture(slug: string, theme: ThemeState): Promise<Mou
   host.setAttribute("data-lb-verify-host", "");
   for (const [k, v] of Object.entries(themeVars(theme.settings, theme.mode))) host.style.setProperty(k, v);
   Object.assign(host.style, { position: "fixed", left: "-10000px", top: "0", width: "900px" });
-  document.body.appendChild(host);
+  // First in the document, so an id that also exists in the live example (label for, aria-labelledby) resolves to this copy.
+  document.body.prepend(host);
   const root = createRoot(host);
   flushSync(() => root.render(createElement(mod.Fixture)));
   await new Promise((r) => requestAnimationFrame(() => r(null)));

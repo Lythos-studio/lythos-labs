@@ -1,0 +1,21 @@
+{
+  "slug": "choice",
+  "harness": {
+    "checkbox-label": "pass",
+    "indeterminate": "pass",
+    "switch-role": "pass",
+    "radio-group": "pass",
+    "space-toggles-checkbox": "pass",
+    "space-toggles-switch": "pass",
+    "click-label": "pass",
+    "click-radio": "pass",
+    "disabled-radio": "pass",
+    "radio-arrows": "skipped"
+  },
+  "real": {
+    "click-label": "pass",
+    "click-radio": "pass",
+    "disabled-radio": "pass"
+  },
+  "at": "2026-11-23T10:26:06.422Z"
+}

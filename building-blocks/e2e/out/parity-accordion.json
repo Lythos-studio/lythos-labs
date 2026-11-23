@@ -1,0 +1,19 @@
+{
+  "slug": "accordion",
+  "harness": {
+    "structure": "pass",
+    "closed-hidden": "pass",
+    "click-opens": "pass",
+    "single-closes-others": "pass",
+    "collapsible": "pass",
+    "multiple-stays-open": "pass",
+    "enter-toggles": "pass",
+    "arrow-down": "pass",
+    "end-home": "pass"
+  },
+  "real": {
+    "structure": "pass",
+    "closed-hidden": "pass"
+  },
+  "at": "2026-11-23T10:25:43.083Z"
+}

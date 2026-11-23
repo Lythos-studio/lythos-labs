@@ -1,0 +1,67 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-accordion {
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  overflow: hidden;
+}
+
+.lb-accordion__item + .lb-accordion__item {
+  border-top: 1px solid var(--lb-border);
+}
+
+.lb-accordion__heading {
+  margin: 0;
+  font-size: inherit;
+}
+
+.lb-accordion__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lb-space-3);
+  width: 100%;
+  min-height: 48px;
+  padding: var(--lb-space-3) var(--lb-space-4);
+  border: 0;
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+
+.lb-accordion__button:hover:not(:disabled) {
+  background: var(--lb-tint);
+}
+
+.lb-accordion__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lb-accordion__chevron {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-inline-end: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 150ms;
+}
+
+.lb-accordion__button[aria-expanded="true"] .lb-accordion__chevron {
+  transform: rotate(-135deg);
+}
+
+.lb-accordion__panel {
+  padding: var(--lb-space-3) var(--lb-space-4) var(--lb-space-4);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+}
+
+.lb-accordion__panel[hidden] {
+  display: none;
+}
