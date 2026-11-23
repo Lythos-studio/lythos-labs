@@ -34,6 +34,8 @@ export type Behaviour = {
   steps?: Step[];
   expect?: Expect[];
   note?: string;
+  /** The end-to-end tests also scan the state this behaviour leaves behind (an open dialog, an open menu) with axe-core. */
+  axe?: boolean;
 };
 
 export type Contract = {

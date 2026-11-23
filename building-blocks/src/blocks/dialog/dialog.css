@@ -1,0 +1,108 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-dialog {
+  padding: 0;
+  border: 1px solid var(--lb-border);
+  border-radius: calc(var(--lb-radius) * 1.5);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  box-shadow: var(--lb-shadow);
+  width: min(32rem, calc(100vw - 2 * var(--lb-space-4)));
+  max-height: calc(100dvh - 2 * var(--lb-space-4));
+  overflow: auto;
+}
+
+.lb-dialog::backdrop {
+  background: var(--lb-scrim);
+}
+
+.lb-dialog__box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lb-space-4);
+  padding: var(--lb-space-6);
+  min-width: 0;
+}
+
+.lb-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lb-space-4);
+}
+
+.lb-dialog__title {
+  font-size: var(--lb-text-xl);
+  overflow-wrap: anywhere;
+}
+
+.lb-dialog__close {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb-dialog__description {
+  color: var(--lb-muted);
+}
+
+.lb-dialog__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--lb-space-3);
+}
+
+/* Placements: the drawer sits against an edge. */
+.lb-dialog[data-lb-placement="end"],
+.lb-dialog[data-lb-placement="start"] {
+  height: 100dvh;
+  max-height: 100dvh;
+  margin-block: 0;
+  border-radius: 0;
+  width: min(26rem, 100vw);
+}
+
+.lb-dialog[data-lb-placement="end"] {
+  margin-inline: auto 0;
+}
+
+.lb-dialog[data-lb-placement="start"] {
+  margin-inline: 0 auto;
+}
+
+.lb-dialog[data-lb-placement="bottom"] {
+  margin-block: auto 0;
+  width: 100vw;
+  max-width: 100vw;
+  border-radius: calc(var(--lb-radius) * 1.5) calc(var(--lb-radius) * 1.5) 0 0;
+}
+
+@media (max-width: 480px) {
+  .lb-dialog[data-lb-placement="end"],
+  .lb-dialog[data-lb-placement="start"] {
+    width: 100vw;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lb-dialog[open] {
+    animation: lb-dialog-in 160ms ease-out;
+  }
+}
+
+@keyframes lb-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}

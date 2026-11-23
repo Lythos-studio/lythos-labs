@@ -1,0 +1,40 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-popover-root {
+  display: inline-block;
+}
+
+.lb-popover__trigger {
+  min-height: 40px;
+  padding: 0 var(--lb-space-4);
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-surface);
+  color: var(--lb-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.lb-popover__trigger[aria-expanded="true"] {
+  background: var(--lb-tint);
+}
+
+.lb-popover {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: var(--lb-space-4);
+  width: max-content;
+  max-width: min(22rem, calc(100vw - 2 * var(--lb-space-4)));
+  border: 1px solid var(--lb-border);
+  border-radius: var(--lb-radius);
+  background: var(--lb-bg);
+  color: var(--lb-text);
+  box-shadow: var(--lb-shadow);
+}
+
+.lb-popover:not([data-lb-placed]) {
+  opacity: 0;
+}

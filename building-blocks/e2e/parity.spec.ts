@@ -3,42 +3,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 import { mkdirSync, writeFileSync } from "node:fs";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { open, realRun } from "./helpers";
 import { catalog } from "../src/catalog";
-import { parseRef } from "../src/harness/check";
-import type { Behaviour, Ref } from "../src/harness/types";
+import type { Behaviour } from "../src/harness/types";
 
 const OUT = new URL("./out/", import.meta.url).pathname;
 mkdirSync(OUT, { recursive: true });
-
-const where = (page: Page, ref: Ref) => {
-  const { sel, index } = parseRef(ref);
-  return page.locator(`[data-lb-stage] ${sel}`).nth(index);
-};
-
-/** Drives a behaviour with the real keyboard and mouse, then asks the page's own expectation checker for the verdict. */
-async function realRun(page: Page, b: Behaviour): Promise<string | null> {
-  for (const step of b.steps ?? []) {
-    if ("focus" in step) await where(page, step.focus).focus();
-    else if ("key" in step) await page.keyboard.press(step.key === " " ? "Space" : step.key);
-    else if ("click" in step) {
-      // A disabled control is never "actionable" for Playwright; a forced click is still a real mouse click that the browser may ignore.
-      const target = where(page, step.click);
-      await target.click({ force: await target.isDisabled(), timeout: 5000 });
-    }
-    else if ("hover" in step) await where(page, step.hover).hover();
-    else if ("type" in step) await page.keyboard.type(step.type);
-    else await page.waitForTimeout(step.wait);
-    await page.waitForTimeout(30);
-  }
-  const reasons = await page.evaluate((e) => window.__lb!.check!(e), b.expect ?? []);
-  return reasons.find((r) => r) ?? null;
-}
-
-async function open(page: Page, slug: string, hash = "") {
-  await page.goto(`/labs/blocks/${slug}${hash}`);
-  await page.locator('[data-lb-stage][data-lb-ready="true"]').waitFor();
-}
 
 for (const { meta, contract } of catalog) {
   test.describe(`${meta.slug}`, () => {

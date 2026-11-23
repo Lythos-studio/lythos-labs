@@ -1,0 +1,26 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+.lb-tooltip-wrap {
+  display: inline-flex;
+}
+
+.lb-tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: 18rem;
+  padding: var(--lb-space-1) var(--lb-space-3);
+  border-radius: calc(var(--lb-radius) * 0.75);
+  background: var(--lb-text);
+  color: var(--lb-bg);
+  font-size: var(--lb-text-sm);
+  line-height: 1.4;
+  pointer-events: auto;
+}
+
+@media (forced-colors: active) {
+  .lb-tooltip {
+    border: 1px solid CanvasText;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "slug": "popover",
+  "harness": {
+    "closed-state": "pass",
+    "click-opens": "pass",
+    "enter-opens": "pass",
+    "focus-moves-in": "pass",
+    "toggle-closes": "pass",
+    "escape-closes": "skipped",
+    "outside-click-closes": "skipped"
+  },
+  "real": {
+    "closed-state": "pass",
+    "click-opens": "pass"
+  },
+  "at": "2026-11-23T10:28:42.516Z"
+}

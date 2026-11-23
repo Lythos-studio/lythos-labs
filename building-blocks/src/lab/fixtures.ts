@@ -11,4 +11,7 @@ export const fixtures: Record<string, () => Promise<FixtureModule>> = {
   "choice": () => import("../blocks/choice/fixture"),
   "tabs": () => import("../blocks/tabs/fixture"),
   "accordion": () => import("../blocks/accordion/fixture"),
+  "dialog": () => import("../blocks/dialog/fixture"),
+  "popover": () => import("../blocks/popover/fixture"),
+  "tooltip": () => import("../blocks/tooltip/fixture"),
 };

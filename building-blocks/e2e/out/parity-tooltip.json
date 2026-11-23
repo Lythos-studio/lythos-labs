@@ -1,0 +1,16 @@
+{
+  "slug": "tooltip",
+  "harness": {
+    "hidden-by-default": "pass",
+    "focus-shows": "pass",
+    "escape-hides": "pass",
+    "blur-hides": "pass",
+    "hover-shows-after-delay": "pass",
+    "no-description-when-closed": "pass"
+  },
+  "real": {
+    "hidden-by-default": "pass",
+    "focus-shows": "pass"
+  },
+  "at": "2026-11-23T10:28:42.810Z"
+}
