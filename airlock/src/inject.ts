@@ -12,6 +12,7 @@ import type { ToolName, World } from "./model";
 export type Injected = { tool: ToolName; args: Record<string, string>; attach: string[]; via: string };
 
 const TAG_START = 0xe0000;
+const ZERO_WIDTH = /[\u200B-\u200D\u2060\uFEFF\u00AD]/g;
 
 /** Hides ASCII text in Unicode tag characters: invisible on screen, readable for a model. */
 export function toTags(text: string): string {
@@ -35,17 +36,29 @@ function decodeBase64(s: string): string | null {
   }
 }
 
+/** The parts of a text a person does not see but a model reads. */
+export function hiddenParts(text: string): { tags: string; base64: string[]; comments: string[]; zeroWidth: number } {
+  let tags = "";
+  for (const ch of text) {
+    const cp = ch.codePointAt(0)!;
+    if (cp >= TAG_START + 0x20 && cp < TAG_START + 0x7f) tags += String.fromCharCode(cp - TAG_START);
+  }
+  const comments = [...text.matchAll(/<!--([\s\S]*?)-->/g)].map((m) => m[1].trim()).filter(Boolean);
+  const base64 = (text.match(/[A-Za-z0-9+/]{20,}={0,2}/g) ?? []).map(decodeBase64).filter((x): x is string => !!x);
+  const zeroWidth = (text.match(ZERO_WIDTH) ?? []).length;
+  return { tags, base64, comments, zeroWidth };
+}
+
 /** Everything a model "reads" in a text: hidden tag characters decoded, zero-width characters gone, comments and base64 opened. */
 export function reveal(text: string): string {
-  let hidden = "";
   let visible = "";
   for (const ch of text) {
     const cp = ch.codePointAt(0)!;
-    if (cp >= TAG_START + 0x20 && cp < TAG_START + 0x7f) hidden += String.fromCharCode(cp - TAG_START);
-    else visible += ch;
+    if (!(cp >= TAG_START + 0x20 && cp < TAG_START + 0x7f)) visible += ch;
   }
-  let out = visible.replace(/[​-‍⁠﻿­]/g, "").replace(/<!--([\s\S]*?)-->/g, "\n$1\n");
-  if (hidden) out += `\n${hidden}`;
+  const hidden = hiddenParts(text);
+  let out = visible.replace(ZERO_WIDTH, "").replace(/<!--([\s\S]*?)-->/g, "\n$1\n");
+  if (hidden.tags) out += `\n${hidden.tags}`;
   for (const m of out.match(/[A-Za-z0-9+/]{20,}={0,2}/g) ?? []) {
     const decoded = decodeBase64(m);
     if (decoded) out += `\n${decoded}`;

@@ -96,13 +96,13 @@ export function recipients(tool: ToolName, args: Record<string, Val>, world: Wor
 }
 
 // Letters from other scripts that look like Latin ones; only used by the lenient matching the lab can switch on.
-const LOOKALIKE: Record<string, string> = { "а": "a", "е": "e", "о": "o", "р": "p", "с": "c", "х": "x", "і": "i", "у": "y", "ԁ": "d", "һ": "h", "ɡ": "g" };
+const LOOKALIKE: Record<string, string> = { "\u0430": "a", "\u0435": "e", "\u043E": "o", "\u0440": "p", "\u0441": "c", "\u0445": "x", "\u0456": "i", "\u0443": "y", "\u0501": "d", "\u04BB": "h", "\u0261": "g" };
 export const lenient = (s: string) =>
   s
     .normalize("NFKC")
     .toLowerCase()
-    .replace(/[​-‍⁠﻿\s]/g, "")
-    .replace(/[Ѐ-ԯɐ-ʯ]/g, (c) => LOOKALIKE[c] ?? c);
+    .replace(/[\u200B-\u200D\u2060\uFEFF\s]/g, "")
+    .replace(/[\u0400-\u052F\u0250-\u02AF]/g, (c) => LOOKALIKE[c] ?? c);
 
 const ibanKey = (s: string) => s.replace(/\s+/g, "").toUpperCase();
 

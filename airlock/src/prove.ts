@@ -35,7 +35,7 @@ function rng(seed: number) {
   };
 }
 
-const EMAILS = [ATTACKER_EMAIL, "audit@evil.example", "bоard@example.com", "board@example.com.evil.example", "BOARD@example.com", "sam@example.com", "board@example.com", "you@example.com"];
+const EMAILS = [ATTACKER_EMAIL, "audit@evil.example", "b\u043Eard@example.com", "board@example.com.evil.example", "BOARD@example.com", "sam@example.com", "board@example.com", "you@example.com"];
 const IBANS = [ATTACKER_IBAN, ACME_IBAN, ATTACKER_IBAN.replace(/ /g, ""), ACME_IBAN.toLowerCase()];
 const URLS = [ATTACKER_URL, "https://futuresec.example.evil.example/x", "https://futuresec.example/collect"];
 const AMOUNTS = ["EUR 9,800.00", "EUR 1.00", "EUR 1,250.00", "EUR 12,500.00"];
@@ -51,7 +51,7 @@ function obfuscate(text: string, r: () => number): string {
   const k = Math.floor(r() * 5);
   if (k === 1) return toTags(text);
   if (k === 2) return `Ref: ${toBase64(text)}`;
-  if (k === 3) return text.replace(/(\w)(\w)/, "$1​$2");
+  if (k === 3) return text.replace(/(\w)(\w)/, "$1\u200B$2");
   if (k === 4) return `<!-- ${text} -->`;
   return text;
 }
