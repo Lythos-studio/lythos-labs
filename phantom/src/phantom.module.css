@@ -1,0 +1,384 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+/* Phantom sits inside the dark Labs page and reads --max and --gutter from its surroundings. */
+.lab {
+  max-width: var(--max, 1200px);
+  margin: 0 auto;
+  padding: 24px var(--gutter, 24px) 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  color: #e9edff;
+}
+
+.intro {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: clamp(16px, 4vw, 40px);
+}
+
+.intro h1 {
+  margin: 0;
+  font-family: "Newsreader Variable", Georgia, serif;
+  font-weight: 550;
+  font-size: clamp(2.25rem, 6vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.intro p {
+  margin: 0;
+  color: #c3cbe6;
+  max-width: 44rem;
+}
+
+.intro .eyebrow {
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffc861;
+}
+
+.small {
+  margin: 0;
+  color: #9aa3c4;
+  font-size: 0.8125rem;
+}
+
+.intro .small {
+  color: #9aa3c4;
+  font-size: 0.8125rem;
+}
+
+.stageBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  min-height: 36px;
+  padding: 0 16px;
+  border: 1px solid #3a4677;
+  border-radius: 999px;
+  background: transparent;
+  color: #e9edff;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.pill:hover {
+  border-color: #8fa2ff;
+}
+
+.pill[aria-pressed="true"] {
+  border-color: #c9d4ff;
+  background: #e9edff;
+  color: #0b1022;
+  font-weight: 600;
+}
+
+.stage {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #222a4a;
+  background: #0b1022;
+}
+
+.stage:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 3px;
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 72vh;
+  image-rendering: pixelated;
+  touch-action: none;
+  cursor: grab;
+}
+
+.canvas:active {
+  cursor: grabbing;
+}
+
+.drawing,
+.drawing:active {
+  cursor: crosshair;
+}
+
+@media (max-width: 700px) {
+  .canvas {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.paused {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  margin: 0;
+  max-width: 34rem;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(11, 16, 34, 0.88);
+  color: #e9edff;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
+.notice {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #3a4677;
+  border-radius: 16px;
+  background: #0f1530;
+  color: #e9edff;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ghost,
+.primary {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: transparent;
+  color: #e9edff;
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  border-color: #8fa2ff;
+}
+
+.ghost[aria-pressed="true"] {
+  border-color: #ff6b6b;
+  color: #ffb3b3;
+}
+
+.primary {
+  min-width: 120px;
+  border-color: #8fa2ff;
+  background: #2449df;
+  color: #fff;
+  font-weight: 600;
+}
+
+.primary:hover {
+  background: #3156ef;
+}
+
+.ghost:disabled,
+.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pill:focus-visible,
+.ghost:focus-visible,
+.primary:focus-visible,
+.input:focus-visible,
+.slider input:focus-visible,
+.select select:focus-visible,
+.check input:focus-visible {
+  outline: 2px solid #8fa2ff;
+  outline-offset: 2px;
+}
+
+.textRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.textRow label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.input {
+  flex: 1 1 240px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #3a4677;
+  border-radius: 8px;
+  background: #0b1022;
+  color: #e9edff;
+  font: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.settings {
+  display: grid;
+  gap: 16px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  align-items: end;
+  padding: 16px;
+  border: 1px solid #222a4a;
+  border-radius: 12px;
+  background: #0f1530;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.slider > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.slider output {
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.slider input {
+  width: 100%;
+  accent-color: #8fa2ff;
+}
+
+.select {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8125rem;
+  color: #c3cbe6;
+}
+
+.select select {
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid #3a4677;
+  border-radius: 6px;
+  background: #0b1022;
+  color: #e9edff;
+  font: inherit;
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.875rem;
+  color: #e9edff;
+}
+
+.check input {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  accent-color: #8fa2ff;
+}
+
+.check > span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.proof {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 640px;
+  padding: 20px;
+  border: 1px solid #222a4a;
+  border-left: 4px solid #5fd3a0;
+  border-radius: 12px;
+  background: #0f1530;
+}
+
+.proof h2,
+.notes h2 {
+  margin: 0;
+  font-size: 1.125rem;
+  color: #fff;
+}
+
+.proof p {
+  margin: 0;
+  color: #c3cbe6;
+  font-size: 0.9375rem;
+}
+
+.proofTable {
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  color: #e9edff;
+}
+
+.proofTable th,
+.proofTable td {
+  padding: 6px 16px 6px 0;
+  text-align: left;
+  border-bottom: 1px solid #222a4a;
+}
+
+.proofTable thead th {
+  color: #9aa3c4;
+  font-weight: 600;
+  font-size: 0.8125rem;
+}
+
+.proofTable td {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.notes {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  max-width: 1000px;
+}
+
+.notes h2 {
+  margin-bottom: 12px;
+}
+
+.notes p,
+.notes li {
+  color: #c3cbe6;
+  font-size: 0.9375rem;
+}
+
+.notes ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}

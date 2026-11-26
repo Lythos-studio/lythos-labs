@@ -1,0 +1,141 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+import type { Shape } from "./shader";
+
+export type Locale = "en" | "nl";
+export type Subject = Exclude<Shape, "mask"> | "text" | "draw";
+export type Palette = "lythos" | "ink" | "ember" | "moss";
+
+const en = {
+  title: "Phantom",
+  description: "Images that only exist while they move. Every single frame is pure noise, yet you see a turning 3D shape, your own words or your own drawing. Pause it, or take a screenshot, and it is gone.",
+  eyebrow: "Prototype",
+  heading: "You can see it. Your screenshot can't.",
+  intro:
+    "Everything below is random noise, cell by cell. There is no outline, no shading and no colour difference anywhere. Your eyes find the shape anyway, because the cells inside it move together. Press pause and it disappears.",
+  warning: "Moving noise can be uncomfortable for some people, and it may not suit you if you are sensitive to motion or flicker. Calm mode slows it down.",
+  stageLabel: (what: string) => `Moving noise that shows ${what} only while it moves. Every single frame is random noise.`,
+  subjects: {
+    torus: "Torus",
+    gyroid: "Gyroid",
+    bulb: "Mandelbulb",
+    twist: "Twist",
+    text: "Your words",
+    draw: "Draw",
+  } as Record<Subject, string>,
+  subjectsLabel: "What to hide",
+  defaultText: "ONLY YOU SEE THIS",
+  textLabel: "Your words",
+  textHint: (n: number) => `Up to ${n} characters. They go into the link after the #, so they never reach a server.`,
+  drawHint: "Draw on the noise with your mouse, finger or pen. Your lines are invisible in every frame.",
+  clearDrawing: "Clear drawing",
+  play: "Play",
+  pause: "Pause",
+  pausedNote: "Paused. This frame is all there is: look for the shape.",
+  snapshot: "Download this frame",
+  share: "Copy link to these words",
+  copied: "Copied",
+  computer: "Show what a computer needs",
+  computerOn: "Back to the noise",
+  computerNote: "Two frames compared, with the background motion taken out: the cells that changed light up. One frame alone gives nothing away; two frames do.",
+  grain: "Grain",
+  speed: "Speed",
+  palette: "Colours",
+  palettes: { lythos: "Lythos", ink: "Ink", ember: "Ember", moss: "Moss" } as Record<Palette, string>,
+  calm: "Calm mode",
+  calmHint: "Slower, and the background stands still.",
+  dragHint: "Drag the noise, or use the arrow keys, to turn the shape.",
+  reducedMotion: "Your system asks for less motion, so nothing plays by itself. This still frame is pure noise, which is the whole point. Press play if you want to see it move.",
+  noWebgl: "This needs WebGL 2, which this browser or device does not offer. Try a recent Chrome, Edge, Firefox or Safari.",
+  proofTitle: "Check this frame",
+  proofIntro: "Measured on the frame you are looking at, every cell counted:",
+  proofLight: "Light cells",
+  proofAlike: "Neighbours alike",
+  proofInside: "inside the shape",
+  proofOutside: "outside",
+  proofVerdict: "Pure noise sits at 50% on both. Inside and outside are the same noise, so nothing in this frame shows where the shape is.",
+  proofEmpty: "The shape is out of view in this frame. Play a moment and pause again.",
+  howTitle: "How it works",
+  how: [
+    "Each cell is one random bit from a hash function on the GPU. Outside the shape the bits come from a field of noise that stands still (or drifts). Inside, they come from a field glued to the shape: to the surface of the 3D form, which is ray marched per cell, or to your words or your drawing, which slide along.",
+    "Both fields are the same kind of noise, so a single frame is statistically identical everywhere. Only the motion of the cells over time differs, and your visual system is extraordinarily good at grouping things that move together. Psychologists call it the kinetic depth effect (Wallach and O'Connell, 1953) and motion-defined form; Bela Julesz showed with random-dot stereograms in 1960 that the brain can see shapes no single image contains.",
+    "Where a 3D surface turns away from you, its noise would stretch into larger blobs that a careful eye could spot in a still frame. There the background noise takes over, so the outline stays invisible.",
+  ],
+  limitsTitle: "What it is not",
+  limits: [
+    "Not encryption. A program that compares frames finds the shape easily; the button above shows how. It hides from single images: screenshots, thumbnails and anything that looks at one frame at a time.",
+    "Video compression smooths noise away, so a screen recording or a shared video usually loses the effect.",
+    "The proof counts light cells and alike neighbours. That catches the obvious tells, not every possible statistic.",
+  ],
+  privacy: "Everything runs in your browser. Your words stay after the # in the address, your drawing stays on this page, and nothing is uploaded.",
+};
+
+type Copy = typeof en;
+
+const nl: Copy = {
+  title: "Fantoom",
+  description: "Beelden die alleen bestaan zolang ze bewegen. Elk afzonderlijk frame is pure ruis, en toch zie je een draaiende 3D-vorm, je eigen woorden of je eigen tekening. Pauzeer, of maak een screenshot, en het is weg.",
+  eyebrow: "Prototype",
+  heading: "Jij ziet het. Je screenshot niet.",
+  intro:
+    "Alles hieronder is willekeurige ruis, cel voor cel. Er is nergens een omtrek, schaduw of kleurverschil. Je ogen vinden de vorm toch, omdat de cellen erbinnen samen bewegen. Druk op pauze en hij verdwijnt.",
+  warning: "Bewegende ruis kan voor sommige mensen onprettig zijn en past mogelijk niet bij je als je gevoelig bent voor beweging of flikkering. De rustige stand maakt het trager.",
+  stageLabel: (what: string) => `Bewegende ruis die ${what} alleen laat zien zolang het beweegt. Elk afzonderlijk frame is willekeurige ruis.`,
+  subjects: {
+    torus: "Torus",
+    gyroid: "Gyroïde",
+    bulb: "Mandelbulb",
+    twist: "Twist",
+    text: "Jouw woorden",
+    draw: "Tekenen",
+  },
+  subjectsLabel: "Wat verstoppen",
+  defaultText: "ALLEEN JIJ ZIET DIT",
+  textLabel: "Jouw woorden",
+  textHint: (n: number) => `Maximaal ${n} tekens. Ze staan in de link na de #, dus ze komen nooit bij een server.`,
+  drawHint: "Teken op de ruis met je muis, vinger of pen. Je lijnen zijn in elk frame onzichtbaar.",
+  clearDrawing: "Tekening wissen",
+  play: "Afspelen",
+  pause: "Pauzeren",
+  pausedNote: "Gepauzeerd. Dit frame is alles wat er is: zoek de vorm maar.",
+  snapshot: "Download dit frame",
+  share: "Kopieer link naar deze woorden",
+  copied: "Gekopieerd",
+  computer: "Toon wat een computer nodig heeft",
+  computerOn: "Terug naar de ruis",
+  computerNote: "Twee frames vergeleken, met de beweging van de achtergrond eruit gehaald: de cellen die veranderden lichten op. Eén frame verraadt niets; twee frames wel.",
+  grain: "Korrel",
+  speed: "Snelheid",
+  palette: "Kleuren",
+  palettes: { lythos: "Lythos", ink: "Inkt", ember: "Gloed", moss: "Mos" },
+  calm: "Rustige stand",
+  calmHint: "Trager, en de achtergrond staat stil.",
+  dragHint: "Sleep over de ruis, of gebruik de pijltjestoetsen, om de vorm te draaien.",
+  reducedMotion: "Je systeem vraagt om minder beweging, dus er speelt niets vanzelf af. Dit stilstaande beeld is pure ruis, en daar gaat het juist om. Druk op afspelen als je het wilt zien bewegen.",
+  noWebgl: "Hiervoor is WebGL 2 nodig, en dat biedt deze browser of dit apparaat niet. Probeer een recente Chrome, Edge, Firefox of Safari.",
+  proofTitle: "Controleer dit frame",
+  proofIntro: "Gemeten op het frame waar je naar kijkt, elke cel geteld:",
+  proofLight: "Lichte cellen",
+  proofAlike: "Gelijke buren",
+  proofInside: "binnen de vorm",
+  proofOutside: "erbuiten",
+  proofVerdict: "Pure ruis zit op beide op 50%. Binnen en buiten is dezelfde ruis, dus niets in dit frame verraadt waar de vorm is.",
+  proofEmpty: "De vorm is in dit frame niet in beeld. Speel even af en pauzeer opnieuw.",
+  howTitle: "Hoe het werkt",
+  how: [
+    "Elke cel is één willekeurige bit uit een hashfunctie op de GPU. Buiten de vorm komen de bits uit een ruisveld dat stilstaat (of drijft). Binnen de vorm komen ze uit een veld dat aan de vorm vastzit: aan het oppervlak van de 3D-vorm, die per cel met ray marching wordt berekend, of aan je woorden of je tekening, die meeschuiven.",
+    "Beide velden zijn dezelfde soort ruis, dus één frame is overal statistisch gelijk. Alleen de beweging van de cellen door de tijd verschilt, en je visuele systeem is buitengewoon goed in het groeperen van dingen die samen bewegen. Psychologen noemen dat het kinetisch diepte-effect (Wallach en O'Connell, 1953) en bewegingsgedefinieerde vorm; Bela Julesz liet in 1960 met random-dot-stereogrammen zien dat het brein vormen ziet die in geen enkel afzonderlijk beeld zitten.",
+    "Waar een 3D-oppervlak van je wegdraait, zou de ruis uitrekken tot grotere vlekken die een oplettend oog in een stilstaand beeld kan zien. Daar neemt de achtergrondruis het over, zodat de omtrek onzichtbaar blijft.",
+  ],
+  limitsTitle: "Wat het niet is",
+  limits: [
+    "Geen versleuteling. Een programma dat frames vergelijkt, vindt de vorm makkelijk; de knop hierboven laat zien hoe. Het verbergt zich voor losse beelden: screenshots, thumbnails en alles wat naar één frame tegelijk kijkt.",
+    "Videocompressie strijkt ruis glad, dus een schermopname of gedeelde video verliest het effect meestal.",
+    "Het bewijs telt lichte cellen en gelijke buren. Dat vangt de duidelijke verraders, niet elke denkbare statistiek.",
+  ],
+  privacy: "Alles draait in je browser. Je woorden staan na de # in het adres, je tekening blijft op deze pagina, en er wordt niets geüpload.",
+};
+
+export const phantomCopy: Record<Locale, Copy> = { en, nl };
