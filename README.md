@@ -7,6 +7,7 @@ Small, working experiments by [Lythos](https://lythos.nl), an independent Dutch 
 | [Brand lab](brand-lab) | One brand colour or a logo becomes an accessible design system with OKLCH palettes, WCAG-checked light and dark roles, and CSS, Tailwind or JSON export. | Works |
 | [Mail check](mail-check) | Type a domain and see how its email is set up: MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT and BIMI, read over DNS-over-HTTPS in your browser, with fixes in plain language. | Prototype |
 | [Compose lab](compose-lab) | Paste a `docker-compose.yml` and see the stack as a living diagram, with explained rules for security, reliability and structure. Runs in your browser. | Prototype |
+| [Lock lab](lock-lab) | Paste a Postgres migration and watch its locks hit live traffic in a replay of the Postgres lock queue, next to a safer version written for you. Also a command line for CI. Runs in your browser. | Prototype |
 | [Building blocks](building-blocks) | Twenty-seven accessible React components with a checked contract, a stress lab and a starter kit builder. | Prototype |
 
 Every experiment is a self-contained package with its own README, tests and license. To work on one:

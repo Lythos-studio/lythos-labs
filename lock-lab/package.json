@@ -1,0 +1,29 @@
+{
+  "name": "@lythos-labs/lock-lab",
+  "version": "0.1.0",
+  "description": "Paste a Postgres migration and watch what its locks do to live traffic before production does, next to a safer version. Runs in the browser.",
+  "license": "MPL-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "cli": "tsx bin/lock-lab.ts"
+  },
+  "peerDependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "@types/react": "^19.3.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  },
+  "bin": {
+    "lock-lab": "./bin/lock-lab.ts"
+  }
+}
