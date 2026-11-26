@@ -40,6 +40,37 @@ Measured on these four tasks (seed 1, 2,000 attacks each): the ordinary agent wa
 
 Text can still lie to you (a summary with a phishing link, a believable fake invoice): Airlock stops text from acting for you, not from misleading you. Approvals only help if people read them. Tasks must be expressible as a fixed plan. An attacker can always make the plan stop early (denial of service, not a breach). The planner here is scripted, and the prover tests many attacks rather than proving all of them: the guarantees follow from the design, and the prover shows they hold and finds the hole when a rule is off. Side channels (which step failed, timing) are not modelled.
 
+## Protect your own MCP server
+
+A server cannot see the agent's planner, but it sees every result it hands out. The guard (`@lythos-labs/airlock/core`, no dependencies) uses that:
+
+```ts
+import { createGuard } from "@lythos-labs/airlock/core";
+
+const guard = createGuard({
+  tools: {
+    read_email: { untrustedOutput: true }, // written by strangers
+    read_file: { outputReaders: (args) => readersOf(args.name) }, // private, with its readers
+    send_email: { control: ["to"], listed: { to: (v) => contacts.includes(v) }, recipients: (a) => [String(a.to)] },
+    pay: { control: ["iban"], listedOnly: ["iban"], listed: { iban: isPayee }, alwaysAsk: true },
+  },
+  confirm: askThePerson, // for MCP: elicitConfirm(server) from @lythos-labs/mcp
+  onDecision: auditLog,
+});
+
+server.registerTool("send_email", config, guard.wrap("send_email", sendEmail));
+```
+
+On every call it checks, and on every result it remembers:
+
+- **Deciding values from strangers.** A recipient, account or link that appears in a stranger's text, as a model reads it (hidden tag characters, comments and base64 opened; case, spacing and lookalike letters ignored), is refused, or asks the user when it is on their list.
+- **Readers.** Private results are fingerprinted; private text that shows up in a later call may only go to its readers, also inside a longer message or a link.
+- **Approval.** Questions go to the person (MCP elicitation), never to the model. No way to ask means no.
+
+Honest limits. The guard matches values, so it catches what a model copies from untrusted text (how an injected address or IBAN reaches a tool), not what a model rewrites first; for payments and similar actions use `listedOnly` and `alwaysAsk`. Private text that is paraphrased, summarised or encoded before it is sent is not recognised. It does not isolate the planner, which only the client side can do. It is a second wall, not the whole airlock.
+
+The [Labs MCP package](../mcp) has a demo server that uses it, and tests it with a real MCP client.
+
 ## Use
 
 ```ts

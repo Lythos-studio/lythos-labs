@@ -1,0 +1,36 @@
+{
+  "name": "@lythos-labs/mcp",
+  "version": "0.1.0",
+  "description": "Every Lythos Labs experiment as Model Context Protocol tools, plus an Airlock demo server that protects its own tools against prompt injection. Runs locally over stdio.",
+  "license": "MPL-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "lythos-labs-mcp": "./bin/lythos-labs-mcp.ts",
+    "airlock-demo-mcp": "./bin/airlock-demo-mcp.ts"
+  },
+  "scripts": {
+    "start": "tsx bin/lythos-labs-mcp.ts",
+    "demo": "tsx bin/airlock-demo-mcp.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@lythos-labs/airlock": "file:../airlock",
+    "@lythos-labs/brand-lab": "file:../brand-lab",
+    "@lythos-labs/building-blocks": "file:../building-blocks",
+    "@lythos-labs/compose-lab": "file:../compose-lab",
+    "@lythos-labs/lock-lab": "file:../lock-lab",
+    "@lythos-labs/mail-check": "file:../mail-check",
+    "@modelcontextprotocol/sdk": "1.32.0",
+    "tsx": "^4.23.13",
+    "zod": "^4.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "typescript": "^7.0.2"
+  }
+}

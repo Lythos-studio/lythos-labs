@@ -9,7 +9,8 @@
     ".": "./src/index.ts",
     "./tokens": "./src/tokens.ts",
     "./scales": "./src/scales.ts",
-    "./logo-color": "./src/logo-color.ts"
+    "./logo-color": "./src/logo-color.ts",
+    "./core": "./src/core.ts"
   },
   "scripts": {
     "test": "tsx --test test/*.test.ts",
